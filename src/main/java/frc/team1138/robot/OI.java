@@ -72,11 +72,25 @@ public class OI {
 		
 	}
 	public double getRightAxis() {			//Right axis is right side drive
-		return logitechController.getTwist(); //TODO check if it's twist for z-rotate axis
+		if(logitechController.getThrottle() < -KXboxDeadZoneLimit || logitechController.getThrottle() > KXboxDeadZoneLimit)
+		{
+			return logitechController.getThrottle(); //TODO check if it's twist for z-rotate axis
+		}
+		else
+		{
+			return 0;
+		}
 	}
 
 	public double getLeftAxis() {			//Left controller is left side drive
-		return logitechController.getY();
+		if(logitechController.getY() < -KXboxDeadZoneLimit || logitechController.getY() > KXboxDeadZoneLimit)
+		{
+			return logitechController.getY(); //TODO check if it's twist for z-rotate axis
+		}
+		else
+		{
+			return 0;
+		}
 	}
 	
 	public boolean getLeftTrigger() {				//left controller's trigger is currently unused
