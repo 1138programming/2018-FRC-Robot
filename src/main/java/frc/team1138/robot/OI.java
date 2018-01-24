@@ -85,7 +85,7 @@ public class OI {
 	public double getLeftAxis() {			//Left controller is left side drive
 		if(logitechController.getY() < -KXboxDeadZoneLimit || logitechController.getY() > KXboxDeadZoneLimit)
 		{
-			return logitechController.getY(); //TODO check if it's twist for z-rotate axis
+			return logitechController.getY();
 		}
 		else
 		{

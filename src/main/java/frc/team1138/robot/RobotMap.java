@@ -14,7 +14,7 @@ package frc.team1138.robot;
 public class RobotMap {	
 
 	/**
-	This comment box is all of the mapping we are using for MechaP.
+	This comment box is all of the mapping we are using for ...
 	
 	
 	**/

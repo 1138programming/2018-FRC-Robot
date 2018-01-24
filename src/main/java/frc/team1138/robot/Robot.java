@@ -7,9 +7,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import frc.team1138.robot.commands.ExampleCommand;
-import frc.team1138.robot.subsystems.ExampleSubsystem;
 import frc.team1138.robot.subsystems.DriveBase;
 
 /**
@@ -20,8 +17,7 @@ import frc.team1138.robot.subsystems.DriveBase;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-	public static DriveBase DRIVE_BASE; 
+	public static final DriveBase driveBase = new DriveBase();
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -33,9 +29,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		DRIVE_BASE = new DriveBase(); 
 		oi = new OI();
-		chooser.addDefault("Default Auto", new ExampleCommand());
+		// chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 	}
