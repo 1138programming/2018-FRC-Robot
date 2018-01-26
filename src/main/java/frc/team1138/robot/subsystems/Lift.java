@@ -24,7 +24,7 @@ public class Lift extends PIDSubsystem
 	private DigitalInput hangLimit, lowerLimit;
 	private DigitalInput hallEffect;
 	
-	//Making variables for lift slots so there aren't magic numbers floating around
+	//Making variables for lift slots (talons and sensors) so there aren't magic numbers floating around
 	public static final int KFrontLiftTalon = 8;
 	public static final int KBackLiftTalon = 9;
 	public static final int KHangLimit = 3;
@@ -34,7 +34,7 @@ public class Lift extends PIDSubsystem
 	
 	public Lift()
 	{
-		super(0, 0, 0);
+		super(0, 0, 0); //Sets up as PID loop
 		//Setting up base talons
 		frontLift = new TalonSRX(KFrontLiftTalon);
 		backLift = new TalonSRX(KBackLiftTalon);
@@ -49,7 +49,7 @@ public class Lift extends PIDSubsystem
 		//Configuring the sensors
 		hangLimit = new DigitalInput(KHangLimit); //Limit switch
 		lowerLimit = new DigitalInput(KLowerLimit); //Limit switch
-		hallEffect = new DigitalInput(KHallEffect); //Hall effect sensor
+		hallEffect = new DigitalInput(KHallEffect); //Hall effect sensor, TODO make sure it's a digital input and not a counter
 		frontLift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,0); //Encoder
 		backLift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative,0,0); //Encoder
 	}
