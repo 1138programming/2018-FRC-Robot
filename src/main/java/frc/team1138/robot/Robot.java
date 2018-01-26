@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1138.robot.subsystems.DriveBase;
+import frc.team1138.robot.subsystems.Lift;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -17,7 +18,8 @@ import frc.team1138.robot.subsystems.DriveBase;
  * directory.
  */
 public class Robot extends IterativeRobot {
-	public static final DriveBase driveBase = new DriveBase();
+	public static final DriveBase DRIVE_BASE = new DriveBase();
+	public static final Lift LIFT = new Lift();
 	public static OI oi;
 
 	Command autonomousCommand;

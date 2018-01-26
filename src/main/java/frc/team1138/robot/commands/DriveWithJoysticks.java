@@ -11,7 +11,7 @@ public class DriveWithJoysticks extends Command {
 	private OI oi;
 	public DriveWithJoysticks() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.driveBase);
+		requires(Robot.DRIVE_BASE);
 		oi = new OI();
 	}
 
