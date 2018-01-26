@@ -11,7 +11,7 @@ public class DriveWithJoysticks extends Command {
 	private OI oi;
 	public DriveWithJoysticks() {
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.driveBase);
+		requires(Robot.DRIVE_BASE);
 		oi = new OI();
 	}
 
@@ -23,7 +23,7 @@ public class DriveWithJoysticks extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.driveBase.tankDrive(oi.getLeftAxis(), oi.getRightAxis());
+		Robot.DRIVE_BASE.tankDrive(oi.getLeftAxis(), oi.getRightAxis());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
