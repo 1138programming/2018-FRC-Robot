@@ -20,7 +20,7 @@ public class DriveBase extends Subsystem
 	private PigeonIMU PigeonIMU;
 	
 	//Making variables for base talon slots so there aren't magic numbers floating around
-	public static final int KBaseLeftFrontTalon = 1;
+	public static final int 0 = 1;
 	public static final int KBaseLeftBackTalon = 2;
 	public static final int KBaseLeftTopTalon = 3;
 	public static final int KBaseRightFrontTalon = 4;
