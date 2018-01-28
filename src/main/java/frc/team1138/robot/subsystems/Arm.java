@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 
 import frc.team1138.robot.RobotMap;
 import frc.team1138.robot.commands.DriveWithJoysticks;
+import frc.team1138.robot.commands.MoveArmWithJoysticks;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 
@@ -28,6 +29,9 @@ public class Arm extends Subsystem
 	//making variables for the limits
 	public static final int KArmLowerLimit = 1;
 	public static final int KArmUpperLimit = 2;
+	//setting dead zone limit
+	public static final double KDeadZoneLimit = 0.2;
+
 	
 	public Arm()
 	{
@@ -47,7 +51,22 @@ public class Arm extends Subsystem
 	
 	public void initDefaultCommand()
 	{
+		setDefaultCommand(new MoveArmWithJoysticks());
+	}
+	
+	public void MoveArm (double armAxis)
+	{
+		if(armAxis > KDeadZoneLimit || armAxis < -KDeadZoneLimit)
+		{
+			armMotor.set(ControlMode.PercentOutput, armAxis);
+		}
+		else
+		{
+			armMotor.set(ControlMode.PercentOutput, 0);
+		}
 		
+		}
+	
 	}
 }
 

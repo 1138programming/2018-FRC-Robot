@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team1138.robot.subsystems.Arm;
 import frc.team1138.robot.subsystems.DriveBase;
 
 /**
@@ -18,6 +19,7 @@ import frc.team1138.robot.subsystems.DriveBase;
  */
 public class Robot extends IterativeRobot {
 	public static final DriveBase driveBase = new DriveBase();
+	public static final Arm ARM = new Arm();
 	public static OI oi;
 
 	Command autonomousCommand;
