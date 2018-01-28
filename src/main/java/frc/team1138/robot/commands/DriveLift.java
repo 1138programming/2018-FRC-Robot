@@ -7,14 +7,14 @@ import frc.team1138.robot.Robot;
 /**
  *
  */
-public class DriveWithJoysticks extends Command
+public class DriveLift extends Command
 {
 	private OI oi;
 
-	public DriveWithJoysticks()
+	public DriveLift()
 	{
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.DRIVE_BASE);
+		requires(Robot.LIFT);
 		oi = new OI();
 	}
 
@@ -28,7 +28,7 @@ public class DriveWithJoysticks extends Command
 	@Override
 	protected void execute()
 	{
-		Robot.DRIVE_BASE.tankDrive(oi.getLeftAxis(), oi.getRightAxis());
+		Robot.LIFT.liftWithJoysticks(oi.getLeftXBoxAxis());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

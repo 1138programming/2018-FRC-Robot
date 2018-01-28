@@ -17,7 +17,8 @@ import frc.team1138.robot.subsystems.Lift;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-public class Robot extends IterativeRobot {
+public class Robot extends IterativeRobot
+{
 	public static final DriveBase DRIVE_BASE = new DriveBase();
 	public static final Lift LIFT = new Lift();
 	public static OI oi;
@@ -26,11 +27,12 @@ public class Robot extends IterativeRobot {
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
 	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
+	 * This function is run when the robot is first started up and should be used
+	 * for any initialization code.
 	 */
 	@Override
-	public void robotInit() {
+	public void robotInit()
+	{
 		oi = new OI();
 		// chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -38,40 +40,43 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
-	 * This function is called once each time the robot enters Disabled mode.
-	 * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
+	 * This function is called once each time the robot enters Disabled mode. You
+	 * can use it to reset any subsystem information you want to clear when the
+	 * robot is disabled.
 	 */
 	@Override
-	public void disabledInit() {
+	public void disabledInit()
+	{
 
 	}
 
 	@Override
-	public void disabledPeriodic() {
+	public void disabledPeriodic()
+	{
 		Scheduler.getInstance().run();
 	}
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString code to get the auto name from the text box below the Gyro
+	 * between different autonomous modes using the dashboard. The sendable chooser
+	 * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
+	 * remove all of the chooser code and uncomment the getString code to get the
+	 * auto name from the text box below the Gyro
 	 *
 	 * You can add additional auto modes by adding additional commands to the
-	 * chooser code above (like the commented example) or additional comparisons
-	 * to the switch structure below with additional strings & commands.
+	 * chooser code above (like the commented example) or additional comparisons to
+	 * the switch structure below with additional strings & commands.
 	 */
 	@Override
-	public void autonomousInit() {
+	public void autonomousInit()
+	{
 		autonomousCommand = chooser.getSelected();
 
 		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
+		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
+		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
+		 * MyAutoCommand(); break; case "Default Auto": default: autonomousCommand = new
+		 * ExampleCommand(); break; }
 		 */
 
 		// schedule the autonomous command (example)
@@ -83,12 +88,14 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during autonomous
 	 */
 	@Override
-	public void autonomousPeriodic() {
+	public void autonomousPeriodic()
+	{
 		Scheduler.getInstance().run();
 	}
 
 	@Override
-	public void teleopInit() {
+	public void teleopInit()
+	{
 		// This makes sure that the autonomous stops running when
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
@@ -101,7 +108,8 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	@Override
-	public void teleopPeriodic() {
+	public void teleopPeriodic()
+	{
 		Scheduler.getInstance().run();
 	}
 
@@ -109,7 +117,8 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during test mode
 	 */
 	@Override
-	public void testPeriodic() {
+	public void testPeriodic()
+	{
 		LiveWindow.run();
 	}
 }
