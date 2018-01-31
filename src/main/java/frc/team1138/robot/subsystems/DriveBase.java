@@ -60,8 +60,7 @@ public class DriveBase extends Subsystem
 		// Set the default command for a subsystem here.
 		setDefaultCommand(new DriveWithJoysticks());
 	}
-<<<<<<< HEAD
-	
+
 	//Used for reseting the gyro in-match
 	public void resetGyro()
 	{
@@ -76,9 +75,7 @@ public class DriveBase extends Subsystem
 		return (-ypr[0]);
 	}
 	
-=======
 
->>>>>>> 8c1d838cea5b47687836dd5f8a6494b537f1016a
 	public void tankDrive(double left, double right)
 	{
 		if (left > KDeadZoneLimit || left < -KDeadZoneLimit)
