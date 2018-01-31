@@ -2,6 +2,8 @@ package frc.team1138.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.team1138.robot.commands.CollectCube;
+import frc.team1138.robot.commands.EjectCube;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -60,17 +62,17 @@ public class OI
 		btnStrt = new JoystickButton(logitechController, KStartButton); // Shifts the plunger from forward to reverse
 																		// and vice versa
 
-		btn2.whenPressed(new dumperdown());
-		btn3.whenPressed(new dumperexchange());
-		btn4.whenPressed(new dumperup());
-		btn6.whenPressed(new basespeed());
-		btnA.whenPressed(new linearlift1());
-		btnB.whenPressed(new linearlift2());
-		btnX.whenPressed(new linearlift3());
-		btnY.whenPressed(new shiftliftspeed());
-		btnLB.whenPressed(new rollerscollect());
-		btnRB.whenPressed(new rollerseject());
-		btnStrt.whenPressed(new plunge());
+//		btn2.whenPressed(new dumperdown());
+//		btn3.whenPressed(new dumperexchange());
+//		btn4.whenPressed(new dumperup());
+//		btn6.whenPressed(new basespeed());
+//		btnA.whenPressed(new linearlift1());
+//		btnB.whenPressed(new linearlift2());
+//		btnX.whenPressed(new linearlift3());
+//		btnY.whenPressed(new shiftliftspeed());
+		btnLB.whenPressed(new CollectCube());
+		btnRB.whenPressed(new EjectCube());
+//		btnStrt.whenPressed(new plunge());
 
 	}
 
