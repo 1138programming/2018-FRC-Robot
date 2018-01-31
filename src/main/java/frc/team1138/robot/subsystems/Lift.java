@@ -21,7 +21,7 @@ public class Lift extends PIDSubsystem
 {
 	// Declaring the talons and sensors for the lift branch
 	private TalonSRX frontLift, backLift;
-	private DoubleSolenoid speedShift;
+	private DoubleSolenoid speedShiftSolenoid;
 	private DigitalInput hangLimit, lowerLimit;
 	private DigitalInput hallEffect;
 
@@ -46,7 +46,7 @@ public class Lift extends PIDSubsystem
 		backLift.set(ControlMode.Follower, frontLift.getDeviceID());
 
 		// Configuring the solenoid
-		speedShift = new DoubleSolenoid(4, 5);
+		speedShiftSolenoid = new DoubleSolenoid(4, 5);
 
 		// Configuring the sensors
 		hangLimit = new DigitalInput(KHangLimit); // Limit switch
@@ -85,6 +85,34 @@ public class Lift extends PIDSubsystem
 		else
 		{
 			frontLift.set(ControlMode.PercentOutput, 0);
+		}
+	}
+
+	private void highShiftLift()
+	{
+		speedShiftSolenoid.set(DoubleSolenoid.Value.kReverse);
+	}
+
+	/**
+	 * Shift the base to low position
+	 */
+	private void lowShiftLift()
+	{
+		speedShiftSolenoid.set(DoubleSolenoid.Value.kForward);
+	}
+
+	/**
+	 * public method to switch shifts base
+	 */
+	public void shiftLiftSpeed()
+	{
+		if (speedShiftSolenoid.get() == DoubleSolenoid.Value.kForward)
+		{
+			highShiftLift();
+		}
+		else
+		{
+			lowShiftLift();
 		}
 	}
 }
