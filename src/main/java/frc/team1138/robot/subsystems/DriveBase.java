@@ -1,5 +1,6 @@
 package frc.team1138.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team1138.robot.RobotMap;
 import frc.team1138.robot.commands.DriveWithJoysticks;
@@ -17,7 +18,8 @@ public class DriveBase extends Subsystem
 {
 	// Declaring the talons and sensors
 	private TalonSRX baseLeftFront, baseLeftBack, baseLeftTop, baseRightFront, baseRightBack, baseRightTop;
-	private PigeonIMU PigeonIMU;
+	private PigeonIMU pigeonIMU;
+	private DoubleSolenoid shifterSolenoid;
 
 	// Making variables for base talon slots so there aren't magic numbers floating
 	// around
@@ -49,8 +51,8 @@ public class DriveBase extends Subsystem
 		baseRightTop.set(ControlMode.Follower, baseRightFront.getDeviceID());
 
 		// Configuring the sensors
-		PigeonIMU = new PigeonIMU(baseLeftFront); // TODO find out which talon it's actually on
-		PigeonIMU.setYaw(0, 0);
+		pigeonIMU = new PigeonIMU(baseLeftFront); // TODO find out which talon it's actually on
+		pigeonIMU.setYaw(0, 0);
 		baseLeftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		baseRightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 	}
@@ -65,18 +67,19 @@ public class DriveBase extends Subsystem
 	//Used for reseting the gyro in-match
 	public void resetGyro()
 	{
-		PigeonIMU.setYaw(0,  0);
+		pigeonIMU.setYaw(0,  0);
 	}
 	
 	//@return current gyro value in degrees from 180.0 to -180.0
 	public double getAngle()
 	{
 		double[] ypr = new double[3];
-		PigeonIMU.getYawPitchRoll(ypr);
+		pigeonIMU.getYawPitchRoll(ypr);
 		return (-ypr[0]);
 	}
 	
 
+	//Used to drive the base in a "tank drive" format, this is the standard
 	public void tankDrive(double left, double right)
 	{
 		if (left > KDeadZoneLimit || left < -KDeadZoneLimit)
@@ -95,6 +98,34 @@ public class DriveBase extends Subsystem
 		else
 		{
 			baseRightFront.set(ControlMode.PercentOutput, 0);
+		}
+	}
+	
+	
+	// This function shifts the speed of the base to the reverse position
+	public void highShiftBase()
+	{
+		shifterSolenoid.set(DoubleSolenoid.Value.kReverse);
+	}
+	
+	
+	// This function shifts the speed of the base to the forward position
+	public void lowShiftBase()
+	{
+		shifterSolenoid.set(DoubleSolenoid.Value.kForward);
+	}
+	
+	
+	// This function toggles the shift speed of the base
+	public void toggleShift()
+	{
+		if (shifterSolenoid.get() == DoubleSolenoid.Value.kForward)
+		{
+			highShiftBase();
+		}
+		else
+		{
+			lowShiftBase();
 		}
 	}
 }

@@ -2,6 +2,7 @@ package frc.team1138.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.team1138.robot.commands.ShiftBase;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -60,17 +61,17 @@ public class OI
 		btnStrt = new JoystickButton(logitechController, KStartButton); // Shifts the plunger from forward to reverse
 																		// and vice versa
 
-		btn2.whenPressed(new dumperdown());
-		btn3.whenPressed(new dumperexchange());
-		btn4.whenPressed(new dumperup());
-		btn6.whenPressed(new basespeed());
-		btnA.whenPressed(new linearlift1());
-		btnB.whenPressed(new linearlift2());
-		btnX.whenPressed(new linearlift3());
-		btnY.whenPressed(new shiftliftspeed());
-		btnLB.whenPressed(new rollerscollect());
-		btnRB.whenPressed(new rollerseject());
-		btnStrt.whenPressed(new plunge());
+//		btn2.whenPressed(new dumperdown());
+//		btn3.whenPressed(new dumperexchange());
+//		btn4.whenPressed(new dumperup());
+		btn6.whenPressed(new ShiftBase());
+//		btnA.whenPressed(new linearlift1());
+//		btnB.whenPressed(new linearlift2());
+//		btnX.whenPressed(new linearlift3());
+//		btnY.whenPressed(new shiftLift());
+//		btnLB.whenPressed(new rollerscollect());
+//		btnRB.whenPressed(new rollerseject());
+//		btnStrt.whenPressed(new plunge());
 
 	}
 
@@ -105,10 +106,11 @@ public class OI
 		// Add function here, currently this doesn't do much.
 	}
 
-	public boolean getRightTrigger()
-	{ // right controller's trigger engages the shift on the base
-		return shiftBtn.get();
-	}
+	//TODO assign this function to something if we use the trigger
+//	public boolean getRightTrigger()
+//	{ // right controller's trigger engages the shift on the base
+//		return shiftBtn.get();
+//	}
 
 	public double getLeftXBoxAxis()
 	{ // left xbox axis controls the linear lift
