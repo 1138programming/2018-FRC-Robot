@@ -61,6 +61,22 @@ public class DriveBase extends Subsystem
 		setDefaultCommand(new DriveWithJoysticks());
 	}
 
+
+	//Used for reseting the gyro in-match
+	public void resetGyro()
+	{
+		PigeonIMU.setYaw(0,  0);
+	}
+	
+	//@return current gyro value in degrees from 180.0 to -180.0
+	public double getAngle()
+	{
+		double[] ypr = new double[3];
+		PigeonIMU.getYawPitchRoll(ypr);
+		return (-ypr[0]);
+	}
+	
+
 	public void tankDrive(double left, double right)
 	{
 		if (left > KDeadZoneLimit || left < -KDeadZoneLimit)
