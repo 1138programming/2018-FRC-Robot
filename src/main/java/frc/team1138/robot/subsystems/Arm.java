@@ -65,8 +65,7 @@ public class Arm extends Subsystem
 			armMotor.set(ControlMode.PercentOutput, 0);
 		}
 		
-		}
-	
 	}
+	
 }
 

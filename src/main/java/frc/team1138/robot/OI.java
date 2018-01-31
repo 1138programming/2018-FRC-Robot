@@ -58,17 +58,17 @@ public class OI {
 		btnRB = new JoystickButton(xBoxController, KRightBumper) ;	//Toggles rollers ejecting
 		btnStrt = new JoystickButton(logitechController, KStartButton); //Shifts the plunger from forward to reverse and vice versa
 		
-		btn2.whenPressed(new dumperdown());
-		btn3.whenPressed(new dumperexchange());
-		btn4.whenPressed(new dumperup());
-		btn6.whenPressed(new basespeed());
-		btnA.whenPressed(new linearlift1());
-		btnB.whenPressed(new linearlift2());
-		btnX.whenPressed(new linearlift3());
-		btnY.whenPressed(new shiftliftspeed());
-		btnLB.whenPressed(new rollerscollect());
-		btnRB.whenPressed(new rollerseject());
-		btnStrt.whenPressed(new plunge());
+//		btn2.whenPressed(new dumperdown());
+//		btn3.whenPressed(new dumperexchange());
+//		btn4.whenPressed(new dumperup());
+//		btn6.whenPressed(new basespeed());
+//		btnA.whenPressed(new linearlift1());
+//		btnB.whenPressed(new linearlift2());
+//		btnX.whenPressed(new linearlift3());
+//		btnY.whenPressed(new shiftliftspeed());
+//		btnLB.whenPressed(new rollerscollect());
+//		btnRB.whenPressed(new rollerseject());
+//		btnStrt.whenPressed(new plunge());
 		
 	}
 	public double getRightAxis() {			//Right axis is right side drive
