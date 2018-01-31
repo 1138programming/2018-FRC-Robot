@@ -48,9 +48,11 @@ public class DriveBase extends Subsystem
 		baseRightBack.set(ControlMode.Follower, baseRightFront.getDeviceID());
 		baseRightTop.set(ControlMode.Follower, baseRightFront.getDeviceID());
 
-		// Configuring the sensors
+		// Configuring the Pigeon
 		PigeonIMU = new PigeonIMU(baseLeftFront); // TODO find out which talon it's actually on
 		PigeonIMU.setYaw(0, 0);
+		
+		//Configuring the MagEncoders
 		baseLeftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		baseRightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 	}
