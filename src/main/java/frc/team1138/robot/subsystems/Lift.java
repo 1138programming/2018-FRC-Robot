@@ -19,7 +19,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
  */
 public class Lift extends PIDSubsystem
 {
-	// Declaring the talons and sensors
+	// Declaring the talons and sensors for the lift branch
 	private TalonSRX frontLift, backLift;
 	private DoubleSolenoid speedShift;
 	private DigitalInput hangLimit, lowerLimit;
