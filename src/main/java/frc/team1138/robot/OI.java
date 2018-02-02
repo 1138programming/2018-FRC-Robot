@@ -2,6 +2,9 @@ package frc.team1138.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.team1138.robot.commands.PositionLiftBottom;
+import frc.team1138.robot.commands.PositionLiftMiddle;
+import frc.team1138.robot.commands.PositionLiftTop;
 import frc.team1138.robot.commands.ShiftLift;
 
 /**
@@ -66,9 +69,9 @@ public class OI
 //		btn3.whenPressed(new dumperexchange());
 //		btn4.whenPressed(new dumperup());
 //		btn6.whenPressed(new basespeed());
-//		btnA.whenPressed(new linearlift1());
-//		btnB.whenPressed(new linearlift2());
-//		btnX.whenPressed(new linearlift3());
+		btnA.whenPressed(new PositionLiftBottom());
+		btnB.whenPressed(new PositionLiftMiddle());
+		btnX.whenPressed(new PositionLiftTop());
 		btnY.whenPressed(new ShiftLift());
 //		btnLB.whenPressed(new rollerscollect());
 //		btnRB.whenPressed(new rollerseject());
@@ -107,11 +110,11 @@ public class OI
 		// Add function here, currently this doesn't do much.
 	}
 	
-//TODO make this when shift button is created
-//	public boolean getRightTrigger()
-//	{ // right controller's trigger engages the shift on the base
-//		return shiftBtn.get();
-//	}
+	public boolean getRightTrigger()
+	{ // right controller's trigger engages the shift on the base
+		return true;
+		// Add function here, currently this doesn't do much.
+	}
 
 	public double getLeftXBoxAxis()
 	{ // left xbox axis controls the linear lift

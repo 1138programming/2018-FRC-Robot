@@ -22,8 +22,7 @@ public class Lift extends PIDSubsystem
 	// Declaring the talons and sensors for the lift branch
 	private TalonSRX frontLift, backLift;
 	private DoubleSolenoid speedShiftSolenoid;
-	private DigitalInput hangLimit, lowerLimit;
-	private DigitalInput hallEffect;
+	private DigitalInput hangLimit1, hangLimit2;
 
 	// Making variables for lift slots (talons and sensors) so there aren't magic
 	// numbers floating around
@@ -33,7 +32,8 @@ public class Lift extends PIDSubsystem
 	public static final int KLowerLimit = 4;
 	public static final int KHallEffect = 5;
 	private static final double KDeadZoneLimit = 0.1;
-
+	
+	
 	public Lift()
 	{
 		super(0, 0, 0); // Sets up as PID loop
@@ -49,10 +49,8 @@ public class Lift extends PIDSubsystem
 		speedShiftSolenoid = new DoubleSolenoid(4, 5);
 
 		// Configuring the sensors
-		hangLimit = new DigitalInput(KHangLimit); // Limit switch
-		lowerLimit = new DigitalInput(KLowerLimit); // Limit switch
-		hallEffect = new DigitalInput(KHallEffect); // Hall effect sensor, TODO make sure it's a digital input and not a
-													// counter
+		hangLimit1 = new DigitalInput(KHangLimit); // Limit switch
+		hangLimit2 = new DigitalInput(KLowerLimit); // Limit switch
 		frontLift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Encoder
 		backLift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Encoder
 	}
@@ -104,7 +102,7 @@ public class Lift extends PIDSubsystem
 	/**
 	 * public method to switch shifts base
 	 */
-	public void shiftLiftSpeed()
+	public void toggleLiftSpeed()
 	{
 		if (speedShiftSolenoid.get() == DoubleSolenoid.Value.kForward)
 		{
@@ -114,5 +112,21 @@ public class Lift extends PIDSubsystem
 		{
 			lowShiftLift();
 		}
+	}
+	
+	public void liftWithEncoders(double encoderValue, double liftSpeed)
+	{
+		if (frontLift.getSensorCollection().getQuadraturePosition() != encoderValue)
+		{
+			if (frontLift.getSensorCollection().getQuadraturePosition() < encoderValue)
+			{
+				frontLift.set(ControlMode.PercentOutput, liftSpeed);
+			}
+			else
+			{
+				frontLift.set(ControlMode.PercentOutput, -liftSpeed);
+			}
+		}
+		frontLift.set(ControlMode.PercentOutput, 0);
 	}
 }
