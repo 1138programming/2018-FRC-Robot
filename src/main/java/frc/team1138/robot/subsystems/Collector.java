@@ -55,34 +55,46 @@ public class Collector extends Subsystem
 	//This command causes the rollers to go at the KCollectorSpeed if the motors aren't 
 	//moving, and if they are, then it doesn't move (to prevent them from doing both at
 	//the same time
-	public void collectCubeWithRollers()
-	{
-		if(rightCollector.getMotorOutputPercent() == 0)
-		{
-			rightCollector.set(ControlMode.PercentOutput, KCollectorSpeed);
-		}
-		else
-		{
-			rightCollector.set(ControlMode.PercentOutput, 0);
-		}
-	}
+// 	public void collectCubeWithRollers()
+// 	{
+// 		if(rightCollector.getMotorOutputPercent() == 0)
+// 		{
+// 			rightCollector.set(ControlMode.PercentOutput, KCollectorSpeed);
+// 		}
+// 		else
+// 		{
+// 			rightCollector.set(ControlMode.PercentOutput, 0);
+// 		}
+// 	}
 	
 	//This command causes the rollers to go at the -KCollectorSpeed if the motors aren't 
 	//moving, and if they are, then it doesn't move (to prevent them from doing both at
 	//the same time
-	public void ejectCubeWithRollers()
-	{
-		if(rightCollector.getMotorOutputPercent() == 0)
-		{
-			rightCollector.set(ControlMode.PercentOutput, -KCollectorSpeed);
-		}
-		else
-		{
-			rightCollector.set(ControlMode.PercentOutput, 0);
-		}
-	}
+// 	public void ejectCubeWithRollers()
+// 	{
+// 		if(rightCollector.getMotorOutputPercent() == 0)
+// 		{
+// 			rightCollector.set(ControlMode.PercentOutput, -KCollectorSpeed);
+// 		}
+// 		else
+// 		{
+// 			rightCollector.set(ControlMode.PercentOutput, 0);
+// 		}
+// 	}
 	
-		//This command causes the plunger to move forward or backward
+	//This command causes the plunger to switch direction while the button is pressed
+// 	public void switchMode() {
+// 		if(plunger.get() == KForward) {
+// 			plungerBackward();
+// 			}
+// 			else 
+// 			{	
+// 			plungerForward();
+// 			}
+// 		}
+// 	}
+	
+	//This command causes the plunger to move forward or backward
 	public void plungerForward() {
 		plunger.set(KForward);
 	}
@@ -92,13 +104,14 @@ public class Collector extends Subsystem
 	}
 	
 	//This command causes the plunger to switch direction while the button is pressed
-	public void switchMode() {
+	public void moveTheCubeWithRollersAndPlunger() {
 		if(plunger.get() == KForward) {
 			plungerBackward();
+			rightCollector.set(ControlMode.PercentOutput, 0);
 		}
 		else {	
 			plungerForward();
+			rightCollector.set(ControlMode.PercentOutput, -KCollectorSpeed);
 		}
 	}
-}
 }
