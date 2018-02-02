@@ -81,4 +81,24 @@ public class Collector extends Subsystem
 			rightCollector.set(ControlMode.PercentOutput, 0);
 		}
 	}
+	
+		//This command causes the plunger to move forward or backward
+	public void plungerForward() {
+		plunger.set(KForward);
+	}
+	
+	public void plungerBackward() {
+		plunger.set(KBackward);
+	}
+	
+	//This command causes the plunger to switch direction while the button is pressed
+	public void switchMode() {
+		if(plunger.get() == KForward) {
+			plungerBackward();
+		}
+		else {	
+			plungerForward();
+		}
+	}
+}
 }
