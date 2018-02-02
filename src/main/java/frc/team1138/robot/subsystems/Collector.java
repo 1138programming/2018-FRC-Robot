@@ -19,7 +19,7 @@ public class Collector extends Subsystem
 	// Declaring the talons, limit switch and solenoid
 	private TalonSRX rightCollector, leftCollector;
 	private Solenoid plunger;
-	private DigitalInput cubPossLimit;
+	private DigitalInput cubePossessionLimit;
 
 	public static final int KLeftCollectorMotor = 10;
 	public static final int KRightCollectorMotor = 11;
@@ -32,7 +32,7 @@ public class Collector extends Subsystem
 	public Collector()
 	{
 		// setting the limit switch
-		cubPossLimit = new DigitalInput(KCubPossLimit);
+		cubePossessionLimit = new DigitalInput(KCubPossLimit);
 
 		// Setting up base talons
 		rightCollector = new TalonSRX(KRightCollectorMotor);
@@ -57,6 +57,7 @@ public class Collector extends Subsystem
 	//This command causes the rollers to go at the KCollectorSpeed if the motors aren't 
 	//moving, and if they are, then it doesn't move (to prevent them from doing both at
 	//the same time
+<<<<<<< HEAD
 //	public void collectCubeWithRollers()
 //	{
 //		if(rightCollector.getMotorOutputPercent() == 0)
@@ -74,11 +75,61 @@ public class Collector extends Subsystem
 		plunger.set(KForward);
 	}
 	
+=======
+// 	public void collectCubeWithRollers()
+// 	{
+// 		if(rightCollector.getMotorOutputPercent() == 0)
+// 		{
+// 			rightCollector.set(ControlMode.PercentOutput, KCollectorSpeed);
+// 		}
+// 		else
+// 		{
+// 			rightCollector.set(ControlMode.PercentOutput, 0);
+// 		}
+// 	}
+	
+	//This command causes the rollers to go at the -KCollectorSpeed if the motors aren't 
+	//moving, and if they are, then it doesn't move (to prevent them from doing both at
+	//the same time
+// 	public void ejectCubeWithRollers()
+// 	{
+// 		if(rightCollector.getMotorOutputPercent() == 0)
+// 		{
+// 			rightCollector.set(ControlMode.PercentOutput, -KCollectorSpeed);
+// 		}
+// 		else
+// 		{
+// 			rightCollector.set(ControlMode.PercentOutput, 0);
+// 		}
+// 	}
+	
+	//This command causes the plunger to switch direction while the button is pressed
+// 	public void switchMode() {
+// 		if(plunger.get() == KForward) {
+// 			plungerBackward();
+// 			}
+// 			else 
+// 			{	
+// 			plungerForward();
+// 			}
+// 		}
+// 	}
+	
+	//This command causes the plunger to move forward or backward
+	public void plungerForward() {
+		plunger.set(KForward);
+	}
+	
+>>>>>>> 949c96efd62c4e4498dfa1b70a0109df34aea461
 	public void plungerBackward() {
 		plunger.set(KBackward);
 	}
 	
+<<<<<<< HEAD
 	//This command causes the plunger to switch direction while the button is pressed
+=======
+	//This command causes the plunger to switch mode and change the speed of the rollers  while the button is pressed
+>>>>>>> 949c96efd62c4e4498dfa1b70a0109df34aea461
 	public void moveTheCubeWithRollersAndPlunger() {
 		if(plunger.get() == KForward) {
 			plungerBackward();
