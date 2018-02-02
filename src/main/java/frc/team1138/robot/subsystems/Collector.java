@@ -103,7 +103,7 @@ public class Collector extends Subsystem
 		plunger.set(KBackward);
 	}
 	
-	//This command causes the plunger to switch direction while the button is pressed
+	//This command causes the plunger to switch mode and change the speed of the rollers  while the button is pressed
 	public void moveTheCubeWithRollersAndPlunger() {
 		if(plunger.get() == KForward) {
 			plungerBackward();
