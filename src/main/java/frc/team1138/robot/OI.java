@@ -73,6 +73,7 @@ public class OI
 		btnLB.whenPressed(new CollectCube());
 		btnRB.whenPressed(new EjectCube());
 //		btnStrt.whenPressed(new plunge());
+		btnStrt.whenPressed(new MoveTheCube()); //TODO make a button for it
 
 	}
 
