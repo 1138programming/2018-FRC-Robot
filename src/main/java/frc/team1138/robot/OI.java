@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.team1138.robot.commands.CollectCube;
 import frc.team1138.robot.commands.EjectCube;
+import frc.team1138.robot.commands.MoveTheCube;
+import frc.team1138.robot.commands.SwitchPlungerMode;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -73,6 +75,7 @@ public class OI
 		btnLB.whenPressed(new CollectCube());
 		btnRB.whenPressed(new EjectCube());
 //		btnStrt.whenPressed(new plunge());
+		btnStrt.whenPressed(new MoveTheCube()); //TODO make a button for it
 
 	}
 

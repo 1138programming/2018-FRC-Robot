@@ -34,6 +34,7 @@ public class Lift extends PIDSubsystem
 	public static final int KHallEffect = 5;
 	private static final double KDeadZoneLimit = 0.1;
 
+
 	public Lift()
 	{
 		super(0, 0, 0); // Sets up as PID loop
