@@ -31,6 +31,8 @@ public class Arm extends Subsystem
 	public static final int KArmUpperLimit = 2;
 	//setting dead zone limit
 	public static final double KDeadZoneLimit = 0.2;
+	public static final int KLowSpeed = 2;
+
 
 	
 	public Arm()
@@ -67,5 +69,21 @@ public class Arm extends Subsystem
 		
 	}
 	
+	
+	public void moveArmToLimitSwitch(double encoderValue, float armSpeed)
+	{
+		if (armMotor.getSensorCollection().getQuadraturePosition() < encoderValue)
+		{
+			if (armMotor.getSensorCollection().getQuadraturePosition() < KLowSpeed) {
+				armMotor.set(ControlMode.PercentOutput, //something speed);
+			}
+			else {
+				armMotor.set(ControlMode.PercentOutput, armSpeed);
+			}
+		else 
+
+			}
+	
 }
+	
 
