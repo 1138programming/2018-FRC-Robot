@@ -5,11 +5,14 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team1138.robot.commands.DriveWithJoysticks;
 
+import java.util.concurrent.Delayed;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Talon;
-import edu.wpi.first.wpilibj.SafePWM;
+import edu.wpi.first.wpilibj.Timer;
+
 
 /**
  *
@@ -69,11 +72,6 @@ public class Collector extends Subsystem
 			rightCollector.set(ControlMode.PercentOutput, 0);
 		}
 	}
-	
-	//This command causes the plunger to move forward or backward
-	public void plungerForward() {
-		plunger.set(KForward);
-	}
 
 	//This command causes the rollers to go at the -KCollectorSpeed if the motors aren't 
 	//moving, and if they are, then it doesn't move (to prevent them from doing both at
@@ -90,7 +88,7 @@ public class Collector extends Subsystem
 		}
 	}
 	
-	//This command causes the plunger to move forward or backward
+	//The two methods cause the plunger to move forward or backward
 	public void plungerForward() {
 		plunger.set(KForward);
 	}
@@ -100,34 +98,12 @@ public class Collector extends Subsystem
 	}
 	
 	
-	//This command causes the plunger to switch direction while the button is pressed
-// 	public void switchMode() {
-// 		if(plunger.get() == KForward) {
-// 			plungerBackward();
-// 			}
-// 			else 
-// 			{	
-// 			plungerForward();
-// 			}
-// 		}
-// 	}
-	
+	//The method causes the plunger to kick
 	public void kickCubeWithPlunger(){
-		
+		plungerForward();
+		Timer.delay(0.5);
+		plungerBackward();
+		Timer.delay(0.5);
 	}
-
-	
-	//This command causes the plunger to switch direction while the button is pressed
-	//This command causes the plunger to switch mode and change the speed of the rollers  while the button is pressed
-// 	public void moveTheCubeWithRollersAndPlunger() {
-// 		if(plunger.get() == KForward) {
-// 			plungerBackward();
-// 			rightCollector.set(ControlMode.PercentOutput, 0);
-// 		}
-// 		else {	
-// 			plungerForward();
-// 			rightCollector.set(ControlMode.PercentOutput, -KCollectorSpeed);
-// 		}
-// 	}
 
 }
