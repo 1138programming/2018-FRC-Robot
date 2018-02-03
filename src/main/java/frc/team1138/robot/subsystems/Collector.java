@@ -97,13 +97,11 @@ public class Collector extends Subsystem
 		plunger.set(KBackward);
 	}
 	
-	
-	//The method causes the plunger to kick
+		//The method causes the plunger to kick
 	public void kickCubeWithPlunger(){
 		plungerForward();
-		Timer.delay(0.5);
-		plungerBackward();
-		Timer.delay(0.5);
+		plunger.setPulseDuration(0.50);
+		plunger.startPulse();
 	}
-
+	
 }
