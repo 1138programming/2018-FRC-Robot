@@ -32,5 +32,4 @@ public class MoveTheCube extends Command {
 	protected void interrupted()
 	{}
 	
-
 }
