@@ -74,8 +74,7 @@ public class OI
 //		btnY.whenPressed(new shiftliftspeed());
 		btnLB.whenPressed(new CollectCube());
 		btnRB.whenPressed(new EjectCube());
-//		btnStrt.whenPressed(new plunge());
-		btnStrt.whenPressed(new MoveTheCube()); //TODO make a button for it
+//		btnStrt.whenPressed(new KickCube());
 
 	}
 
