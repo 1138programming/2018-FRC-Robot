@@ -11,6 +11,8 @@ import frc.team1138.robot.commands.MoveArmWithJoysticks;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 
+import java.sql.ResultSet;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -31,7 +33,12 @@ public class Arm extends Subsystem
 	public static final int KArmUpperLimit = 2;
 	//setting dead zone limit
 	public static final double KDeadZoneLimit = 0.2;
-	public static final int KLowSpeed = 2;
+	public static final int KLowSpeed = //TODO set variable;
+	public static final int KLowValue = //TODO set variable;
+	public static final int KZeroSpeed = //TODO set variable;
+	public static final int KEncoderValue = 1000;
+	public static final int KTargetEncoderValue =//TODO set variable;
+	
 
 
 	
@@ -65,6 +72,7 @@ public class Arm extends Subsystem
 		else
 		{
 			armMotor.set(ControlMode.PercentOutput, 0);
+			
 		}
 		
 	}
@@ -72,18 +80,19 @@ public class Arm extends Subsystem
 	
 	public void moveArmToLimitSwitch(double encoderValue, float armSpeed)
 	{
-		if (armMotor.getSensorCollection().getQuadraturePosition() < encoderValue)
+		if (armMotor.getSensorCollection().getQuadraturePosition() < KTargetEncoderValue)
 		{
-			if (armMotor.getSensorCollection().getQuadraturePosition() < KLowSpeed) {
-				armMotor.set(ControlMode.PercentOutput, //something speed);
+			if (armMotor.getSensorCollection().getQuadraturePosition() < KLowValue) {
+				armMotor.set(ControlMode.PercentOutput, KLowSpeed);
 			}
 			else {
 				armMotor.set(ControlMode.PercentOutput, armSpeed);
 			}
-		else 
+		}
+		else {
+			armMotor.set(ControlMode.PercentOutput, KZeroSpeed); 
 
-			}
+		}
+		}
 	
 }
-	
-
