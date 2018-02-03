@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team1138.robot.subsystems.Collector;
 import frc.team1138.robot.subsystems.DriveBase;
 import frc.team1138.robot.subsystems.Lift;
 
@@ -21,6 +22,7 @@ public class Robot extends IterativeRobot
 {
 	public static final DriveBase DRIVE_BASE = new DriveBase();
 	public static final Lift LIFT = new Lift();
+	public static final Collector COLLECTOR = new Collector();
 	public static OI oi;
 
 	Command autonomousCommand;

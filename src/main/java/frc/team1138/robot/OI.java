@@ -2,6 +2,7 @@ package frc.team1138.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import frc.team1138.robot.commands.EjectCube;
 import frc.team1138.robot.commands.PositionLiftBottom;
 import frc.team1138.robot.commands.PositionLiftMiddle;
 import frc.team1138.robot.commands.PositionLiftTop;
@@ -61,7 +62,7 @@ public class OI
 		btnY = new JoystickButton(xBoxController, KButtonY); // Shifts the lift speed
 		btnLB = new JoystickButton(xBoxController, KLeftBumper); // Toggles rollers collecting
 		btnRB = new JoystickButton(xBoxController, KRightBumper); // Toggles rollers ejecting
-		btnStrt = new JoystickButton(logitechController, KStartButton); // Shifts the plunger from forward to reverse
+		btnStrt = new JoystickButton(logitechController, KStartButton); // Shifts the plunger/EjectCube from forward to reverse
 																		// and vice versa
 
 //TODO add in these buttons as they are created
@@ -75,7 +76,7 @@ public class OI
 		btnY.whenPressed(new ShiftLift());
 //		btnLB.whenPressed(new rollerscollect());
 //		btnRB.whenPressed(new rollerseject());
-//		btnStrt.whenPressed(new plunge());
+		btnStrt.whenPressed(new EjectCube());
 
 	}
 
