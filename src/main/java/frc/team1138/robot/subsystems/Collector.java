@@ -57,51 +57,48 @@ public class Collector extends Subsystem
 	//This command causes the rollers to go at the KCollectorSpeed if the motors aren't 
 	//moving, and if they are, then it doesn't move (to prevent them from doing both at
 	//the same time
-<<<<<<< HEAD
-//	public void collectCubeWithRollers()
-//	{
-//		if(rightCollector.getMotorOutputPercent() == 0)
-//		{
-//			rightCollector.set(ControlMode.PercentOutput, KCollectorSpeed);
-//		}
-//		else
-//		{
-//			rightCollector.set(ControlMode.PercentOutput, 0);
-//		}
-//	}
+
+	public void collectCubeWithRollers()
+	{
+		if(rightCollector.getMotorOutputPercent() == 0)
+		{
+			rightCollector.set(ControlMode.PercentOutput, KCollectorSpeed);
+		}
+		else
+		{
+			rightCollector.set(ControlMode.PercentOutput, 0);
+		}
+	}
+	
+	//This command causes the plunger to move forward or backward
+	public void plungerForward() {
+		plunger.set(KForward);
+	}
+
+	//This command causes the rollers to go at the -KCollectorSpeed if the motors aren't 
+	//moving, and if they are, then it doesn't move (to prevent them from doing both at
+	//the same time
+	public void ejectCubeWithRollers()
+	{
+		if(rightCollector.getMotorOutputPercent() == 0)
+		{
+			rightCollector.set(ControlMode.PercentOutput, -KCollectorSpeed);
+		}
+		else
+		{
+			rightCollector.set(ControlMode.PercentOutput, 0);
+		}
+	}
 	
 	//This command causes the plunger to move forward or backward
 	public void plungerForward() {
 		plunger.set(KForward);
 	}
 	
-=======
-// 	public void collectCubeWithRollers()
-// 	{
-// 		if(rightCollector.getMotorOutputPercent() == 0)
-// 		{
-// 			rightCollector.set(ControlMode.PercentOutput, KCollectorSpeed);
-// 		}
-// 		else
-// 		{
-// 			rightCollector.set(ControlMode.PercentOutput, 0);
-// 		}
-// 	}
+	public void plungerBackward() {
+		plunger.set(KBackward);
+	}
 	
-	//This command causes the rollers to go at the -KCollectorSpeed if the motors aren't 
-	//moving, and if they are, then it doesn't move (to prevent them from doing both at
-	//the same time
-// 	public void ejectCubeWithRollers()
-// 	{
-// 		if(rightCollector.getMotorOutputPercent() == 0)
-// 		{
-// 			rightCollector.set(ControlMode.PercentOutput, -KCollectorSpeed);
-// 		}
-// 		else
-// 		{
-// 			rightCollector.set(ControlMode.PercentOutput, 0);
-// 		}
-// 	}
 	
 	//This command causes the plunger to switch direction while the button is pressed
 // 	public void switchMode() {
@@ -115,30 +112,22 @@ public class Collector extends Subsystem
 // 		}
 // 	}
 	
-	//This command causes the plunger to move forward or backward
-	public void plungerForward() {
-		plunger.set(KForward);
+	public void kickCubeWithPlunger(){
+
 	}
+
 	
->>>>>>> 949c96efd62c4e4498dfa1b70a0109df34aea461
-	public void plungerBackward() {
-		plunger.set(KBackward);
-	}
-	
-<<<<<<< HEAD
 	//This command causes the plunger to switch direction while the button is pressed
-=======
 	//This command causes the plunger to switch mode and change the speed of the rollers  while the button is pressed
->>>>>>> 949c96efd62c4e4498dfa1b70a0109df34aea461
-	public void moveTheCubeWithRollersAndPlunger() {
-		if(plunger.get() == KForward) {
-			plungerBackward();
-			rightCollector.set(ControlMode.PercentOutput, 0);
-		}
-		else {	
-			plungerForward();
-			rightCollector.set(ControlMode.PercentOutput, -KCollectorSpeed);
-		}
-	}
+// 	public void moveTheCubeWithRollersAndPlunger() {
+// 		if(plunger.get() == KForward) {
+// 			plungerBackward();
+// 			rightCollector.set(ControlMode.PercentOutput, 0);
+// 		}
+// 		else {	
+// 			plungerForward();
+// 			rightCollector.set(ControlMode.PercentOutput, -KCollectorSpeed);
+// 		}
+// 	}
 
 }
