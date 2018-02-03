@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.team1138.robot.commands.EjectCube;
 import frc.team1138.robot.commands.PositionLiftBottom;
-import frc.team1138.robot.commands.PositionLiftMiddle;
+import frc.team1138.robot.commands.PositionLift;
 import frc.team1138.robot.commands.PositionLiftTop;
 import frc.team1138.robot.commands.ShiftLift;
 
@@ -70,9 +70,10 @@ public class OI
 //		btn3.whenPressed(new dumperexchange());
 //		btn4.whenPressed(new dumperup());
 //		btn6.whenPressed(new basespeed());
-		btnA.whenPressed(new PositionLiftBottom());
-		btnB.whenPressed(new PositionLiftMiddle());
-		btnX.whenPressed(new PositionLiftTop());
+		//TODO figure out the values of the lift positions
+		btnA.whenPressed(new PositionLift(0, 0.7)); //Bottom Position
+		btnB.whenPressed(new PositionLift(5, 0.7)); //Middle Position
+		btnX.whenPressed(new PositionLift(7, 0.7)); //Top Position
 		btnY.whenPressed(new ShiftLift());
 //		btnLB.whenPressed(new rollerscollect());
 //		btnRB.whenPressed(new rollerseject());

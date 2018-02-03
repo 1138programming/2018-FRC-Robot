@@ -2,6 +2,7 @@ package frc.team1138.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team1138.robot.RobotMap;
@@ -23,6 +24,7 @@ public class Lift extends PIDSubsystem
 	private TalonSRX frontLift, backLift;
 	private DoubleSolenoid speedShiftSolenoid;
 	private DigitalInput hangLimit1, hangLimit2;
+	private PIDController controller;
 
 	// Making variables for lift slots (talons and sensors) so there aren't magic
 	// numbers floating around
@@ -32,6 +34,7 @@ public class Lift extends PIDSubsystem
 	public static final int KLowerLimit = 4;
 	public static final int KHallEffect = 5;
 	private static final double KDeadZoneLimit = 0.1;
+	private static final double KTicksPerRotation = 4096;
 	
 	
 	public Lift()
@@ -53,6 +56,7 @@ public class Lift extends PIDSubsystem
 		hangLimit2 = new DigitalInput(KLowerLimit); // Limit switch
 		frontLift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Encoder
 		backLift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Encoder
+//		controller.enable();
 	}
 
 	public void initDefaultCommand()
@@ -114,11 +118,11 @@ public class Lift extends PIDSubsystem
 		}
 	}
 	
-	public void liftWithEncoders(double encoderValue, double liftSpeed)
+	public void liftWithEncoders(double rotations, double liftSpeed)
 	{
-		if (frontLift.getSensorCollection().getQuadraturePosition() != encoderValue)
+		if (frontLift.getSensorCollection().getQuadraturePosition() != rotations*KTicksPerRotation)
 		{
-			if (frontLift.getSensorCollection().getQuadraturePosition() < encoderValue)
+			if (frontLift.getSensorCollection().getQuadraturePosition() < rotations*KTicksPerRotation)
 			{
 				frontLift.set(ControlMode.PercentOutput, liftSpeed);
 			}
