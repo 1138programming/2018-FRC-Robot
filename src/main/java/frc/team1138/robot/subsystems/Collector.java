@@ -113,7 +113,7 @@ public class Collector extends Subsystem
 // 	}
 	
 	public void kickCubeWithPlunger(){
-
+		
 	}
 
 	
