@@ -88,7 +88,25 @@ public class DriveBase extends Subsystem
 		return (-ypr[0]);
 	}
 	
+	// Resets both encoders
+	public void resetEncoders()
+	{
+		baseLeftFront.getSensorCollection().setQuadraturePosition(0, 0);
+		baseRightFront.getSensorCollection().setQuadraturePosition(0, 0);
+	}
+	
+	// Returns value of the left encoder
+	public double getLeftEncoderValue()
+	{
+		return baseLeftFront.getSensorCollection().getQuadraturePosition(); //May need to be reversed
+	}
 
+	// Returns value of the right encoder
+	public double getRightEncoderValue()
+	{
+		return baseRightFront.getSensorCollection().getQuadraturePosition();
+	}
+	
 	//Used to drive the base in a "tank drive" format, this is the standard
 	public void tankDrive(double left, double right)
 	{

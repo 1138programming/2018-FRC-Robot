@@ -11,7 +11,7 @@ public class DriveWithEncoders extends PIDCommand
 	private static double P = 0.0002, I = 0.0, D = 0.0001;
 	private PIDController driveController;
 	double DistanceToTarget = 0;
-	double ticksPerRotation = 4096;
+	public static final double KTicksPerRotation = 4096; //ticks
 
 	public DriveWithEncoders(double distance, double speed)
 	{
@@ -33,7 +33,7 @@ public class DriveWithEncoders extends PIDCommand
 	protected void initialize()
 	{
 		Robot.DRIVE_BASE.resetEncoders();
-		setTarget(distance * ticksPerRotation);
+		setTarget(distance * KTicksPerRotation);
 	}
 
 	@Override
@@ -86,6 +86,7 @@ public class DriveWithEncoders extends PIDCommand
 		//final double setEncoder = SmartDashboard.getNumber("setEncoder", 0);
 
 		//setTarget(setEncoder);
+		setTarget(distance * KTicksPerRotation);
 		SmartDashboard.putBoolean("tracking", true);
 		SmartDashboard.putNumber("Left", Robot.DRIVE_BASE.getLeftEncoderValue());
 		SmartDashboard.putNumber("Right", Robot.DRIVE_BASE.getRightEncoderValue());
