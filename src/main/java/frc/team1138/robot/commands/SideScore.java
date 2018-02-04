@@ -8,9 +8,13 @@ import frc.team1138.robot.subsystems.*;
 
 public class SideScore extends CommandGroup
 {
-	boolean right;
 	private OI oi;
+	
+	//Deciding which way to turn. If the boolean right = true, then the robot will turn right. Otherwise, the robot will turn left
+	boolean right;
 	private int direction;
+	
+	//Setting some constants in order to determine the distance traveled in the first DriveWithEncoders
 	public static final double KRobotLength = 55; //inches
 	public static final double KDistanceToSwitchMiddle = 168; //inches
 	public static final double KWheelRadius = 2; //inches
@@ -25,9 +29,9 @@ public class SideScore extends CommandGroup
 		requires(Robot.DRIVE_BASE);
 		oi = new OI();
 		//addSequential(new TurnWithGyro());
-		addSequential(new DriveWithEncoders(KRotationsToSwitch, 1));
-		addSequential(new TurnWithGyro(90 * direction, 1));
-		addSequential(new DriveWithEncoders(1, 1));
+		addSequential(new DriveWithEncoders(KRotationsToSwitch, 1)); //Drive until parallel to the switch
+		addSequential(new TurnWithGyro(90 * direction, 1)); //Turn to face the switch
+		addSequential(new DriveWithEncoders(1, 1)); //Drive towards the switch
 	}
 
 	@Override
