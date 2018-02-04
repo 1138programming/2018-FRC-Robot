@@ -19,7 +19,7 @@ public class DriveWithEncoders extends PIDCommand
 		SmartDashboard.putNumber("setEncoder", 0);
 		requires(Robot.DRIVE_BASE);
 		this.distance = distance;
-		this.speed = distance;
+		this.speed = speed;
 		driveController = this.getPIDController();
 		driveController.setInputRange(-20000000, 20000000);
 		driveController.setOutputRange(-speed, speed);
@@ -83,9 +83,9 @@ public class DriveWithEncoders extends PIDCommand
 	@Override
 	protected void execute()
 	{
-		final double setEncoder = SmartDashboard.getNumber("setEncoder", 0);
+		//final double setEncoder = SmartDashboard.getNumber("setEncoder", 0);
 
-		setTarget(setEncoder);
+		//setTarget(setEncoder);
 		SmartDashboard.putBoolean("tracking", true);
 		SmartDashboard.putNumber("Left", Robot.DRIVE_BASE.getLeftEncoderValue());
 		SmartDashboard.putNumber("Right", Robot.DRIVE_BASE.getRightEncoderValue());

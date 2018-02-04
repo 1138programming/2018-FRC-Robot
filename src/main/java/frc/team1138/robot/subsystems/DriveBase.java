@@ -30,7 +30,17 @@ public class DriveBase extends Subsystem
 	public static final int KBaseRightBackTalon = 5;
 	public static final int KBaseRightTopTalon = 6;
 	public static final double KDeadZoneLimit = 0.2;
+	// All of the solenoids are doubles, so they need 2 numbers each. If you change
+		// one,
+		// be sure to change the other one of the pair also.
+		public static final int KShifterSolenoid1 = 0;
+		public static final int KShifterSolenoid2 = 1;
 
+		// Variable for base ultrasonic
+		// TODO figure out what these numbers will be based on where they're gonna be
+		// plugged in
+		public static final int KBaseUltrasonic = 1;
+		
 	public DriveBase()
 	{
 		// Setting up base talons
