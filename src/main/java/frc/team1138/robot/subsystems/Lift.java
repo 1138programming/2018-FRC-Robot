@@ -27,7 +27,7 @@ public class Lift extends PIDSubsystem
 	private PIDController controller;
 
 	// Making variables for lift slots (talons and sensors) so there aren't magic
-	// numbers floating around
+	// numbers floating around (there's also other variables to be used later in the code
 	public static final int KFrontLiftTalon = 8;
 	public static final int KBackLiftTalon = 9;
 	public static final int KHangLimit = 3;
@@ -39,7 +39,12 @@ public class Lift extends PIDSubsystem
 	
 	public Lift()
 	{
-		super(0, 0, 0); // Sets up as PID loop
+		super("Lift PID", 0, 0, 0); // Sets up as PID loop
+		setAbsoluteTolerance(0.05); // Threshold
+		getPIDController().setContinuous(true); // Change based on need, probably should be continuous
+//		getPIDController().setInputRange(minimumInput, maximumInput); // TODO figure out after getting the bot
+		getPIDController().setOutputRange(-1.0, 1.0);
+		
 		// Setting up base talons
 		frontLift = new TalonSRX(KFrontLiftTalon);
 		backLift = new TalonSRX(KBackLiftTalon);
@@ -56,56 +61,62 @@ public class Lift extends PIDSubsystem
 		hangLimit2 = new DigitalInput(KLowerLimit); // Limit switch
 		frontLift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Encoder
 		backLift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Encoder
-//		controller.enable();
+		controller.enable();
 	}
 
+	//The default command when nothing else is running
 	public void initDefaultCommand()
 	{
 		setDefaultCommand(new DriveLift());
 	}
 
+	//Returns the input for the PID loop
 	@Override
 	protected double returnPIDInput()
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		return getEncoderValue();
+	}
+	
+	//Returns the value of the encoder
+	public double getEncoderValue()
+	{
+		return frontLift.getSensorCollection().getQuadraturePosition();
 	}
 
+	//Uses the input to utilize PID
 	@Override
 	protected void usePIDOutput(double output)
 	{
-		// TODO Auto-generated method stub
-
+		// TODO use the calculated PID output
+		frontLift.set(ControlMode.PercentOutput, output);
 	}
 
+	//Lifts (or lowers) the robot using the joysticks
 	public void liftWithJoysticks(double liftAxis)
 	{
 		if (liftAxis > KDeadZoneLimit || liftAxis < -KDeadZoneLimit)
 		{
-			frontLift.set(ControlMode.PercentOutput, liftAxis);
+			getPIDController().setSetpoint(getPosition() + liftAxis * 1000);
 		}
 		else
 		{
-			frontLift.set(ControlMode.PercentOutput, 0);
+			getPIDController().setSetpoint(getPosition());
 		}
 	}
 
+	//Shifts the lift to the high speed position
 	private void highShiftLift()
 	{
 		speedShiftSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 
-	/**
-	 * Shift the base to low position
-	 */
+	//Shifts the lift the low speed position
 	private void lowShiftLift()
 	{
 		speedShiftSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
 
-	/**
-	 * public method to switch shifts base
-	 */
+	//Toggles the lift speed
 	public void toggleLiftSpeed()
 	{
 		if (speedShiftSolenoid.get() == DoubleSolenoid.Value.kForward)
@@ -118,19 +129,9 @@ public class Lift extends PIDSubsystem
 		}
 	}
 	
-	public void liftWithEncoders(double rotations, double liftSpeed)
+	//Moves the lift using the encoders
+	public void liftWithEncoders(double rotations)
 	{
-		if (frontLift.getSensorCollection().getQuadraturePosition() != rotations*KTicksPerRotation)
-		{
-			if (frontLift.getSensorCollection().getQuadraturePosition() < rotations*KTicksPerRotation)
-			{
-				frontLift.set(ControlMode.PercentOutput, liftSpeed);
-			}
-			else
-			{
-				frontLift.set(ControlMode.PercentOutput, -liftSpeed);
-			}
-		}
-		frontLift.set(ControlMode.PercentOutput, 0);
+		getPIDController().setSetpoint(rotations*KTicksPerRotation);
 	}
 }

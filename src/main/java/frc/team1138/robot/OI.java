@@ -70,10 +70,10 @@ public class OI
 //		btn3.whenPressed(new dumperexchange());
 //		btn4.whenPressed(new dumperup());
 //		btn6.whenPressed(new basespeed());
-		//TODO figure out the values of the lift positions
-		btnA.whenPressed(new PositionLift(0, 0.7)); //Bottom Position
-		btnB.whenPressed(new PositionLift(5, 0.7)); //Middle Position
-		btnX.whenPressed(new PositionLift(7, 0.7)); //Top Position
+		//TODO figure out the values of the lift positions and speeds for the next 3 buttons
+		btnA.whenPressed(new PositionLift(0,)); //Bottom Position
+		btnB.whenPressed(new PositionLift(4)); //Middle Position
+		btnX.whenPressed(new PositionLift(7)); //Top Position
 		btnY.whenPressed(new ShiftLift());
 //		btnLB.whenPressed(new rollerscollect());
 //		btnRB.whenPressed(new rollerseject());
@@ -84,7 +84,7 @@ public class OI
 	public double getRightAxis()
 	{ // Right axis is right side drive
 		if (logitechController.getThrottle() < -KXboxDeadZoneLimit
-				|| logitechController.getThrottle() > KXboxDeadZoneLimit)
+		 || logitechController.getThrottle() > KXboxDeadZoneLimit)
 		{
 			return logitechController.getThrottle(); // TODO check if it's twist for z-rotate axis
 		}

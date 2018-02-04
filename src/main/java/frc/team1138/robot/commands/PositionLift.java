@@ -8,13 +8,12 @@ import frc.team1138.robot.Robot;
  */
 public class PositionLift extends Command
 {
-	double encoderValue, speed; 
-	public PositionLift(double encoderValue, double speed)
+	double encoderValue;
+	public PositionLift(double encoderValue)
 	{
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.LIFT);
 		this.encoderValue = encoderValue;
-		this.speed = encoderValue;
 	}
 
 	// Called just before this Command runs the first time
@@ -27,7 +26,7 @@ public class PositionLift extends Command
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute()
 	{
-		Robot.LIFT.liftWithEncoders(encoderValue, speed);
+		Robot.LIFT.liftWithEncoders(encoderValue);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
