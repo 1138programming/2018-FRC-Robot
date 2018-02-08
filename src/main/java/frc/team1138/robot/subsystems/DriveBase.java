@@ -20,7 +20,7 @@ public class DriveBase extends Subsystem
 	private PigeonIMU PigeonIMU;
 	
 	//Making variables for base talon slots so there aren't magic numbers floating around
-	public static final int 0 = 1;
+//	public static final int 0 = 1;
 	public static final int KBaseLeftBackTalon = 2;
 	public static final int KBaseLeftTopTalon = 3;
 	public static final int KBaseRightFrontTalon = 4;
@@ -31,7 +31,7 @@ public class DriveBase extends Subsystem
 	public DriveBase()
 	{
 		//Setting up base talons
-		baseLeftFront = new TalonSRX(KBaseLeftFrontTalon);
+//		baseLeftFront = new TalonSRX(KBaseLeftFrontTalon);
 		baseLeftBack = new TalonSRX(KBaseLeftBackTalon);
 		baseLeftTop = new TalonSRX(KBaseLeftTopTalon);
 		baseRightFront = new TalonSRX(KBaseRightFrontTalon);

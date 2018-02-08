@@ -7,12 +7,10 @@ import frc.team1138.robot.Robot;
 /**
  *
  */
-public class MoveArmWithJoysticks extends Command {
-	private OI oi;
-	public MoveArmWithJoysticks() {
+public class CycleArm extends Command {
+	public CycleArm() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.ARM);
-		oi = new OI();
 	}
 	
 	// Called just before this Command runs the first time
@@ -23,13 +21,13 @@ public class MoveArmWithJoysticks extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute() {
-		Robot.ARM.driveArm(oi.getLeftXBoxAxis());
+		Robot.ARM.moveArmToLimitSwitch(2.5); //TODO experiment with this value when testable
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished() {
-		return false;
+		return Robot.ARM.onTarget();
 	}
 
 	// Called once after isFinished returns true

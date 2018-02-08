@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.PIDController;
+import frc.team1138.robot.Robot;
 import frc.team1138.robot.RobotMap;
 import frc.team1138.robot.commands.DriveWithJoysticks;
 import frc.team1138.robot.commands.MoveArmWithJoysticks;
@@ -46,7 +47,7 @@ public class Arm extends PIDSubsystem
 		super("Arm PID", 0, 0, 0); // TODO mess with P, I, and D
 		setAbsoluteTolerance(100); // Threshold/error allowed TODO change this value to correct value
 		getPIDController().setContinuous(true); // Change based on need, probably should be continuous
-//		getPIDController().setInputRange(minimumInput, maximumInput); // TODO figure out after getting the bot
+		getPIDController().setInputRange(-1000000000, 1000000000); // TODO figure out after getting the bot
 		getPIDController().setOutputRange(-1.0, 1.0);
 		
 		//Setting up the arm motor talon
@@ -70,7 +71,19 @@ public class Arm extends PIDSubsystem
 		setDefaultCommand(new MoveArmWithJoysticks());
 	}
 	
-	public void MoveArm(double armAxis)
+	public void moveArm(double armAxis)
+	{
+		if(armAxis > KDeadZoneLimit || armAxis < -KDeadZoneLimit)
+		{
+			armMotor.set(ControlMode.PercentOutput, armAxis);
+		}
+		else
+		{
+			armMotor.set(ControlMode.PercentOutput, 0);
+		}
+	}
+	
+	public void driveArm(double armAxis)
 	{
 		if(armAxis > KDeadZoneLimit || armAxis < -KDeadZoneLimit)
 		{
@@ -82,11 +95,15 @@ public class Arm extends PIDSubsystem
 		}
 	}
 	
-	public void moveArmToLimitSwitch(double encoderValue, float armSpeed)
+	public void moveArmToLimitSwitch(double encoderValue)
 	{
-		if(armLowerLimit.get() == true)
+		if(armLowerLimit.get() != true)
 		{
-			resetEncoders(); //TODO SOLVE THIS!!!!!
+			getPIDController().setSetpoint(encoderValue*KTicksPerRotation);
+		}
+		else
+		{
+			getPIDController().setSetpoint(0);
 		}
 		
 //		if (armMotor.getSensorCollection().getQuadraturePosition() < encoderValue)
@@ -120,7 +137,25 @@ public class Arm extends PIDSubsystem
 	@Override
 	protected void usePIDOutput(double output)
 	{
-		armMotor.set(ControlMode.PercentOutput, output);
+		if (!armController.onTarget())
+		{
+			if ((this.returnPIDInput() - this.getSetpoint()) < 0)
+			{ // Need to move up
+				System.out.println("Move Up");
+				moveArm(output);
+			}
+			else if ((this.returnPIDInput() - this.getSetpoint()) > 0)
+			{ // Need to move down
+				System.out.println("Move Down");
+				moveArm(-output);
+			}
+			System.out.println("Error: " + (returnEncoderValue() - this.getSetpoint()));
+			System.out.println("Input: " + this.returnPIDInput());
+		}
+		else
+		{
+			moveArm(0);
+		}
 	}
 	
 	public double returnEncoderValue()

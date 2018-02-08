@@ -99,7 +99,7 @@ public class OI {
 	}
 
 	public boolean getRightTrigger() {			//right controller's trigger engages the shift on the base
-		return shiftBtn.get(); 
+//		return shiftBtn.get(); 
 	}
 
 	public double getLeftXBoxAxis() {			//left xbox axis controls the linear lift
