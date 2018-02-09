@@ -54,7 +54,7 @@ public class Collector extends Subsystem
 	public void initDefaultCommand()
 	{
 		// Set the default command for a subsystem here.
-		// setDefaultCommand(new DriveWithJoysticks());
+		 setDefaultCommand(new DriveWithJoysticks());
 	}
 
 	//This command causes the rollers to go at the KCollectorSpeed if the motors aren't 
