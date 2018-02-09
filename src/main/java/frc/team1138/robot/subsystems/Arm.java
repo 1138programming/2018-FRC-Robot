@@ -42,6 +42,7 @@ public class Arm extends PIDSubsystem
 	public static final int KEncoderValue = 1000;
 	public static final int KTicksPerRotation = 4096;
 	
+	
 	public Arm()
 	{
 		super("Arm PID", 0, 0, 0); // TODO mess with P, I, and D
@@ -71,6 +72,7 @@ public class Arm extends PIDSubsystem
 		setDefaultCommand(new MoveArmWithJoysticks());
 	}
 	
+	//TODO set arm to output in pid output
 	public void moveArm(double armAxis)
 	{
 		if(armAxis > KDeadZoneLimit || armAxis < -KDeadZoneLimit)
@@ -83,6 +85,7 @@ public class Arm extends PIDSubsystem
 		}
 	}
 	
+	//move to set point with dead zone limit
 	public void driveArm(double armAxis)
 	{
 		if(armAxis > KDeadZoneLimit || armAxis < -KDeadZoneLimit)
@@ -95,6 +98,7 @@ public class Arm extends PIDSubsystem
 		}
 	}
 	
+	//move arm to the limit switch with pid 
 	public void moveArmToLimitSwitch(double encoderValue)
 	{
 		if(armLowerLimit.get() != true)
@@ -123,17 +127,31 @@ public class Arm extends PIDSubsystem
 //		}
 	}
 	
+	//move to setpoint with encoders
 	public void moveArmWithEncoders(double position)
 	{
 		getPIDController().setSetpoint(position*KTicksPerRotation);
 	}
-
+	//get encoder value
+	public double returnEncoderValue()
+	{		
+		return armMotor.getSensorCollection().getQuadraturePosition();
+	}
+		
+	//set setpoint
+	public void setGoal(double setpoint) 
+	{
+		this.armController.setSetpoint(setpoint);
+	}
+		
+	//getting encodoer value for pid
 	@Override
 	protected double returnPIDInput()
 	{
 		return returnEncoderValue();
 	}
 
+	//move up or down if not on target
 	@Override
 	protected void usePIDOutput(double output)
 	{
@@ -158,17 +176,8 @@ public class Arm extends PIDSubsystem
 		}
 	}
 	
-	public double returnEncoderValue()
-	{
-		return armMotor.getSensorCollection().getQuadraturePosition();
-	}
-	
-	public void setGoal(double setpoint) 
-	{
-		this.armController.setSetpoint(setpoint);
-	}
-	
-	@Override
+	//calls for if it is true or false 
+		@Override
 	public boolean onTarget() {
 		// TODO Auto-generated method stub
 		return super.onTarget();
