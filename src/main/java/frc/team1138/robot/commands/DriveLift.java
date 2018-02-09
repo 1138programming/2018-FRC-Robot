@@ -26,6 +26,7 @@ public class DriveLift extends Command
 	}
 
 	// Called repeatedly when this Command is scheduled to run
+	// Runs the lift using the joystick axis
 	@Override
 	protected void execute()
 	{
@@ -36,14 +37,14 @@ public class DriveLift extends Command
 	@Override
 	protected boolean isFinished()
 	{
-		return false;
+		return Robot.LIFT.onTarget();
 	}
 
 	// Called once after isFinished returns true
 	@Override
 	protected void end()
 	{
-		
+		Robot.LIFT.setLift(Robot.LIFT.getPosition());
 	}
 
 	// Called when another command which requires one or more of the same
@@ -51,6 +52,6 @@ public class DriveLift extends Command
 	@Override
 	protected void interrupted()
 	{
-		
+		end();
 	}
 }

@@ -24,6 +24,7 @@ public class ShiftLift extends Command
 	}
 
 	// Called repeatedly when this Command is scheduled to run
+	// Shifts the lift between it's fast and slow speeds
 	@Override
 	protected void execute()
 	{
@@ -34,13 +35,14 @@ public class ShiftLift extends Command
 	@Override
 	protected boolean isFinished()
 	{
-		return false;
+		return Robot.LIFT.onTarget();
 	}
 
 	// Called once after isFinished returns true
 	@Override
 	protected void end()
 	{
+		Robot.LIFT.setLift(Robot.LIFT.getPosition());
 	}
 
 	// Called when another command which requires one or more of the same
@@ -48,5 +50,6 @@ public class ShiftLift extends Command
 	@Override
 	protected void interrupted()
 	{
+		end();
 	}
 }
