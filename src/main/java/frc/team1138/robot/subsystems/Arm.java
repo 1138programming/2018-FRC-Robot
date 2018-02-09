@@ -163,6 +163,11 @@ public class Arm extends PIDSubsystem
 		return armMotor.getSensorCollection().getQuadraturePosition();
 	}
 	
+	public void setGoal(double setpoint) 
+	{
+		this.armController.setSetpoint(setpoint);
+	}
+	
 	@Override
 	public boolean onTarget() {
 		// TODO Auto-generated method stub
