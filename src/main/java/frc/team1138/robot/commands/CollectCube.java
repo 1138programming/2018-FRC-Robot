@@ -1,13 +1,14 @@
 package frc.team1138.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team1138.robot.OI;
 import frc.team1138.robot.Robot;
 
-public class EjectCube extends Command
+
+
+public class CollectCube extends Command
 {
 	
-	public EjectCube()
+	public CollectCube()
 	{
 		requires(Robot.COLLECTOR);
 	}
@@ -19,7 +20,7 @@ public class EjectCube extends Command
 	
 	protected void execute()
 	{
-		Robot.COLLECTOR.ejectCubeWithRollers();
+		Robot.COLLECTOR.collectCubeWithRollers();
 	}
 
 	@Override

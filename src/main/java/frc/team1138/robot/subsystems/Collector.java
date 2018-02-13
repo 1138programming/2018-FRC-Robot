@@ -53,7 +53,23 @@ public class Collector extends Subsystem
 	public void initDefaultCommand()
 	{
 		// Set the default command for a subsystem here.
-		// setDefaultCommand(new DriveWithJoysticks());
+		 setDefaultCommand(new DriveWithJoysticks());
+	}
+
+	//This command causes the rollers to go at the KCollectorSpeed if the motors aren't 
+	//moving, and if they are, then it doesn't move (to prevent them from doing both at
+	//the same time
+
+	public void collectCubeWithRollers()
+	{
+		if(rightCollector.getMotorOutputPercent() == 0)
+		{
+			rightCollector.set(ControlMode.PercentOutput, KCollectorSpeed);
+		}
+		else
+		{
+			rightCollector.set(ControlMode.PercentOutput, 0);
+		}
 	}
 
 	//This command causes the rollers to go at the KCollectorSpeed if the motors aren't 
@@ -96,15 +112,10 @@ public class Collector extends Subsystem
 		plunger.set(KBackward);
 	}
 	
-	
-	//The method causes the plunger to kick
+		//The method causes the plunger to kick
 	public void kickCubeWithPlunger(){
 		plungerForward();
-		Timer.delay(0.5);
-		plungerBackward();
-		Timer.delay(0.5);
+		plunger.setPulseDuration(0.50);
+		plunger.startPulse();
 	}
-
-	
-
 }
