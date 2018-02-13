@@ -64,7 +64,7 @@ public class OI
 //		btn2.whenPressed(new dumperdown());
 //		btn3.whenPressed(new dumperexchange());
 //		btn4.whenPressed(new dumperup());
-		btn6.whenPressed(new ShiftBase());
+	  	btn6.whenPressed(new ShiftBase());
 //		btnA.whenPressed(new linearlift1());
 //		btnB.whenPressed(new linearlift2());
 //		btnX.whenPressed(new linearlift3());
@@ -72,7 +72,6 @@ public class OI
 //		btnLB.whenPressed(new rollerscollect());
 //		btnRB.whenPressed(new rollerseject());
 //		btnStrt.whenPressed(new plunge());
-
 	}
 
 	public double getRightAxis()
