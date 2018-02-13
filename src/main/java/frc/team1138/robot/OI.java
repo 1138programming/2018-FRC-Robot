@@ -67,6 +67,7 @@ public class OI
 //		btn2.whenPressed(new dumperdown());
 //		btn3.whenPressed(new dumperexchange());
 //		btn4.whenPressed(new dumperup());
+
 //		btn6.whenPressed(new basespeed());
 		//TODO figure out the values of the lift positions and speeds for the next 3 buttons
 		btnA.whenPressed(new PositionLift(0)); //Bottom Position

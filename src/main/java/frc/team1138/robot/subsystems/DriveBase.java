@@ -18,6 +18,7 @@ public class DriveBase extends Subsystem
 {
 	// Declaring the talons and sensors
 	private TalonSRX baseLeftFront, baseLeftBack, baseLeftTop, baseRightFront, baseRightBack, baseRightTop;
+
 	private PigeonIMU pigeonIMU;
 	private DoubleSolenoid shifterSolenoid;
 

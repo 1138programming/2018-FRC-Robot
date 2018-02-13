@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1138.robot.subsystems.Collector;
+import frc.team1138.robot.subsystems.Arm;
 import frc.team1138.robot.subsystems.DriveBase;
 import frc.team1138.robot.subsystems.Lift;
 
@@ -18,9 +19,12 @@ import frc.team1138.robot.subsystems.Lift;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
+
+
 public class Robot extends IterativeRobot
 {
 	public static final DriveBase DRIVE_BASE = new DriveBase();
+  public static final Arm ARM = new Arm();
 	public static final Lift LIFT = new Lift();
 	public static final Collector COLLECTOR = new Collector();
 	public static OI oi;
