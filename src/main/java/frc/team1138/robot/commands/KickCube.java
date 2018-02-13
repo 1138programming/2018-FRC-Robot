@@ -4,10 +4,8 @@ import edu.wpi.first.wpilibj.command.Command;
 import frc.team1138.robot.OI;
 import frc.team1138.robot.Robot;
 
-public class EjectCube extends Command
-{
-	
-	public EjectCube()
+public class KickCube extends Command {
+	public KickCube()
 	{
 		requires(Robot.COLLECTOR);
 	}
@@ -19,7 +17,7 @@ public class EjectCube extends Command
 	
 	protected void execute()
 	{
-		Robot.COLLECTOR.ejectCubeWithRollers();
+		Robot.COLLECTOR.kickCubeWithPlunger();
 	}
 
 	@Override

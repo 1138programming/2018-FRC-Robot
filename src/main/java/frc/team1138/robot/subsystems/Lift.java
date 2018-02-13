@@ -2,6 +2,7 @@ package frc.team1138.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team1138.robot.RobotMap;
@@ -21,23 +22,29 @@ public class Lift extends PIDSubsystem
 {
 	// Declaring the talons and sensors for the lift branch
 	private TalonSRX frontLift, backLift;
-	private DoubleSolenoid speedShift;
-	private DigitalInput hangLimit, lowerLimit;
-	private DigitalInput hallEffect;
+	private DoubleSolenoid speedShiftSolenoid;
+	private DigitalInput hangLimit1, hangLimit2;
+	private PIDController liftController;
 
 	// Making variables for lift slots (talons and sensors) so there aren't magic
-	// numbers floating around
+	// numbers floating around (there's also other variables to be used later in the code
 	public static final int KFrontLiftTalon = 8;
 	public static final int KBackLiftTalon = 9;
 	public static final int KHangLimit = 3;
-	public static final int KLowerLimit = 4;
-	public static final int KHallEffect = 5;
+	public static final int KLowerLimit = 4; //I don't think we actually have this anymore
+	public static final int KHallEffect = 5; //Or this
 	private static final double KDeadZoneLimit = 0.1;
-
-
+	private static final double KTicksPerRotation = 4096;
+	
+	
 	public Lift()
 	{
-		super(0, 0, 0); // Sets up as PID loop
+		super("Lift PID", 0, 0, 0); // Sets up as PID loop TODO mess with these values
+		setAbsoluteTolerance(50); // Threshold/error TODO mess with this number
+		getPIDController().setContinuous(true); // Change based on need, probably should be continuous
+		getPIDController().setInputRange(-100000, 100000); // TODO figure out range after getting the bot
+		getPIDController().setOutputRange(-1.0, 1.0);
+		
 		// Setting up base talons
 		frontLift = new TalonSRX(KFrontLiftTalon);
 		backLift = new TalonSRX(KBackLiftTalon);
@@ -47,45 +54,120 @@ public class Lift extends PIDSubsystem
 		backLift.set(ControlMode.Follower, frontLift.getDeviceID());
 
 		// Configuring the solenoid
-		speedShift = new DoubleSolenoid(4, 5);
+		speedShiftSolenoid = new DoubleSolenoid(4, 5);
 
 		// Configuring the sensors
-		hangLimit = new DigitalInput(KHangLimit); // Limit switch
-		lowerLimit = new DigitalInput(KLowerLimit); // Limit switch
-		hallEffect = new DigitalInput(KHallEffect); // Hall effect sensor, TODO make sure it's a digital input and not a
-													// counter
+		hangLimit1 = new DigitalInput(KHangLimit); // Limit switch
+//		hangLimit2 = new DigitalInput(KLowerLimit); // Limit switch to potentially add in
 		frontLift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Encoder
 		backLift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Encoder
+		liftController.enable();
 	}
 
+	//The default command when nothing else is running
 	public void initDefaultCommand()
 	{
 		setDefaultCommand(new DriveLift());
 	}
-
-	@Override
-	protected double returnPIDInput()
-	{
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	protected void usePIDOutput(double output)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
+	
+	//Lifts (or lowers) the robot using the joysticks
 	public void liftWithJoysticks(double liftAxis)
 	{
 		if (liftAxis > KDeadZoneLimit || liftAxis < -KDeadZoneLimit)
 		{
-			frontLift.set(ControlMode.PercentOutput, liftAxis);
+			getPIDController().setSetpoint(getPosition() + liftAxis * 1000);
 		}
 		else
 		{
-			frontLift.set(ControlMode.PercentOutput, 0);
+			getPIDController().setSetpoint(getPosition());
 		}
+	}
+	
+	//Moves the lift using the encoders
+	public void liftWithEncoders(double rotations)
+	{
+		getPIDController().setSetpoint(rotations*KTicksPerRotation);
+	}
+	
+	//Toggles the lift speed
+	public void toggleLiftSpeed()
+	{
+		if (speedShiftSolenoid.get() == DoubleSolenoid.Value.kForward)
+		{
+			highShiftLift();
+		}
+		else
+		{
+			lowShiftLift();
+		}
+	}
+	
+	//Shifts the lift to the high speed position
+	private void highShiftLift()
+	{
+		speedShiftSolenoid.set(DoubleSolenoid.Value.kReverse);
+	}
+
+	//Shifts the lift the low speed position
+	private void lowShiftLift()
+	{
+		speedShiftSolenoid.set(DoubleSolenoid.Value.kForward);
+	}
+	
+	//Returns the value of the encoder
+	public double getEncoderValue()
+	{
+		return frontLift.getSensorCollection().getQuadraturePosition();
+	}
+	
+	//Uses the input to utilize PID
+	@Override
+	protected void usePIDOutput(double output)
+	{
+		if (!liftController.onTarget())
+		{
+			if ((this.returnPIDInput() - this.getSetpoint()) < 0)
+			{ // Need to move up
+				System.out.println("Move Up");
+				moveLift(output);
+			}
+			else if ((this.returnPIDInput() - this.getSetpoint()) > 0)
+			{ // Need to move down
+				System.out.println("Move Down");
+				moveLift(-output);
+			}
+			System.out.println("Error: " + (getEncoderValue() - this.getSetpoint()));
+			System.out.println("Input: " + this.returnPIDInput());
+		}
+		else
+		{
+			moveLift(0);
+		}
+	}
+	
+	//Moves the lift
+	public void moveLift(double liftAxis)
+	{
+		frontLift.set(ControlMode.PercentOutput, liftAxis);
+	}
+	
+	//Returns the input for the PID loop
+	@Override
+	protected double returnPIDInput()
+	{
+		return getEncoderValue();
+	}
+	
+	//Sets the lift controller to a setpoint
+	public void setLift(double target)
+	{
+		liftController.setSetpoint(target);
+	}
+	
+	//Checks if the PID is on target
+	@Override
+	public boolean onTarget()
+	{
+		return super.onTarget();
 	}
 }

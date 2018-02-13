@@ -6,6 +6,9 @@ import frc.team1138.robot.commands.CollectCube;
 import frc.team1138.robot.commands.EjectCube;
 import frc.team1138.robot.commands.MoveTheCube;
 import frc.team1138.robot.commands.SwitchPlungerMode;
+import frc.team1138.robot.commands.EjectCube;
+import frc.team1138.robot.commands.PositionLift;
+import frc.team1138.robot.commands.ShiftLift;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -61,7 +64,7 @@ public class OI
 		btnY = new JoystickButton(xBoxController, KButtonY); // Shifts the lift speed
 		btnLB = new JoystickButton(xBoxController, KLeftBumper); // Toggles rollers collecting
 		btnRB = new JoystickButton(xBoxController, KRightBumper); // Toggles rollers ejecting
-		btnStrt = new JoystickButton(logitechController, KStartButton); // Shifts the plunger from forward to reverse
+		btnStrt = new JoystickButton(logitechController, KStartButton); // Shifts the plunger/EjectCube from forward to reverse
 																		// and vice versa
 
 //		btn2.whenPressed(new dumperdown());
@@ -75,13 +78,12 @@ public class OI
 		btnLB.whenPressed(new CollectCube());
 		btnRB.whenPressed(new EjectCube());
 //		btnStrt.whenPressed(new KickCube());
-
 	}
 
 	public double getRightAxis()
 	{ // Right axis is right side drive
 		if (logitechController.getThrottle() < -KXboxDeadZoneLimit
-				|| logitechController.getThrottle() > KXboxDeadZoneLimit)
+		 || logitechController.getThrottle() > KXboxDeadZoneLimit)
 		{
 			return logitechController.getThrottle(); // TODO check if it's twist for z-rotate axis
 		}
@@ -108,10 +110,11 @@ public class OI
 		return true;
 		// Add function here, currently this doesn't do much.
 	}
-
+  
 	public boolean getRightTrigger()
 	{ // right controller's trigger engages the shift on the base
-		return shiftBtn.get();
+		return true;
+		// Add function here, currently this doesn't do much.
 	}
 
 	public double getLeftXBoxAxis()

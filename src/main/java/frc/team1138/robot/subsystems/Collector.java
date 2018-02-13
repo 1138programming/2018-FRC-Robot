@@ -1,4 +1,3 @@
-package frc.team1138.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -73,6 +72,22 @@ public class Collector extends Subsystem
 		}
 	}
 
+	//This command causes the rollers to go at the KCollectorSpeed if the motors aren't 
+	//moving, and if they are, then it doesn't move (to prevent them from doing both at
+	//the same time
+
+	public void collectCubeWithRollers()
+	{
+		if(rightCollector.getMotorOutputPercent() == 0)
+		{
+			rightCollector.set(ControlMode.PercentOutput, KCollectorSpeed);
+		}
+		else
+		{
+			rightCollector.set(ControlMode.PercentOutput, 0);
+		}
+	}
+
 	//This command causes the rollers to go at the -KCollectorSpeed if the motors aren't 
 	//moving, and if they are, then it doesn't move (to prevent them from doing both at
 	//the same time
@@ -103,5 +118,4 @@ public class Collector extends Subsystem
 		plunger.setPulseDuration(0.50);
 		plunger.startPulse();
 	}
-	
 }
