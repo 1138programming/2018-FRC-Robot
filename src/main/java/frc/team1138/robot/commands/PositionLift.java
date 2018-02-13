@@ -1,21 +1,19 @@
 package frc.team1138.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team1138.robot.OI;
 import frc.team1138.robot.Robot;
 
 /**
  *
  */
-public class DriveLift extends Command
+public class PositionLift extends Command
 {
-	private OI oi;
-
-	public DriveLift()
+	double encoderValue;
+	public PositionLift(double encoderValue)
 	{
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.LIFT);
-		oi = new OI();
+		this.encoderValue = encoderValue;
 	}
 
 	// Called just before this Command runs the first time
@@ -26,11 +24,10 @@ public class DriveLift extends Command
 	}
 
 	// Called repeatedly when this Command is scheduled to run
-	// Runs the lift using the joystick axis
-	@Override
+	// Lifts (or lowers) the lift using the encoders and PID
 	protected void execute()
 	{
-		Robot.LIFT.liftWithJoysticks(oi.getLeftXBoxAxis());
+		Robot.LIFT.liftWithEncoders(encoderValue);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

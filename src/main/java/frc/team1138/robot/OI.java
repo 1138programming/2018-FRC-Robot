@@ -2,7 +2,9 @@ package frc.team1138.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import frc.team1138.robot.commands.ShiftBase;
+import frc.team1138.robot.commands.EjectCube;
+import frc.team1138.robot.commands.PositionLift;
+import frc.team1138.robot.commands.ShiftLift;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -58,26 +60,29 @@ public class OI
 		btnY = new JoystickButton(xBoxController, KButtonY); // Shifts the lift speed
 		btnLB = new JoystickButton(xBoxController, KLeftBumper); // Toggles rollers collecting
 		btnRB = new JoystickButton(xBoxController, KRightBumper); // Toggles rollers ejecting
-		btnStrt = new JoystickButton(logitechController, KStartButton); // Shifts the plunger from forward to reverse
+		btnStrt = new JoystickButton(logitechController, KStartButton); // Shifts the plunger/EjectCube from forward to reverse
 																		// and vice versa
 
+//TODO add in these buttons as they are created
 //		btn2.whenPressed(new dumperdown());
 //		btn3.whenPressed(new dumperexchange());
 //		btn4.whenPressed(new dumperup());
-	  	btn6.whenPressed(new ShiftBase());
-//		btnA.whenPressed(new linearlift1());
-//		btnB.whenPressed(new linearlift2());
-//		btnX.whenPressed(new linearlift3());
-//		btnY.whenPressed(new shiftLift());
+
+//		btn6.whenPressed(new basespeed());
+		//TODO figure out the values of the lift positions and speeds for the next 3 buttons
+		btnA.whenPressed(new PositionLift(0)); //Bottom Position
+		btnB.whenPressed(new PositionLift(4)); //Middle Position
+		btnX.whenPressed(new PositionLift(7)); //Top Position
+		btnY.whenPressed(new ShiftLift());
 //		btnLB.whenPressed(new rollerscollect());
 //		btnRB.whenPressed(new rollerseject());
-//		btnStrt.whenPressed(new plunge());
+		btnStrt.whenPressed(new EjectCube());
 	}
 
 	public double getRightAxis()
 	{ // Right axis is right side drive
 		if (logitechController.getThrottle() < -KXboxDeadZoneLimit
-				|| logitechController.getThrottle() > KXboxDeadZoneLimit)
+		 || logitechController.getThrottle() > KXboxDeadZoneLimit)
 		{
 			return logitechController.getThrottle(); // TODO check if it's twist for z-rotate axis
 		}
@@ -104,12 +109,12 @@ public class OI
 		return true;
 		// Add function here, currently this doesn't do much.
 	}
-
-	//TODO assign this function to something if we use the trigger
-//	public boolean getRightTrigger()
-//	{ // right controller's trigger engages the shift on the base
-//		return shiftBtn.get();
-//	}
+  
+	public boolean getRightTrigger()
+	{ // right controller's trigger engages the shift on the base
+		return true;
+		// Add function here, currently this doesn't do much.
+	}
 
 	public double getLeftXBoxAxis()
 	{ // left xbox axis controls the linear lift

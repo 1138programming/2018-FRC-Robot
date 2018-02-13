@@ -3,34 +3,32 @@ package frc.team1138.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team1138.robot.OI;
 import frc.team1138.robot.Robot;
+import frc.team1138.robot.subsystems.Lift;
 
 /**
  *
  */
-public class DriveLift extends Command
+public class ShiftLift extends Command
 {
-	private OI oi;
 
-	public DriveLift()
+	public ShiftLift()
 	{
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.LIFT);
-		oi = new OI();
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize()
 	{
-		
 	}
 
 	// Called repeatedly when this Command is scheduled to run
-	// Runs the lift using the joystick axis
+	// Shifts the lift between it's fast and slow speeds
 	@Override
 	protected void execute()
 	{
-		Robot.LIFT.liftWithJoysticks(oi.getLeftXBoxAxis());
+		Robot.LIFT.toggleLiftSpeed();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
