@@ -76,7 +76,6 @@ public class OI
 //		btnLB.whenPressed(new rollerscollect());
 //		btnRB.whenPressed(new rollerseject());
 		btnStrt.whenPressed(new EjectCube());
-
 	}
 
 	public double getRightAxis()
@@ -109,7 +108,7 @@ public class OI
 		return true;
 		// Add function here, currently this doesn't do much.
 	}
-	
+  
 	public boolean getRightTrigger()
 	{ // right controller's trigger engages the shift on the base
 		return true;
