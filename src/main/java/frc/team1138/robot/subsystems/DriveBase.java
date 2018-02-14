@@ -35,7 +35,7 @@ public class DriveBase extends Subsystem
 	// one,
 	// be sure to change the other one of the pair also.
 	public static final int KShifterSolenoid1 = 0;
-	public static final int KShifterSolenoid2 = 1;
+	public static final int KShifterSolenoid2 = 2;
 
 	// Variable for base ultrasonic
 	// TODO figure out what these numbers will be based on where they're gonna be
@@ -62,6 +62,7 @@ public class DriveBase extends Subsystem
 		baseRightTop.set(ControlMode.Follower, baseRightFront.getDeviceID());
 
 		// Configuring the sensors
+		shifterSolenoid = new DoubleSolenoid(KShifterSolenoid1, KShifterSolenoid2);
 		pigeonIMU = new PigeonIMU(baseLeftFront); // TODO find out which talon it's actually on
 		pigeonIMU.setYaw(0, 0);
 		baseLeftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);

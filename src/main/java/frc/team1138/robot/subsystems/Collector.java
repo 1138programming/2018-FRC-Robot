@@ -26,7 +26,7 @@ public class Collector extends Subsystem
 	public static final int KLeftCollectorMotor = 10;
 	public static final int KRightCollectorMotor = 11;
 	public static final int KCubPossLimit = 0;
-	public static final int KPlunger = 3;
+	public static final int KPlunger = 5;
 	public static final double KCollectorSpeed = .7;
 	public static final boolean KForward = true;
 	public static final boolean KBackward = false;
@@ -53,7 +53,7 @@ public class Collector extends Subsystem
 	public void initDefaultCommand()
 	{
 		// Set the default command for a subsystem here.
-		setDefaultCommand(new DriveWithJoysticks());
+//		setDefaultCommand(new DriveWithJoysticks());
 	}
 
 	// This command causes the rollers to go at the KCollectorSpeed if the motors
