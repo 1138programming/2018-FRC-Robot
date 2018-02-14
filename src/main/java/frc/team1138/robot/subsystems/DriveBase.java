@@ -32,16 +32,16 @@ public class DriveBase extends Subsystem
 	public static final int KBaseRightTopTalon = 6;
 	public static final double KDeadZoneLimit = 0.2;
 	// All of the solenoids are doubles, so they need 2 numbers each. If you change
-		// one,
-		// be sure to change the other one of the pair also.
-		public static final int KShifterSolenoid1 = 0;
-		public static final int KShifterSolenoid2 = 1;
+	// one,
+	// be sure to change the other one of the pair also.
+	public static final int KShifterSolenoid1 = 0;
+	public static final int KShifterSolenoid2 = 1;
 
-		// Variable for base ultrasonic
-		// TODO figure out what these numbers will be based on where they're gonna be
-		// plugged in
-		public static final int KBaseUltrasonic = 1;
-		
+	// Variable for base ultrasonic
+	// TODO figure out what these numbers will be based on where they're gonna be
+	// plugged in
+	public static final int KBaseUltrasonic = 1;
+
 	public DriveBase()
 	{
 		// Setting up base talons
@@ -74,32 +74,31 @@ public class DriveBase extends Subsystem
 		setDefaultCommand(new DriveWithJoysticks());
 	}
 
-
-	//Used for reseting the gyro in-match
+	// Used for reseting the gyro in-match
 	public void resetGyro()
 	{
-		pigeonIMU.setYaw(0,  0);
+		pigeonIMU.setYaw(0, 0);
 	}
-	
-	//@return current gyro value in degrees from 180.0 to -180.0
+
+	// @return current gyro value in degrees from 180.0 to -180.0
 	public double getAngle()
 	{
 		double[] ypr = new double[3];
 		pigeonIMU.getYawPitchRoll(ypr);
 		return (-ypr[0]);
 	}
-	
+
 	// Resets both encoders
 	public void resetEncoders()
 	{
 		baseLeftFront.getSensorCollection().setQuadraturePosition(0, 0);
 		baseRightFront.getSensorCollection().setQuadraturePosition(0, 0);
 	}
-	
+
 	// Returns value of the left encoder
 	public double getLeftEncoderValue()
 	{
-		return baseLeftFront.getSensorCollection().getQuadraturePosition(); //May need to be reversed
+		return baseLeftFront.getSensorCollection().getQuadraturePosition(); // May need to be reversed
 	}
 
 	// Returns value of the right encoder
@@ -107,8 +106,8 @@ public class DriveBase extends Subsystem
 	{
 		return baseRightFront.getSensorCollection().getQuadraturePosition();
 	}
-	
-	//Used to drive the base in a "tank drive" format, this is the standard
+
+	// Used to drive the base in a "tank drive" format, this is the standard
 	public void tankDrive(double left, double right)
 	{
 		if (left > KDeadZoneLimit || left < -KDeadZoneLimit)
@@ -129,22 +128,19 @@ public class DriveBase extends Subsystem
 			baseRightFront.set(ControlMode.PercentOutput, 0);
 		}
 	}
-	
-	
+
 	// This function shifts the speed of the base to the reverse position
 	public void highShiftBase()
 	{
 		shifterSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
-	
-	
+
 	// This function shifts the speed of the base to the forward position
 	public void lowShiftBase()
 	{
 		shifterSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
-	
-	
+
 	// This function toggles the shift speed of the base
 	public void toggleShift()
 	{

@@ -9,6 +9,7 @@ import frc.team1138.robot.Robot;
 public class PositionLift extends Command
 {
 	double encoderValue;
+
 	public PositionLift(double encoderValue)
 	{
 		// Use requires() here to declare subsystem dependencies
@@ -20,7 +21,7 @@ public class PositionLift extends Command
 	@Override
 	protected void initialize()
 	{
-		
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
