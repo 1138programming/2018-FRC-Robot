@@ -1,3 +1,4 @@
+package frc.team1138.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -11,7 +12,6 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Timer;
-
 
 /**
  *
@@ -53,16 +53,19 @@ public class Collector extends Subsystem
 	public void initDefaultCommand()
 	{
 		// Set the default command for a subsystem here.
-		 setDefaultCommand(new DriveWithJoysticks());
+		setDefaultCommand(new DriveWithJoysticks());
 	}
 
-	//This command causes the rollers to go at the KCollectorSpeed if the motors aren't 
-	//moving, and if they are, then it doesn't move (to prevent them from doing both at
-	//the same time
+	// This command causes the rollers to go at the KCollectorSpeed if the motors
+	// aren't
+	// moving, and if they are, then it doesn't move (to prevent them from doing
+	// both at
+	// the same time
 
 	public void collectCubeWithRollers()
 	{
-		if(rightCollector.getMotorOutputPercent() == 0)
+		plungerBackward(); // TODO check which way
+		if (rightCollector.getMotorOutputPercent() == 0)
 		{
 			rightCollector.set(ControlMode.PercentOutput, KCollectorSpeed);
 		}
@@ -72,28 +75,15 @@ public class Collector extends Subsystem
 		}
 	}
 
-	//This command causes the rollers to go at the KCollectorSpeed if the motors aren't 
-	//moving, and if they are, then it doesn't move (to prevent them from doing both at
-	//the same time
-
-	public void collectCubeWithRollers()
-	{
-		if(rightCollector.getMotorOutputPercent() == 0)
-		{
-			rightCollector.set(ControlMode.PercentOutput, KCollectorSpeed);
-		}
-		else
-		{
-			rightCollector.set(ControlMode.PercentOutput, 0);
-		}
-	}
-
-	//This command causes the rollers to go at the -KCollectorSpeed if the motors aren't 
-	//moving, and if they are, then it doesn't move (to prevent them from doing both at
-	//the same time
+	// This command causes the rollers to go at the -KCollectorSpeed if the motors
+	// aren't
+	// moving, and if they are, then it doesn't move (to prevent them from doing
+	// both at
+	// the same time
 	public void ejectCubeWithRollers()
 	{
-		if(rightCollector.getMotorOutputPercent() == 0)
+		plungerForward(); // TODO check which way
+		if (rightCollector.getMotorOutputPercent() == 0)
 		{
 			rightCollector.set(ControlMode.PercentOutput, -KCollectorSpeed);
 		}
@@ -102,18 +92,36 @@ public class Collector extends Subsystem
 			rightCollector.set(ControlMode.PercentOutput, 0);
 		}
 	}
-	
-	//The two methods cause the plunger to move forward or backward
-	public void plungerForward() {
+
+	// The two methods cause the plunger to move forward or backward
+	public void plungerForward()
+	{
 		plunger.set(KForward);
 	}
-	
-	public void plungerBackward() {
+
+	public void plungerBackward()
+	{
 		plunger.set(KBackward);
 	}
-	
-		//The method causes the plunger to kick
-	public void kickCubeWithPlunger(){
+
+	// This is here in the case that the other stuff doesn't work or we need
+	// toggling specifically
+	// public void toggleShift(int force)
+	// {
+	// //TODO figure out which way is which
+	// if(plunger.get() == KForward && force == -1)
+	// {
+	// plungerBackward();
+	// }
+	// else if(plunger.get() == KBackward && force == 1)
+	// {
+	// plungerForward();
+	// }
+	// }
+
+	// The method causes the plunger to kick
+	public void kickCubeWithPlunger()
+	{
 		plungerForward();
 		plunger.setPulseDuration(0.50);
 		plunger.startPulse();

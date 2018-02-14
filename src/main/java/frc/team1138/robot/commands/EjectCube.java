@@ -6,17 +6,17 @@ import frc.team1138.robot.Robot;
 
 public class EjectCube extends Command
 {
-	
+
 	public EjectCube()
 	{
 		requires(Robot.COLLECTOR);
 	}
-	
+
 	protected void initialize()
 	{
-		
+
 	}
-	
+
 	protected void execute()
 	{
 		Robot.COLLECTOR.ejectCubeWithRollers();
@@ -28,10 +28,12 @@ public class EjectCube extends Command
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	protected void end()
-	{}
-	
+	{
+	}
+
 	protected void interrupted()
-	{}
+	{
+	}
 }

@@ -27,16 +27,16 @@ public class Lift extends PIDSubsystem
 	private PIDController liftController;
 
 	// Making variables for lift slots (talons and sensors) so there aren't magic
-	// numbers floating around (there's also other variables to be used later in the code
+	// numbers floating around (there's also other variables to be used later in the
+	// code
 	public static final int KFrontLiftTalon = 8;
 	public static final int KBackLiftTalon = 9;
 	public static final int KHangLimit = 3;
-	public static final int KLowerLimit = 4; //I don't think we actually have this anymore
-	public static final int KHallEffect = 5; //Or this
+	public static final int KLowerLimit = 4; // I don't think we actually have this anymore
+	public static final int KHallEffect = 5; // Or this
 	private static final double KDeadZoneLimit = 0.1;
 	private static final double KTicksPerRotation = 4096;
-	
-	
+
 	public Lift()
 	{
 		super("Lift PID", 0, 0, 0); // Sets up as PID loop TODO mess with these values
@@ -44,7 +44,7 @@ public class Lift extends PIDSubsystem
 		getPIDController().setContinuous(true); // Change based on need, probably should be continuous
 		getPIDController().setInputRange(-100000, 100000); // TODO figure out range after getting the bot
 		getPIDController().setOutputRange(-1.0, 1.0);
-		
+
 		// Setting up base talons
 		frontLift = new TalonSRX(KFrontLiftTalon);
 		backLift = new TalonSRX(KBackLiftTalon);
@@ -58,19 +58,20 @@ public class Lift extends PIDSubsystem
 
 		// Configuring the sensors
 		hangLimit1 = new DigitalInput(KHangLimit); // Limit switch
-//		hangLimit2 = new DigitalInput(KLowerLimit); // Limit switch to potentially add in
+		// hangLimit2 = new DigitalInput(KLowerLimit); // Limit switch to potentially
+		// add in
 		frontLift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Encoder
 		backLift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Encoder
 		liftController.enable();
 	}
 
-	//The default command when nothing else is running
+	// The default command when nothing else is running
 	public void initDefaultCommand()
 	{
 		setDefaultCommand(new DriveLift());
 	}
-	
-	//Lifts (or lowers) the robot using the joysticks
+
+	// Lifts (or lowers) the robot using the joysticks
 	public void liftWithJoysticks(double liftAxis)
 	{
 		if (liftAxis > KDeadZoneLimit || liftAxis < -KDeadZoneLimit)
@@ -82,14 +83,14 @@ public class Lift extends PIDSubsystem
 			getPIDController().setSetpoint(getPosition());
 		}
 	}
-	
-	//Moves the lift using the encoders
+
+	// Moves the lift using the encoders
 	public void liftWithEncoders(double rotations)
 	{
-		getPIDController().setSetpoint(rotations*KTicksPerRotation);
+		getPIDController().setSetpoint(rotations * KTicksPerRotation);
 	}
-	
-	//Toggles the lift speed
+
+	// Toggles the lift speed
 	public void toggleLiftSpeed()
 	{
 		if (speedShiftSolenoid.get() == DoubleSolenoid.Value.kForward)
@@ -101,26 +102,26 @@ public class Lift extends PIDSubsystem
 			lowShiftLift();
 		}
 	}
-	
-	//Shifts the lift to the high speed position
+
+	// Shifts the lift to the high speed position
 	private void highShiftLift()
 	{
 		speedShiftSolenoid.set(DoubleSolenoid.Value.kReverse);
 	}
 
-	//Shifts the lift the low speed position
+	// Shifts the lift the low speed position
 	private void lowShiftLift()
 	{
 		speedShiftSolenoid.set(DoubleSolenoid.Value.kForward);
 	}
-	
-	//Returns the value of the encoder
+
+	// Returns the value of the encoder
 	public double getEncoderValue()
 	{
 		return frontLift.getSensorCollection().getQuadraturePosition();
 	}
-	
-	//Uses the input to utilize PID
+
+	// Uses the input to utilize PID
 	@Override
 	protected void usePIDOutput(double output)
 	{
@@ -144,27 +145,27 @@ public class Lift extends PIDSubsystem
 			moveLift(0);
 		}
 	}
-	
-	//Moves the lift
+
+	// Moves the lift
 	public void moveLift(double liftAxis)
 	{
 		frontLift.set(ControlMode.PercentOutput, liftAxis);
 	}
-	
-	//Returns the input for the PID loop
+
+	// Returns the input for the PID loop
 	@Override
 	protected double returnPIDInput()
 	{
 		return getEncoderValue();
 	}
-	
-	//Sets the lift controller to a setpoint
+
+	// Sets the lift controller to a setpoint
 	public void setLift(double target)
 	{
 		liftController.setSetpoint(target);
 	}
-	
-	//Checks if the PID is on target
+
+	// Checks if the PID is on target
 	@Override
 	public boolean onTarget()
 	{

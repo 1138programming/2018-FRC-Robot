@@ -18,7 +18,7 @@ public class ShiftBase extends Command
 	@Override
 	protected void initialize()
 	{
-		
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -39,7 +39,7 @@ public class ShiftBase extends Command
 	@Override
 	protected void end()
 	{
-		
+
 	}
 
 	// Called when another command which requires one or more of the same
@@ -47,6 +47,6 @@ public class ShiftBase extends Command
 	@Override
 	protected void interrupted()
 	{
-		
+
 	}
 }
