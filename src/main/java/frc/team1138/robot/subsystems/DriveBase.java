@@ -53,7 +53,9 @@ public class DriveBase extends Subsystem
 		baseRightTop = new TalonSRX(KBaseRightTopTalon);
 
 		// Configuring the masters
-		baseLeftFront.setInverted(true);
+		baseRightFront.setInverted(true);
+		baseRightBack.setInverted(true);
+		baseRightTop.setInverted(true);
 
 		// Configuring the slaves
 		baseLeftBack.set(ControlMode.Follower, baseLeftFront.getDeviceID());
@@ -66,7 +68,14 @@ public class DriveBase extends Subsystem
 		pigeonIMU = new PigeonIMU(baseLeftFront); // TODO find out which talon it's actually on
 		pigeonIMU.setYaw(0, 0);
 		baseLeftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-		baseRightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		baseRightTop.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		
+		baseRightFront.configOpenloopRamp(1, 0);
+		baseRightBack.configOpenloopRamp(1, 0);
+		baseRightTop.configOpenloopRamp(1, 0);
+		baseLeftFront.configOpenloopRamp(1, 0);
+		baseLeftBack.configOpenloopRamp(1, 0);
+		baseLeftTop.configOpenloopRamp(1, 0);
 	}
 
 	public void initDefaultCommand()

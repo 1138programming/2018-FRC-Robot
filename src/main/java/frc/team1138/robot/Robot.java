@@ -1,5 +1,6 @@
 package frc.team1138.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -8,6 +9,11 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1138.robot.subsystems.Collector;
+import frc.team1138.robot.commands.LeftCommand;
+import frc.team1138.robot.commands.MiddleCommand;
+import frc.team1138.robot.commands.RightCommand;
+import frc.team1138.robot.commands.SideScore;
+import frc.team1138.robot.commands.TurnWithGyro;
 import frc.team1138.robot.subsystems.Arm;
 import frc.team1138.robot.subsystems.DriveBase;
 import frc.team1138.robot.subsystems.Lift;
@@ -39,8 +45,9 @@ public class Robot extends IterativeRobot
 	public void robotInit()
 	{
 		oi = new OI();
-		// chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
+		 chooser.addDefault("Middle", new MiddleCommand());
+		 chooser.addObject("Right", new RightCommand());
+		 chooser.addObject("Left", new LeftCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
@@ -86,7 +93,9 @@ public class Robot extends IterativeRobot
 
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null)
+		{
 			autonomousCommand.start();
+		}
 	}
 
 	/**
