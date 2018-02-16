@@ -2,6 +2,7 @@ package frc.team1138.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Victor;
@@ -9,6 +10,7 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.team1138.robot.RobotMap;
 import frc.team1138.robot.commands.DriveLift;
+import frc.team1138.robot.commands.DriveLiftPID;
 import frc.team1138.robot.commands.DriveWithJoysticks;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
@@ -28,6 +30,7 @@ public class Lift extends PIDSubsystem
 	private DoubleSolenoid speedShiftSolenoid;
 	private DigitalInput hangLimit1, hangLimit2;
 	private I2C leftIME, rightIME;
+//	private Encoder leftIME, rightIME;
 	// Making variables for lift slots (talons and sensors) so there aren't magic
 	// numbers floating around (there's also other variables to be used later in the
 	// code
@@ -78,13 +81,14 @@ public class Lift extends PIDSubsystem
 		
 		//I2C Config 
 		leftIME = new I2C(I2C.Port.kOnboard, KLeftIME);
-		rightIME = new I2C(I2C.Port.kOnboard, KRightIME);		
+		rightIME = new I2C(I2C.Port.kOnboard, KRightIME);
 	}
 
 	// The default command when nothing else is running
 	public void initDefaultCommand()
 	{
-		setDefaultCommand(new DriveLift());
+		setDefaultCommand(new DriveLiftPID());
+//		setDefaultCommand(new DriveLift());
 	}
 
 	// Lifts (or lowers) the robot using the joysticks
@@ -187,8 +191,10 @@ public class Lift extends PIDSubsystem
 	{
 		return super.onTarget();
 	}
+	
+	//TODO WE MUST FINISH THIS FUNCTIONALITY
 //	public void moveLatch(double targetValue)
 //	{
-//		if()
+//		if(leftIME.)
 //	}
 }

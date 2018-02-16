@@ -30,7 +30,7 @@ public class DriveLift extends Command
 	@Override
 	protected void execute()
 	{
-		Robot.LIFT.liftWithJoysticks(oi.getLeftXBoxAxis());
+		Robot.LIFT.moveLift(oi.getRightXBoxAxis());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

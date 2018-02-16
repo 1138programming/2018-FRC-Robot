@@ -8,6 +8,7 @@ import frc.team1138.robot.Robot;
 import frc.team1138.robot.RobotMap;
 import frc.team1138.robot.commands.DriveWithJoysticks;
 import frc.team1138.robot.commands.MoveArmWithJoysticks;
+import frc.team1138.robot.commands.MoveArmWithJoysticksPID;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 
@@ -73,7 +74,8 @@ public class Arm extends PIDSubsystem
 	// Sets the default command
 	public void initDefaultCommand()
 	{
-		setDefaultCommand(new MoveArmWithJoysticks());
+		setDefaultCommand(new MoveArmWithJoysticksPID());
+//		setDefaultCommand(new MoveArmWithJoysticks());
 	}
 
 	// TODO set arm to output in pid output

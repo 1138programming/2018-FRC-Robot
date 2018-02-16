@@ -82,10 +82,10 @@ public class Collector extends Subsystem
 	// the same time
 	public void ejectCubeWithRollers()
 	{
-		plungerForward(); // TODO check which way
 		if (rightCollector.getMotorOutputPercent() == 0)
 		{
 			rightCollector.set(ControlMode.PercentOutput, -KCollectorSpeed);
+			kickCubeWithPlunger(); // TODO check which way
 		}
 		else
 		{
@@ -104,26 +104,12 @@ public class Collector extends Subsystem
 		plunger.set(KBackward);
 	}
 
-	// This is here in the case that the other stuff doesn't work or we need
-	// toggling specifically
-	// public void toggleShift(int force)
-	// {
-	// //TODO figure out which way is which
-	// if(plunger.get() == KForward && force == -1)
-	// {
-	// plungerBackward();
-	// }
-	// else if(plunger.get() == KBackward && force == 1)
-	// {
-	// plungerForward();
-	// }
-	// }
-
 	// The method causes the plunger to kick
 	public void kickCubeWithPlunger()
 	{
 		plungerForward();
-		plunger.setPulseDuration(0.50);
+		plunger.setPulseDuration(0.30);
 		plunger.startPulse();
+		plungerBackward();
 	}
 }

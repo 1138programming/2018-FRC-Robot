@@ -67,7 +67,7 @@ public class OI
 		btnRB = new JoystickButton(xBoxController, KRightBumper);
 		btnStrt = new JoystickButton(logitechController, KStartButton);
 
-		// btn2.whenPressed(); //Nothing assigned yet
+		// btn2.whenPressed(); //Nothing assigned yet, probably will be when we have the lift mechanism going
 		btn3.whenPressed(new CollectCube()); // Toggles rollers collecting
 		btn4.whenPressed(new EjectCube()); // Toggles rollers ejecting
 		btn6.whenPressed(new ShiftBase()); // Shifts the base
