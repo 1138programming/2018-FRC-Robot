@@ -33,14 +33,15 @@ public class ShiftLift extends Command
 	@Override
 	protected boolean isFinished()
 	{
-		return Robot.LIFT.onTarget();
+//		return Robot.LIFT.onTarget();
+		return true;
 	}
 
 	// Called once after isFinished returns true
 	@Override
 	protected void end()
 	{
-		Robot.LIFT.setLift(Robot.LIFT.getPosition());
+//		Robot.LIFT.setLift(Robot.LIFT.getPosition());
 	}
 
 	// Called when another command which requires one or more of the same

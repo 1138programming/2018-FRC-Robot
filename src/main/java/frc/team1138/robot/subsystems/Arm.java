@@ -1,7 +1,10 @@
 package frc.team1138.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DigitalInput;
+import frc.team1138.robot.commands.MoveArmWithJoysticks;
 import frc.team1138.robot.commands.MoveArmWithJoysticksPID;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -23,7 +26,9 @@ public class Arm extends /*PID*/Subsystem
 	public static final int KArmLowerLimit = 1;
 	public static final int KArmUpperLimit = 2;
 	// setting dead zone limit
-	public static final double KDeadZoneLimit = 0.2;
+	public static final double KDeadZoneLimit = 0.05;
+	public static final double KBigLimit = 0.10;
+	public static final double KSlowSpeed = 0.3;
 	public static final double KLowSpeed = 0.4; // TODO set variable;
 	public static final int KLowValue = 5; // TODO set variable;
 	public static final int KZeroSpeed = 0; // TODO set variable;
@@ -69,14 +74,18 @@ public class Arm extends /*PID*/Subsystem
 	// TODO set arm to output in pid output
 	public void moveArm(double armAxis)
 	{
-		if (armAxis > KDeadZoneLimit || armAxis < -KDeadZoneLimit)
+		if (armAxis > -KBigLimit || armAxis < KBigLimit)
 		{
-			armMotor.set(ControlMode.PercentOutput, armAxis);
+			armMotor.set(ControlMode.PercentOutput, armAxis*KSlowSpeed);
 		}
-		else
+		else if (armAxis < -KBigLimit)
 		{
-			armMotor.set(ControlMode.PercentOutput, 0);
+			armMotor.set(ControlMode.PercentOutput, -KBigLimit*KSlowSpeed);
 		}
+		else if (armAxis > KBigLimit) {
+			armMotor.set(ControlMode.PercentOutput, KBigLimit*KSlowSpeed);
+		}
+		SmartDashboard.putNumber("Arm Motor", this.armMotor.getMotorOutputPercent()); 
 	}
 
 	// move to set point with dead zone limit
