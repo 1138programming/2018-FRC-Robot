@@ -2,7 +2,6 @@ package frc.team1138.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.team1138.robot.RobotMap;
 import frc.team1138.robot.commands.DriveWithJoysticks;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
@@ -171,5 +170,21 @@ public class DriveBase extends Subsystem
 		{
 			lowShiftBase();
 		}
+	}
+
+	public void setLeftMotionControl(ControlMode mode, double value) {
+		this.baseLeftFront.set(mode, value);
+	}
+	
+	public void setRightMotionControl(ControlMode mode, double value) {
+		this.baseRightFront.set(mode, value);
+	}
+	
+	public TalonSRX getRightMotor() {
+		return this.baseRightFront; 
+	}
+	
+	public TalonSRX getLeftMotor() {
+		return this.baseLeftFront; 
 	}
 }
