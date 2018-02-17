@@ -43,8 +43,8 @@ public class Lift extends PIDSubsystem
 	public static final int KBackLiftTalon = 9;
 	public static final int KRightLatchVictor = 0;
 	public static final int KLeftLatchVictor = 1;
-	public static final int KLeftIME = 6;
-	public static final int KRightIME = 7; 
+	//public static final int KLeftIME = 6;
+	//public static final int KRightIME = 7; 
 	public static final int KHangLimit = 3;
 	public static final int KLowerLimit = 4; // I don't think we actually have this anymore
 	public static final int KHallEffect = 5; // Or this
