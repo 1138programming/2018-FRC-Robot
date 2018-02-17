@@ -2,21 +2,12 @@ package frc.team1138.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
-import edu.wpi.first.wpilibj.I2C.Port;
-import edu.wpi.first.wpilibj.Timer.StaticInterface;
-import edu.wpi.first.wpilibj.PIDController;
+
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team1138.robot.RobotMap;
-import frc.team1138.robot.commands.DriveLift;
-import frc.team1138.robot.commands.DriveLiftPID;
-import frc.team1138.robot.commands.DriveWithJoysticks;
 
-import com.ctre.phoenix.sensors.PigeonIMU;
+import frc.team1138.robot.commands.DriveLiftPID;
 
 import java.lang.invoke.ConstantCallSite;
 
