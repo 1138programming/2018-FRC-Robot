@@ -25,7 +25,7 @@ public class CollectCube extends Command
 	protected boolean isFinished()
 	{
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	protected void end()

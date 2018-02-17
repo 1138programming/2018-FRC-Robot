@@ -26,7 +26,7 @@ public class Collector extends Subsystem
 	public static final int KLeftCollectorMotor = 10;
 	public static final int KRightCollectorMotor = 11;
 	public static final int KCubPossLimit = 0;
-	public static final int KPlunger = 3;
+	public static final int KPlunger = 5;
 	public static final double KCollectorSpeed = .7;
 	public static final boolean KForward = true;
 	public static final boolean KBackward = false;
@@ -53,7 +53,7 @@ public class Collector extends Subsystem
 	public void initDefaultCommand()
 	{
 		// Set the default command for a subsystem here.
-		setDefaultCommand(new DriveWithJoysticks());
+//		setDefaultCommand(new DriveWithJoysticks());
 	}
 
 	// This command causes the rollers to go at the KCollectorSpeed if the motors
@@ -86,6 +86,7 @@ public class Collector extends Subsystem
 		if (rightCollector.getMotorOutputPercent() == 0)
 		{
 			rightCollector.set(ControlMode.PercentOutput, -KCollectorSpeed);
+			kickCubeWithPlunger(); // TODO check which way
 		}
 		else
 		{
@@ -104,26 +105,12 @@ public class Collector extends Subsystem
 		plunger.set(KBackward);
 	}
 
-	// This is here in the case that the other stuff doesn't work or we need
-	// toggling specifically
-	// public void toggleShift(int force)
-	// {
-	// //TODO figure out which way is which
-	// if(plunger.get() == KForward && force == -1)
-	// {
-	// plungerBackward();
-	// }
-	// else if(plunger.get() == KBackward && force == 1)
-	// {
-	// plungerForward();
-	// }
-	// }
-
 	// The method causes the plunger to kick
 	public void kickCubeWithPlunger()
 	{
 		plungerForward();
-		plunger.setPulseDuration(0.50);
+		plunger.setPulseDuration(0.30);
 		plunger.startPulse();
+		plungerBackward();
 	}
 }

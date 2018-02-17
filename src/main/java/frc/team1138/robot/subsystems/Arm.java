@@ -8,6 +8,7 @@ import frc.team1138.robot.Robot;
 import frc.team1138.robot.RobotMap;
 import frc.team1138.robot.commands.DriveWithJoysticks;
 import frc.team1138.robot.commands.MoveArmWithJoysticks;
+import frc.team1138.robot.commands.MoveArmWithJoysticksPID;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 
@@ -27,7 +28,6 @@ public class Arm extends PIDSubsystem
 	// Declaring the talons, digital limits, and encoder
 	private TalonSRX armMotor;
 	private DigitalInput armLowerLimit, armUpperLimit;
-	private PIDController armController;
 
 	// Making variables for the arm talon
 	public static final int KArmMotor = 7;
@@ -61,7 +61,9 @@ public class Arm extends PIDSubsystem
 		armMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
 		// Setting up PID controller
-		armController.enable();
+		getPIDController().enable();
+		
+		//Configuring encoder
 		armMotor.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0, 10); // TODO I don't know if this is
 																					// quite the right function to clear
 																					// the encoder when it touches the
@@ -72,7 +74,8 @@ public class Arm extends PIDSubsystem
 	// Sets the default command
 	public void initDefaultCommand()
 	{
-		setDefaultCommand(new MoveArmWithJoysticks());
+		setDefaultCommand(new MoveArmWithJoysticksPID());
+//		setDefaultCommand(new MoveArmWithJoysticks());
 	}
 
 	// TODO set arm to output in pid output
@@ -147,7 +150,7 @@ public class Arm extends PIDSubsystem
 	// set setpoint
 	public void setGoal(double setpoint)
 	{
-		this.armController.setSetpoint(setpoint);
+		getPIDController().setSetpoint(setpoint);
 	}
 
 	// getting encodoer value for pid
@@ -161,7 +164,7 @@ public class Arm extends PIDSubsystem
 	@Override
 	protected void usePIDOutput(double output)
 	{
-		if (!armController.onTarget())
+		if (!getPIDController().onTarget())
 		{
 			if ((this.returnPIDInput() - this.getSetpoint()) < 0)
 			{ // Need to move up

@@ -7,11 +7,11 @@ import frc.team1138.robot.Robot;
 /**
  *
  */
-public class MoveArmWithJoysticks extends Command
+public class MoveArmWithJoysticksPID extends Command
 {
 	private OI oi;
 
-	public MoveArmWithJoysticks()
+	public MoveArmWithJoysticksPID()
 	{
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.ARM);
@@ -28,7 +28,7 @@ public class MoveArmWithJoysticks extends Command
 	@Override
 	protected void execute()
 	{
-		Robot.ARM.moveArm(oi.getLeftXBoxAxis());
+		Robot.ARM.driveArm(oi.getLeftXBoxAxis());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

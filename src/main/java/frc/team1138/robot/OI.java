@@ -67,7 +67,7 @@ public class OI
 		btnRB = new JoystickButton(xBoxController, KRightBumper);
 		btnStrt = new JoystickButton(logitechController, KStartButton);
 
-		// btn2.whenPressed(); //Nothing assigned yet
+		// btn2.whenPressed(); //Nothing assigned yet, probably will be when we have the lift mechanism going
 		btn3.whenPressed(new CollectCube()); // Toggles rollers collecting
 		btn4.whenPressed(new EjectCube()); // Toggles rollers ejecting
 		btn6.whenPressed(new ShiftBase()); // Shifts the base
@@ -85,7 +85,7 @@ public class OI
 		if (logitechController.getThrottle() < -KXboxDeadZoneLimit
 				|| logitechController.getThrottle() > KXboxDeadZoneLimit)
 		{
-			return logitechController.getThrottle(); // TODO check if it's twist for z-rotate axis
+			return -logitechController.getThrottle(); // TODO check if it's twist for z-rotate axis
 		}
 		else
 		{
@@ -97,7 +97,7 @@ public class OI
 	{ // Left controller is left side drive
 		if (logitechController.getY() < -KXboxDeadZoneLimit || logitechController.getY() > KXboxDeadZoneLimit)
 		{
-			return logitechController.getY();
+			return -logitechController.getY();
 		}
 		else
 		{

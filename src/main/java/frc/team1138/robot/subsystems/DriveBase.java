@@ -35,7 +35,7 @@ public class DriveBase extends Subsystem
 	// one,
 	// be sure to change the other one of the pair also.
 	public static final int KShifterSolenoid1 = 0;
-	public static final int KShifterSolenoid2 = 1;
+	public static final int KShifterSolenoid2 = 2;
 
 	// Variable for base ultrasonic
 	// TODO figure out what these numbers will be based on where they're gonna be
@@ -52,8 +52,13 @@ public class DriveBase extends Subsystem
 		baseRightBack = new TalonSRX(KBaseRightBackTalon);
 		baseRightTop = new TalonSRX(KBaseRightTopTalon);
 
+//		baseLeftBack.setSensorPhase(true);
+//		baseLeftTop.setSensorPhase(true);
+//		baseLeftFront.setSensorPhase(true);
 		// Configuring the masters
 		baseLeftFront.setInverted(true);
+		baseLeftBack.setInverted(true);
+		baseLeftTop.setInverted(true);
 
 		// Configuring the slaves
 		baseLeftBack.set(ControlMode.Follower, baseLeftFront.getDeviceID());
@@ -62,10 +67,18 @@ public class DriveBase extends Subsystem
 		baseRightTop.set(ControlMode.Follower, baseRightFront.getDeviceID());
 
 		// Configuring the sensors
+		shifterSolenoid = new DoubleSolenoid(KShifterSolenoid1, KShifterSolenoid2);
 		pigeonIMU = new PigeonIMU(baseLeftFront); // TODO find out which talon it's actually on
 		pigeonIMU.setYaw(0, 0);
 		baseLeftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		baseRightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		
+		baseRightFront.configOpenloopRamp(1, 0);
+		baseRightBack.configOpenloopRamp(1, 0);
+		baseRightTop.configOpenloopRamp(1, 0);
+		baseLeftFront.configOpenloopRamp(1, 0);
+		baseLeftBack.configOpenloopRamp(1, 0);
+		baseLeftTop.configOpenloopRamp(1, 0);
 	}
 
 	public void initDefaultCommand()
@@ -98,13 +111,19 @@ public class DriveBase extends Subsystem
 	// Returns value of the left encoder
 	public double getLeftEncoderValue()
 	{
-		return baseLeftFront.getSensorCollection().getQuadraturePosition(); // May need to be reversed
+		return baseLeftFront.getSelectedSensorPosition(0);
 	}
 
 	// Returns value of the right encoder
 	public double getRightEncoderValue()
 	{
-		return baseRightFront.getSensorCollection().getQuadraturePosition();
+		return baseRightFront.getSelectedSensorPosition(0);
+	}
+
+	public void cureCancer() 
+	{
+		baseRightFront.clearStickyFaults(10);
+		baseLeftFront.clearStickyFaults(10);
 	}
 
 	// Used to drive the base in a "tank drive" format, this is the standard
