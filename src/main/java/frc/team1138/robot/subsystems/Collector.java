@@ -82,6 +82,7 @@ public class Collector extends Subsystem
 	// the same time
 	public void ejectCubeWithRollers()
 	{
+		plungerForward(); // TODO check which way
 		if (rightCollector.getMotorOutputPercent() == 0)
 		{
 			rightCollector.set(ControlMode.PercentOutput, -KCollectorSpeed);

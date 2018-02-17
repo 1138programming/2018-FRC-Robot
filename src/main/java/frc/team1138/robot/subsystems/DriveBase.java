@@ -125,7 +125,7 @@ public class DriveBase extends Subsystem
 		baseRightFront.clearStickyFaults(10);
 		baseLeftFront.clearStickyFaults(10);
 	}
-	
+
 	// Used to drive the base in a "tank drive" format, this is the standard
 	public void tankDrive(double left, double right)
 	{
