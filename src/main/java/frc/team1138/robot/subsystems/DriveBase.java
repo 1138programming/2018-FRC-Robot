@@ -119,7 +119,7 @@ public class DriveBase extends Subsystem
 		return baseRightFront.getSelectedSensorPosition(0);
 	}
 
-	public void cureCancer() 
+	public void cureCancer() // We have found the cure to cancer!
 	{
 		baseRightFront.clearStickyFaults(10);
 		baseLeftFront.clearStickyFaults(10);
