@@ -48,7 +48,8 @@ public class Robot extends IterativeRobot
 		 chooser.addDefault("Middle", new MiddleCommand());
 		 chooser.addObject("Right", new RightCommand());
 		 chooser.addObject("Left", new LeftCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		//SmartDashboard.putData("Auto mode", chooser);
+		SmartDashboard.putData(chooser);
 	}
 
 	/**
@@ -116,6 +117,7 @@ public class Robot extends IterativeRobot
 		// this line or comment it out.
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
+		Robot.DRIVE_BASE.resetEncoders();
 	}
 
 	/**
@@ -124,7 +126,11 @@ public class Robot extends IterativeRobot
 	@Override
 	public void teleopPeriodic()
 	{
+//		SmartDashboard.putNumber("Gyro Value", Robot.DRIVE_BASE.getAngle());
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("Right Base Encoder", Robot.DRIVE_BASE.getRightEncoderValue());
+		SmartDashboard.putNumber("Left Base Encoder", Robot.DRIVE_BASE.getLeftEncoderValue());
+		Robot.DRIVE_BASE.cureCancer();
 	}
 
 	/**

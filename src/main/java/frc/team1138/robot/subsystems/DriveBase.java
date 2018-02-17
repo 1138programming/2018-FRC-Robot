@@ -52,10 +52,13 @@ public class DriveBase extends Subsystem
 		baseRightBack = new TalonSRX(KBaseRightBackTalon);
 		baseRightTop = new TalonSRX(KBaseRightTopTalon);
 
+//		baseLeftBack.setSensorPhase(true);
+//		baseLeftTop.setSensorPhase(true);
+//		baseLeftFront.setSensorPhase(true);
 		// Configuring the masters
-		baseRightFront.setInverted(true);
-		baseRightBack.setInverted(true);
-		baseRightTop.setInverted(true);
+		baseLeftFront.setInverted(true);
+		baseLeftBack.setInverted(true);
+		baseLeftTop.setInverted(true);
 
 		// Configuring the slaves
 		baseLeftBack.set(ControlMode.Follower, baseLeftFront.getDeviceID());
@@ -68,7 +71,7 @@ public class DriveBase extends Subsystem
 		pigeonIMU = new PigeonIMU(baseLeftFront); // TODO find out which talon it's actually on
 		pigeonIMU.setYaw(0, 0);
 		baseLeftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-		baseRightTop.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		baseRightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		
 		baseRightFront.configOpenloopRamp(1, 0);
 		baseRightBack.configOpenloopRamp(1, 0);
@@ -108,15 +111,21 @@ public class DriveBase extends Subsystem
 	// Returns value of the left encoder
 	public double getLeftEncoderValue()
 	{
-		return baseLeftFront.getSensorCollection().getQuadraturePosition(); // May need to be reversed
+		return baseLeftFront.getSelectedSensorPosition(0);
 	}
 
 	// Returns value of the right encoder
 	public double getRightEncoderValue()
 	{
-		return baseRightFront.getSensorCollection().getQuadraturePosition();
+		return baseRightFront.getSelectedSensorPosition(0);
 	}
 
+	public void cureCancer() 
+	{
+		baseRightFront.clearStickyFaults(10);
+		baseLeftFront.clearStickyFaults(10);
+	}
+	
 	// Used to drive the base in a "tank drive" format, this is the standard
 	public void tankDrive(double left, double right)
 	{
