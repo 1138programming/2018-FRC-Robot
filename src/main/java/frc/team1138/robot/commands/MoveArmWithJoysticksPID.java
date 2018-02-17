@@ -35,14 +35,15 @@ public class MoveArmWithJoysticksPID extends Command
 	@Override
 	protected boolean isFinished()
 	{
-		return Robot.ARM.onTarget();
+//		return Robot.ARM.onTarget();
+		return true;
 	}
 
 	// Called once after isFinished returns true
 	@Override
 	protected void end()
 	{
-		Robot.ARM.setGoal(Robot.ARM.getPosition());
+//		Robot.ARM.setGoal(Robot.ARM.getPosition());
 	}
 
 	// Called when another command which requires one or more of the same

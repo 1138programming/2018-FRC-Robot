@@ -3,11 +3,22 @@ package frc.team1138.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.Timer.StaticInterface;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.command.PIDSubsystem;
+import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team1138.robot.RobotMap;
+import frc.team1138.robot.commands.DriveLift;
 
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 import frc.team1138.robot.commands.DriveLiftPID;
+
+import java.lang.invoke.ConstantCallSite;
 
 import java.lang.invoke.ConstantCallSite;
 
@@ -18,7 +29,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 /**
  *
  */
-public class Lift extends PIDSubsystem
+public class Lift extends /*PID*/Subsystem
 {
 	// Declaring the talons and sensors for the lift branch
 	private TalonSRX frontLift, backLift;
@@ -40,6 +51,7 @@ public class Lift extends PIDSubsystem
 	public static final int KLowerLimit = 4; // I don't think we actually have this anymore
 	public static final int KHallEffect = 5; // Or this
 	private static final double KDeadZoneLimit = 0.1;
+	public static final double KGravity = 0.4;
 	private static final double KTicksPerRotation = 4096;
 	private static final int KSolSpot1 = 4;
 	private static final int KSolSpot2 = 3;
@@ -57,12 +69,12 @@ public class Lift extends PIDSubsystem
 
 	public Lift()
 	{
-		super("Lift PID", 0, 0, 0); // Sets up as PID loop TODO mess with these values
+//		super("Lift PID", 0, 0, 0); // Sets up as PID loop TODO mess with these values
 		
-		setAbsoluteTolerance(50); // Threshold/error TODO mess with this number
-		getPIDController().setContinuous(true); // Change based on need, probably should be continuous
-		getPIDController().setInputRange(-100000, 100000); // TODO figure out range after getting the bot
-		getPIDController().setOutputRange(-1.0, 1.0);
+//		setAbsoluteTolerance(50); // Threshold/error TODO mess with this number
+//		getPIDController().setContinuous(true); // Change based on need, probably should be continuous
+//		getPIDController().setInputRange(-100000, 100000); // TODO figure out range after getting the bot
+//		getPIDController().setOutputRange(-1.0, 1.0);
 
 		// Setting up base talons
 		frontLift = new TalonSRX(KFrontLiftTalon);
@@ -71,7 +83,7 @@ public class Lift extends PIDSubsystem
 		rightLatch = new Victor(KRightLatchVictor);
 		leftLatch = new Victor(KLeftLatchVictor);
 		// Configuring the talons
-		frontLift.setInverted(true);
+		backLift.setInverted(true);
 		backLift.set(ControlMode.Follower, frontLift.getDeviceID());
 		rightLatch.setInverted(true);
 		
@@ -84,7 +96,7 @@ public class Lift extends PIDSubsystem
 		// add in
 		frontLift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Encoder
 		backLift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Encoder
-		getPIDController().enable();
+//		getPIDController().enable();
 		
 		//I2C Config 
 		// Robot
@@ -108,8 +120,8 @@ public class Lift extends PIDSubsystem
 	// The default command when nothing else is running
 	public void initDefaultCommand()
 	{
-		setDefaultCommand(new DriveLiftPID());
-//		setDefaultCommand(new DriveLift());
+//		setDefaultCommand(new DriveLiftPID());
+		setDefaultCommand(new DriveLift());
 	}
 
 	// Lifts (or lowers) the robot using the joysticks
@@ -117,18 +129,18 @@ public class Lift extends PIDSubsystem
 	{
 		if (liftAxis > KDeadZoneLimit || liftAxis < -KDeadZoneLimit)
 		{
-			getPIDController().setSetpoint(getPosition() + liftAxis * 1000);
+//			getPIDController().setSetpoint(getPosition() + liftAxis * 1000);
 		}
 		else
 		{
-			getPIDController().setSetpoint(getPosition());
+//			getPIDController().setSetpoint(getPosition());
 		}
 	}
 
 	// Moves the lift using the encoders
 	public void liftWithEncoders(double rotations)
 	{
-		getPIDController().setSetpoint(rotations * KTicksPerRotation);
+//		getPIDController().setSetpoint(rotations * KTicksPerRotation);
 	}
 
 	// Toggles the lift speed
@@ -163,55 +175,55 @@ public class Lift extends PIDSubsystem
 	}
 
 	// Uses the input to utilize PID
-	@Override
-	protected void usePIDOutput(double output)
-	{
-		if (!getPIDController().onTarget())
-		{
-			if ((this.returnPIDInput() - this.getSetpoint()) < 0)
-			{ // Need to move up
-				System.out.println("Move Up");
-				moveLift(output);
-			}
-			else if ((this.returnPIDInput() - this.getSetpoint()) > 0)
-			{ // Need to move down
-				System.out.println("Move Down");
-				moveLift(-output);
-			}
-			System.out.println("Error: " + (getEncoderValue() - this.getSetpoint()));
-			System.out.println("Input: " + this.returnPIDInput());
-		}
-		else
-		{
-			moveLift(0);
-		}
-	}
+//	@Override
+//	protected void usePIDOutput(double output)
+//	{
+//		if (!getPIDController().onTarget())
+//		{
+//			if ((this.returnPIDInput() - this.getSetpoint()) < 0)
+//			{ // Need to move up
+//				System.out.println("Move Up");
+//				moveLift(output);
+//			}
+//			else if ((this.returnPIDInput() - this.getSetpoint()) > 0)
+//			{ // Need to move down
+//				System.out.println("Move Down");
+//				moveLift(-output);
+//			}
+//			System.out.println("Error: " + (getEncoderValue() - this.getSetpoint()));
+//			System.out.println("Input: " + this.returnPIDInput());
+//		}
+//		else
+//		{
+//			moveLift(0);
+//		}
+//	}
 
 	// Moves the lift
 	public void moveLift(double liftAxis)
 	{
-		frontLift.set(ControlMode.PercentOutput, liftAxis);
+		frontLift.set(ControlMode.PercentOutput, liftAxis*KGravity);
 	}
 
 	// Returns the input for the PID loop
-	@Override
-	protected double returnPIDInput()
-	{
-		return getEncoderValue();
-	}
+//	@Override
+//	protected double returnPIDInput()
+//	{
+//		return getEncoderValue();
+//	}
 
 	// Sets the lift controller to a setpoint
-	public void setLift(double target)
-	{
-		getPIDController().setSetpoint(target);
-	}
+//	public void setLift(double target)
+//	{
+//		getPIDController().setSetpoint(target);
+//	}
 
 	// Checks if the PID is on target
-	@Override
-	public boolean onTarget()
-	{
-		return super.onTarget();
-	}
+//	@Override
+//	public boolean onTarget()
+//	{
+//		return super.onTarget();
+//	}
 	
 //	public long getLeftIME()
 //	{
