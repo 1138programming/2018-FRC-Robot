@@ -1,20 +1,8 @@
 package frc.team1138.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.PIDController;
-import frc.team1138.robot.Robot;
-import frc.team1138.robot.RobotMap;
-import frc.team1138.robot.commands.DriveWithJoysticks;
-import frc.team1138.robot.commands.MoveArmWithJoysticks;
 import frc.team1138.robot.commands.MoveArmWithJoysticksPID;
-
-import com.ctre.phoenix.sensors.PigeonIMU;
-
-import java.sql.ResultSet;
-import java.util.function.ToDoubleBiFunction;
-
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
