@@ -23,7 +23,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 /**
  *
  */
-public class Arm extends PIDSubsystem
+public class Arm extends /*PID*/Subsystem
 {
 	// Declaring the talons, digital limits, and encoder
 	private TalonSRX armMotor;
@@ -44,11 +44,11 @@ public class Arm extends PIDSubsystem
 
 	public Arm()
 	{
-		super("Arm PID", 0, 0, 0); // TODO mess with P, I, and D
-		setAbsoluteTolerance(100); // Threshold/error allowed TODO change this value to correct value
-		getPIDController().setContinuous(true); // Change based on need, probably should be continuous
-		getPIDController().setInputRange(-1000000000, 1000000000); // TODO figure out after getting the bot
-		getPIDController().setOutputRange(-1.0, 1.0);
+//		super("Arm PID", 0, 0, 0); // TODO mess with P, I, and D
+//		setAbsoluteTolerance(100); // Threshold/error allowed TODO change this value to correct value
+//		getPIDController().setContinuous(true); // Change based on need, probably should be continuous
+//		getPIDController().setInputRange(-1000000000, 1000000000); // TODO figure out after getting the bot
+//		getPIDController().setOutputRange(-1.0, 1.0);
 
 		// Setting up the arm motor talon
 		armMotor = new TalonSRX(KArmMotor);
@@ -61,7 +61,7 @@ public class Arm extends PIDSubsystem
 		armMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
 		// Setting up PID controller
-		getPIDController().enable();
+//		getPIDController().enable();
 		
 		//Configuring encoder
 		armMotor.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0, 10); // TODO I don't know if this is
@@ -74,8 +74,8 @@ public class Arm extends PIDSubsystem
 	// Sets the default command
 	public void initDefaultCommand()
 	{
-		setDefaultCommand(new MoveArmWithJoysticksPID());
-//		setDefaultCommand(new MoveArmWithJoysticks());
+//		setDefaultCommand(new MoveArmWithJoysticksPID());
+		setDefaultCommand(new MoveArmWithJoysticks());
 	}
 
 	// TODO set arm to output in pid output
@@ -96,12 +96,12 @@ public class Arm extends PIDSubsystem
 	{
 		if (armAxis > KDeadZoneLimit || armAxis < -KDeadZoneLimit)
 		{
-			getPIDController().setSetpoint(getPosition() + armAxis * 1000); // TODO experiment with this last constant
+//			getPIDController().setSetpoint(getPosition() + armAxis * 1000); // TODO experiment with this last constant
 																			// value
 		}
 		else
 		{
-			getPIDController().setSetpoint(getPosition());
+//			getPIDController().setSetpoint(getPosition());
 		}
 	}
 
@@ -110,11 +110,11 @@ public class Arm extends PIDSubsystem
 	{
 		if (armLowerLimit.get() != true)
 		{
-			getPIDController().setSetpoint(encoderValue * KTicksPerRotation);
+//			getPIDController().setSetpoint(encoderValue * KTicksPerRotation);
 		}
 		else
 		{
-			getPIDController().setSetpoint(0);
+//			getPIDController().setSetpoint(0);
 		}
 
 		// if (armMotor.getSensorCollection().getQuadraturePosition() < encoderValue)
@@ -138,7 +138,7 @@ public class Arm extends PIDSubsystem
 	// move to setpoint with encoders
 	public void moveArmWithEncoders(double position)
 	{
-		getPIDController().setSetpoint(position * KTicksPerRotation);
+//		getPIDController().setSetpoint(position * KTicksPerRotation);
 	}
 
 	// get encoder value
@@ -150,46 +150,46 @@ public class Arm extends PIDSubsystem
 	// set setpoint
 	public void setGoal(double setpoint)
 	{
-		getPIDController().setSetpoint(setpoint);
+//		getPIDController().setSetpoint(setpoint);
 	}
 
 	// getting encodoer value for pid
-	@Override
-	protected double returnPIDInput()
-	{
-		return returnEncoderValue();
-	}
+//	@Override
+//	protected double returnPIDInput()
+//	{
+//		return returnEncoderValue();
+//	}
 
 	// move up or down if not on target
-	@Override
-	protected void usePIDOutput(double output)
-	{
-		if (!getPIDController().onTarget())
-		{
-			if ((this.returnPIDInput() - this.getSetpoint()) < 0)
-			{ // Need to move up
-				System.out.println("Move Up");
-				moveArm(output);
-			}
-			else if ((this.returnPIDInput() - this.getSetpoint()) > 0)
-			{ // Need to move down
-				System.out.println("Move Down");
-				moveArm(-output);
-			}
-			System.out.println("Error: " + (returnEncoderValue() - this.getSetpoint()));
-			System.out.println("Input: " + this.returnPIDInput());
-		}
-		else
-		{
-			moveArm(0);
-		}
-	}
+//	@Override
+//	protected void usePIDOutput(double output)
+//	{
+//		if (!getPIDController().onTarget())
+//		{
+//			if ((this.returnPIDInput() - this.getSetpoint()) < 0)
+//			{ // Need to move up
+//				System.out.println("Move Up");
+//				moveArm(output);
+//			}
+//			else if ((this.returnPIDInput() - this.getSetpoint()) > 0)
+//			{ // Need to move down
+//				System.out.println("Move Down");
+//				moveArm(-output);
+//			}
+//			System.out.println("Error: " + (returnEncoderValue() - this.getSetpoint()));
+//			System.out.println("Input: " + this.returnPIDInput());
+//		}
+//		else
+//		{
+//			moveArm(0);
+//		}
+//	}
 
 	// calls for if it is true or false
-	@Override
-	public boolean onTarget()
-	{
-		// TODO Auto-generated method stub
-		return super.onTarget();
-	}
+//	@Override
+//	public boolean onTarget()
+//	{
+//		// TODO Auto-generated method stub
+//		return super.onTarget();
+//	}
 }
