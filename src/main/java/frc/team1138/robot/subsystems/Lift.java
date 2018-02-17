@@ -4,16 +4,21 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.I2C.Port;
+import edu.wpi.first.wpilibj.Timer.StaticInterface;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1138.robot.RobotMap;
 import frc.team1138.robot.commands.DriveLift;
 import frc.team1138.robot.commands.DriveLiftPID;
 import frc.team1138.robot.commands.DriveWithJoysticks;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
+
+import java.lang.invoke.ConstantCallSite;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
@@ -38,8 +43,8 @@ public class Lift extends PIDSubsystem
 	public static final int KBackLiftTalon = 9;
 	public static final int KRightLatchVictor = 0;
 	public static final int KLeftLatchVictor = 1;
-	public static final int KLeftIME = 6;
-	public static final int KRightIME = 7; 
+	//public static final int KLeftIME = 6;
+	//public static final int KRightIME = 7; 
 	public static final int KHangLimit = 3;
 	public static final int KLowerLimit = 4; // I don't think we actually have this anymore
 	public static final int KHallEffect = 5; // Or this
@@ -47,6 +52,17 @@ public class Lift extends PIDSubsystem
 	private static final double KTicksPerRotation = 4096;
 	private static final int KSolSpot1 = 4;
 	private static final int KSolSpot2 = 3;
+	private static final double KMotorRevDividedByOutputRotation = 39.2;
+	private static final double KOneOverMotorRevOutputRotation = .02551020408;
+	private static final int I2CENCODER_DEFAULT_ADDRESS = 0X30;
+	private static final int I2CENCODER_ADDRESS_REGISTER = 0X40;
+	private static final int I2CENDCODER_POSITION_REGISTER = 0X40;
+	private static final int I2CENCODER_STARTING_ADDRESS = 0X10;
+	private static final int TICKS = 8;
+	
+
+	public static final int KLeftIME = I2CENCODER_STARTING_ADDRESS;
+	public static final int KRightIME = I2CENCODER_STARTING_ADDRESS + 1; 
 
 	public Lift()
 	{
@@ -80,6 +96,20 @@ public class Lift extends PIDSubsystem
 		getPIDController().enable();
 		
 		//I2C Config 
+		// Robot
+		//  |
+		// Left
+		//  |
+		// Right
+		
+		I2C defaultIME = new I2C(I2C.Port.kOnboard, I2CENCODER_DEFAULT_ADDRESS);
+		byte[] buffer = new byte[2];
+		buffer[0] = I2CENCODER_ADDRESS_REGISTER;
+		buffer[1] = I2CENCODER_STARTING_ADDRESS << 1;
+		defaultIME.writeBulk(buffer, 2);
+		buffer[1] = (I2CENCODER_STARTING_ADDRESS + 1) << 1;
+		defaultIME.writeBulk(buffer, 2);
+
 		leftIME = new I2C(I2C.Port.kOnboard, KLeftIME);
 		rightIME = new I2C(I2C.Port.kOnboard, KRightIME);
 	}
@@ -192,9 +222,48 @@ public class Lift extends PIDSubsystem
 		return super.onTarget();
 	}
 	
-	//TODO WE MUST FINISH THIS FUNCTIONALITY
+//	public long getLeftIME()
+//	{
+//		byte[] buffer = new byte[1];
+//		buffer[0] = I2CENDCODER_POSITION_REGISTER;
+//		leftIME.writeBulk(buffer, 1);
+//		long pos = 0;
+//		leftIME.readOnly(buffer, 1);
+//		pos |= buffer[0] << 8;
+//		leftIME.readOnly(buffer, 1);
+//		pos |= buffer[0] << 0;
+//		leftIME.readOnly(buffer, 1);
+//		pos |= buffer[0] << 24;
+//		leftIME.readOnly(buffer, 1);
+//		pos |= buffer[0] << 16;
+//		return pos;
+//	}
+//	
+//	public long getRightIME()
+//	{
+//		byte[] buffer = new byte[1];
+//		buffer[0] = I2CENDCODER_POSITION_REGISTER;
+//		rightIME.writeBulk(buffer, 1);
+//		long pos = 0;
+//		rightIME.readOnly(buffer, 1);
+//		pos |= buffer[0] << 8;
+//		rightIME.readOnly(buffer, 1);
+//		pos |= buffer[0] << 0;
+//		rightIME.readOnly(buffer, 1);
+//		pos |= buffer[0] << 24;
+//		rightIME.readOnly(buffer, 1);
+//		pos |= buffer[0] << 16;
+//		return pos;
+//	}
+//	
+//	//TODO WE MUST FINISH THIS FUNCTIONALITY
 //	public void moveLatch(double targetValue)
 //	{
-//		if(leftIME.)
-//	}
+//		long rightIME = getRightIME();
+//		long leftIME = getLeftIME();
+//		if(leftIME < targetValue && rightIME < targetValue)
+//		{
+//			
+//		}
+//
 }
