@@ -9,6 +9,7 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 /**
@@ -58,26 +59,77 @@ public class DriveBase extends Subsystem
 		baseRightTop.setInverted(true);
 
 		// Configuring the slaves
-		baseLeftBack.set(ControlMode.Follower, baseLeftFront.getDeviceID());
-		baseLeftTop.set(ControlMode.Follower, baseLeftFront.getDeviceID());
+		baseLeftBack.set(ControlMode.Follower, getBaseLeftFront().getDeviceID());
+		baseLeftTop.set(ControlMode.Follower, getBaseLeftFront().getDeviceID());
 		baseRightBack.set(ControlMode.Follower, baseRightFront.getDeviceID());
 		baseRightTop.set(ControlMode.Follower, baseRightFront.getDeviceID());
 
 		// Configuring the sensors
 		shifterSolenoid = new DoubleSolenoid(KShifterSolenoid1, KShifterSolenoid2);
-		pigeonIMU = new PigeonIMU(baseLeftFront); // TODO find out which talon it's actually on
+		pigeonIMU = new PigeonIMU(getBaseLeftFront()); // TODO find out which talon it's actually on
 		pigeonIMU.setYaw(0, 0);
-		baseLeftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		getBaseLeftFront().configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		baseRightTop.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		
 		baseRightFront.configOpenloopRamp(1, 0);
 		baseRightBack.configOpenloopRamp(1, 0);
 		baseRightTop.configOpenloopRamp(1, 0);
-		baseLeftFront.configOpenloopRamp(1, 0);
+		getBaseLeftFront().configOpenloopRamp(1, 0);
 		baseLeftBack.configOpenloopRamp(1, 0);
 		baseLeftTop.configOpenloopRamp(1, 0);
+		
+	}
+	
+	//Note: If there is a problem, use Control + /. It will solve all the errors.
+	//Also: If it's not working, it's all Leo's fault - Connor Nicholls, 2018
+	
+	public void clearTalonStickyFaults()
+	{
+		getBaseLeftFront().clearStickyFaults(5000);
+		baseRightFront.clearStickyFaults(5000);
+		baseLeftBack.clearStickyFaults(5000);
+		baseRightBack.clearStickyFaults(5000);
+		baseLeftTop.clearStickyFaults(5000);
+		baseRightTop.clearStickyFaults(5000);
+	}
+	
+	public boolean getTalonStickyFaults(TalonSRX talon)
+	{
+		StickyFaults f = new StickyFaults();
+		talon.getStickyFaults(f);
+		return f.hasAnyFault();
 	}
 
+	public TalonSRX getBaseLeftFront()
+	{
+		return baseLeftFront;
+	}
+	
+	public TalonSRX getBaseRightFront()
+	{
+		return baseLeftFront;
+	}
+
+	public TalonSRX getBaseLeftBack()
+	{
+		return baseLeftBack;
+	}
+	
+	public TalonSRX getBaseRightBack()
+	{
+		return baseRightBack;
+	}
+	
+	public TalonSRX getBaseLeftTop()
+	{
+		return baseLeftTop;
+	}
+	
+	public TalonSRX getBaseRightTop()
+	{
+		return baseRightTop;
+	}
+	
 	public void initDefaultCommand()
 	{
 		// Set the default command for a subsystem here.
@@ -101,14 +153,14 @@ public class DriveBase extends Subsystem
 	// Resets both encoders
 	public void resetEncoders()
 	{
-		baseLeftFront.getSensorCollection().setQuadraturePosition(0, 0);
+		getBaseLeftFront().getSensorCollection().setQuadraturePosition(0, 0);
 		baseRightFront.getSensorCollection().setQuadraturePosition(0, 0);
 	}
 
 	// Returns value of the left encoder
 	public double getLeftEncoderValue()
 	{
-		return baseLeftFront.getSensorCollection().getQuadraturePosition(); // May need to be reversed
+		return getBaseLeftFront().getSensorCollection().getQuadraturePosition(); // May need to be reversed
 	}
 
 	// Returns value of the right encoder
@@ -122,11 +174,11 @@ public class DriveBase extends Subsystem
 	{
 		if (left > KDeadZoneLimit || left < -KDeadZoneLimit)
 		{
-			baseLeftFront.set(ControlMode.PercentOutput, left);
+			getBaseLeftFront().set(ControlMode.PercentOutput, left);
 		}
 		else
 		{
-			baseLeftFront.set(ControlMode.PercentOutput, 0);
+			getBaseLeftFront().set(ControlMode.PercentOutput, 0);
 		}
 
 		if (right > KDeadZoneLimit || right < -KDeadZoneLimit)
