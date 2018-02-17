@@ -16,7 +16,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 public class DriveBase extends Subsystem
 {
 	// Declaring the talons and sensors
-	private TalonSRX baseLeftFront, baseLeftBack, baseLeftTop, baseRightFront, baseRightBack, baseRightTop;
+	private TalonSRX baseLeftFront, baseLeftBack, baseRightFront, baseRightBack;
 
 	private PigeonIMU pigeonIMU;
 	private DoubleSolenoid shifterSolenoid;
@@ -46,10 +46,10 @@ public class DriveBase extends Subsystem
 		// Setting up base talons
 		baseLeftFront = new TalonSRX(KBaseLeftFrontTalon);
 		baseLeftBack = new TalonSRX(KBaseLeftBackTalon);
-		baseLeftTop = new TalonSRX(KBaseLeftTopTalon);
+//		baseLeftTop = new TalonSRX(KBaseLeftTopTalon);
 		baseRightFront = new TalonSRX(KBaseRightFrontTalon);
 		baseRightBack = new TalonSRX(KBaseRightBackTalon);
-		baseRightTop = new TalonSRX(KBaseRightTopTalon);
+//		baseRightTop = new TalonSRX(KBaseRightTopTalon);
 
 //		baseLeftBack.setSensorPhase(true);
 //		baseLeftTop.setSensorPhase(true);
@@ -57,13 +57,13 @@ public class DriveBase extends Subsystem
 		// Configuring the masters
 		baseLeftFront.setInverted(true);
 		baseLeftBack.setInverted(true);
-		baseLeftTop.setInverted(true);
+//		baseLeftTop.setInverted(true);
 
 		// Configuring the slaves
 		baseLeftBack.set(ControlMode.Follower, baseLeftFront.getDeviceID());
-		baseLeftTop.set(ControlMode.Follower, baseLeftFront.getDeviceID());
+//		baseLeftTop.set(ControlMode.Follower, baseLeftFront.getDeviceID());
 		baseRightBack.set(ControlMode.Follower, baseRightFront.getDeviceID());
-		baseRightTop.set(ControlMode.Follower, baseRightFront.getDeviceID());
+//		baseRightTop.set(ControlMode.Follower, baseRightFront.getDeviceID());
 
 		// Configuring the sensors
 		shifterSolenoid = new DoubleSolenoid(KShifterSolenoid1, KShifterSolenoid2);
@@ -74,10 +74,10 @@ public class DriveBase extends Subsystem
 		
 		baseRightFront.configOpenloopRamp(1, 0);
 		baseRightBack.configOpenloopRamp(1, 0);
-		baseRightTop.configOpenloopRamp(1, 0);
+//		baseRightTop.configOpenloopRamp(1, 0);
 		baseLeftFront.configOpenloopRamp(1, 0);
 		baseLeftBack.configOpenloopRamp(1, 0);
-		baseLeftTop.configOpenloopRamp(1, 0);
+//		baseLeftTop.configOpenloopRamp(1, 0);
 	}
 
 	public void initDefaultCommand()
