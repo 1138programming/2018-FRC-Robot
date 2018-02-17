@@ -52,7 +52,9 @@ public class ClearStickyFaults extends Command
 	@Override
 	protected void end()
 	{
+		SmartDashboard.putString("For the Solenoid, ", "false means that there are no sticky faults");
 		SmartDashboard.putBoolean("Solenoid Sticky Faults?", SolenoidBase.getPCMSolenoidVoltageStickyFault(0));
+		SmartDashboard.putString("For all of the Talons, ", "true means that there are no sticky faults");
 		SmartDashboard.putBoolean("BaseLeftFront Talon Sticky Faults?", Robot.DRIVE_BASE.getTalonStickyFaults(Robot.DRIVE_BASE.getBaseLeftFront()));
 		SmartDashboard.putBoolean("BaseLeftBack Talon Sticky Faults?", Robot.DRIVE_BASE.getTalonStickyFaults(Robot.DRIVE_BASE.getBaseLeftBack()));
 		SmartDashboard.putBoolean("BaseLeftTop Talon Sticky Faults?", Robot.DRIVE_BASE.getTalonStickyFaults(Robot.DRIVE_BASE.getBaseLeftTop()));
