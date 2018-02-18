@@ -57,10 +57,10 @@ public class ClearStickyFaults extends Command
 		SmartDashboard.putString("For all of the Talons, ", "true means that there are no sticky faults");
 		SmartDashboard.putBoolean("BaseLeftFront Talon Sticky Faults?", Robot.DRIVE_BASE.getTalonStickyFaults(Robot.DRIVE_BASE.getBaseLeftFront()));
 		SmartDashboard.putBoolean("BaseLeftBack Talon Sticky Faults?", Robot.DRIVE_BASE.getTalonStickyFaults(Robot.DRIVE_BASE.getBaseLeftBack()));
-		SmartDashboard.putBoolean("BaseLeftTop Talon Sticky Faults?", Robot.DRIVE_BASE.getTalonStickyFaults(Robot.DRIVE_BASE.getBaseLeftTop()));
+//		SmartDashboard.putBoolean("BaseLeftTop Talon Sticky Faults?", Robot.DRIVE_BASE.getTalonStickyFaults(Robot.DRIVE_BASE.getBaseLeftTop()));
 		SmartDashboard.putBoolean("BaseRightFront Talon Sticky Faults?", Robot.DRIVE_BASE.getTalonStickyFaults(Robot.DRIVE_BASE.getBaseRightFront()));
 		SmartDashboard.putBoolean("BaseRightBack Talon Sticky Faults?", Robot.DRIVE_BASE.getTalonStickyFaults(Robot.DRIVE_BASE.getBaseRightBack()));
-		SmartDashboard.putBoolean("BaseRightTop Talon Sticky Faults?", Robot.DRIVE_BASE.getTalonStickyFaults(Robot.DRIVE_BASE.getBaseRightTop()));
+//		SmartDashboard.putBoolean("BaseRightTop Talon Sticky Faults?", Robot.DRIVE_BASE.getTalonStickyFaults(Robot.DRIVE_BASE.getBaseRightTop()));
 	}
 
 	// Called when another command which requires one or more of the same
