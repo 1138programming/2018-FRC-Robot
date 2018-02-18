@@ -2,6 +2,7 @@ package frc.team1138.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
 
 import edu.wpi.first.wpilibj.Victor;
@@ -10,6 +11,8 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1138.robot.RobotMap;
 import frc.team1138.robot.commands.DriveLift;
+import frc.team1138.robot.commands.DriveLiftPID;
+import frc.team1138.robot.commands.DriveWithJoysticks;
 
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;

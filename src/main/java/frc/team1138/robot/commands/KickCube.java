@@ -17,14 +17,14 @@ public class KickCube extends Command
 
 	protected void execute()
 	{
-		Robot.COLLECTOR.kickCubeWithPlunger();
+		Robot.COLLECTOR.togglePlunger();
 	}
 
 	@Override
 	protected boolean isFinished()
 	{
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	protected void end()

@@ -1,11 +1,13 @@
 package frc.team1138.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.team1138.robot.subsystems.Collector;
 import frc.team1138.robot.commands.LeftCommand;
 import frc.team1138.robot.commands.MiddleCommand;
@@ -44,8 +46,7 @@ public class Robot extends IterativeRobot
 		 chooser.addDefault("Middle", new MiddleCommand());
 		 chooser.addObject("Right", new RightCommand());
 		 chooser.addObject("Left", new LeftCommand());
-		//SmartDashboard.putData("Auto mode", chooser);
-		SmartDashboard.putData(chooser);
+		SmartDashboard.putData("Auto mode", chooser);
 	}
 
 	/**
@@ -138,5 +139,7 @@ public class Robot extends IterativeRobot
 	@Override
 	public void testPeriodic()
 	{
+		LiveWindow.run();
+		Scheduler.getInstance().run();
 	}
 }
