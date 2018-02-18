@@ -8,6 +8,7 @@ import com.ctre.phoenix.sensors.PigeonIMU;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 /**
@@ -67,19 +68,70 @@ public class DriveBase extends Subsystem
 
 		// Configuring the sensors
 		shifterSolenoid = new DoubleSolenoid(KShifterSolenoid1, KShifterSolenoid2);
-		pigeonIMU = new PigeonIMU(baseLeftFront); // TODO find out which talon it's actually on
+		pigeonIMU = new PigeonIMU(getBaseLeftFront()); // TODO find out which talon it's actually on
 		pigeonIMU.setYaw(0, 0);
-		baseLeftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-		baseRightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		getBaseLeftFront().configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+//		baseRightTop.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		
 		baseRightFront.configOpenloopRamp(1, 0);
 		baseRightBack.configOpenloopRamp(1, 0);
-//		baseRightTop.configOpenloopRamp(1, 0);
-		baseLeftFront.configOpenloopRamp(1, 0);
+		//baseRightTop.configOpenloopRamp(1, 0);
+		getBaseLeftFront().configOpenloopRamp(1, 0);
 		baseLeftBack.configOpenloopRamp(1, 0);
-//		baseLeftTop.configOpenloopRamp(1, 0);
+		//baseLeftTop.configOpenloopRamp(1, 0);
+		
+	}
+	
+	//Note: If there is a problem, use Control + /. It will solve all the errors.
+	//Also: If it's not working, it's all Leo's fault - Connor Nicholls, 2018
+	
+	public void clearTalonStickyFaults()
+	{
+		getBaseLeftFront().clearStickyFaults(5000);
+		baseRightFront.clearStickyFaults(5000);
+		baseLeftBack.clearStickyFaults(5000);
+		baseRightBack.clearStickyFaults(5000);
+//		baseLeftTop.clearStickyFaults(5000);
+//		baseRightTop.clearStickyFaults(5000);
+	}
+	
+	public boolean getTalonStickyFaults(TalonSRX talon)
+	{
+		StickyFaults f = new StickyFaults();
+		talon.getStickyFaults(f);
+		return f.hasAnyFault();
 	}
 
+	public TalonSRX getBaseLeftFront()
+	{
+		return baseLeftFront;
+	}
+	
+	public TalonSRX getBaseRightFront()
+	{
+		return baseLeftFront;
+	}
+
+	public TalonSRX getBaseLeftBack()
+	{
+		return baseLeftBack;
+	}
+	
+	public TalonSRX getBaseRightBack()
+	{
+		return baseRightBack;
+	}
+	
+//	public TalonSRX getBaseLeftTop()
+//	{
+//		return baseLeftTop;
+//	}
+//	
+//	public TalonSRX getBaseRightTop()
+//	{
+//		return baseRightTop;
+//	}
+	
 	public void initDefaultCommand()
 	{
 		// Set the default command for a subsystem here.
@@ -103,7 +155,7 @@ public class DriveBase extends Subsystem
 	// Resets both encoders
 	public void resetEncoders()
 	{
-		baseLeftFront.getSensorCollection().setQuadraturePosition(0, 0);
+		getBaseLeftFront().getSensorCollection().setQuadraturePosition(0, 0);
 		baseRightFront.getSensorCollection().setQuadraturePosition(0, 0);
 	}
 
@@ -119,22 +171,22 @@ public class DriveBase extends Subsystem
 		return baseRightFront.getSelectedSensorPosition(0);
 	}
 
-	public void cureCancer() // We have found the cure to cancer!
-	{
-		baseRightFront.clearStickyFaults(10);
-		baseLeftFront.clearStickyFaults(10);
-	}
+// 	public void cureCancer() // We have found the cure to cancer!
+// 	{
+// 		baseRightFront.clearStickyFaults(10);
+// 		baseLeftFront.clearStickyFaults(10);
+// 	}
 
 	// Used to drive the base in a "tank drive" format, this is the standard
 	public void tankDrive(double left, double right)
 	{
 		if (left > KDeadZoneLimit || left < -KDeadZoneLimit)
 		{
-			baseLeftFront.set(ControlMode.PercentOutput, left);
+			getBaseLeftFront().set(ControlMode.PercentOutput, left);
 		}
 		else
 		{
-			baseLeftFront.set(ControlMode.PercentOutput, 0);
+			getBaseLeftFront().set(ControlMode.PercentOutput, 0);
 		}
 
 		if (right > KDeadZoneLimit || right < -KDeadZoneLimit)
