@@ -12,48 +12,38 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1138.robot.Robot;
 
 
-/**
- * @author Zheyuan Hu
- * @version 1.0.0 This Command requires Robot.SUB_DRIVE_BASE
- */
-public class TestMotionProfile extends Command
+public class AutonCrossLine extends Command
 {
-	private ProfileExecutor leftMP, rightMP;
+    private ProfileExecutor leftMP, rightMP;
     private double kP, kD, kI;
-	public TestMotionProfile()
+	public AutonCrossLine()
 	{
-		// TODO Auto-generated constructor stub
-        requires(Robot.DRIVE_BASE);
+		requires(Robot.DRIVE_BASE);
 	}
 
-	// Called just before this Command runs the first time
-	@Override
 	protected void initialize()
 	{
-        Robot.DRIVE_BASE.resetEncoders();
-		leftMP = new ProfileExecutor(Robot.DRIVE_BASE.getLeftMotor(), LeftProfiles.Cross_Line);
-		rightMP = new ProfileExecutor(Robot.DRIVE_BASE.getRightMotor(), RightProfiles.Cross_Line);
-	}
-
-	// Called repeatedly when this Command is scheduled to run
-	@Override
-	protected void execute()
-	{
-        kP = SmartDashboard.getNumber("Left kP", 0);
-        kI = SmartDashboard.getNumber("Left kI", 0);
-        kD = SmartDashboard.getNumber("Left kD", 0);
+        kP = 0;
+        kI = 0;
+        kD = 0;
 
         Robot.DRIVE_BASE.getLeftMotor().config_kP(0, kP, Constants.kTimeoutMs);
         Robot.DRIVE_BASE.getLeftMotor().config_kI(0, kI, Constants.kTimeoutMs);
-		Robot.DRIVE_BASE.getLeftMotor().config_kD(0, kD, Constants.kTimeoutMs);
-		// Robot.DRIVE_BASE.getLeftMotor().config_kF(0, 0.4, Constants.kTimeoutMs);
-        Robot.DRIVE_BASE.getLeftMotor().config_kF(0, 0.02827216, Constants.kTimeoutMs);
+        Robot.DRIVE_BASE.getLeftMotor().config_kD(0, kD, Constants.kTimeoutMs);
+        Robot.DRIVE_BASE.getLeftMotor().config_kF(0, 0.45, Constants.kTimeoutMs);
 
 		Robot.DRIVE_BASE.getRightMotor().config_kP(0, kP, Constants.kTimeoutMs);
         Robot.DRIVE_BASE.getRightMotor().config_kI(0, kI, Constants.kTimeoutMs);
         Robot.DRIVE_BASE.getRightMotor().config_kD(0, kD, Constants.kTimeoutMs);
-        Robot.DRIVE_BASE.getRightMotor().config_kF(0, 0.02760091, Constants.kTimeoutMs);
+        Robot.DRIVE_BASE.getRightMotor().config_kF(0, 0.4, Constants.kTimeoutMs);
+        Robot.DRIVE_BASE.resetEncoders();
 
+		leftMP = new ProfileExecutor(Robot.DRIVE_BASE.getLeftMotor(), LeftProfiles.Cross_Line);
+		rightMP = new ProfileExecutor(Robot.DRIVE_BASE.getRightMotor(), RightProfiles.Cross_Line);
+	}
+
+	protected void execute()
+	{
 		leftMP.control();
 		rightMP.control();
 		leftMP.startMotionProfile();
@@ -66,7 +56,6 @@ public class TestMotionProfile extends Command
 		SmartDashboard.putNumber("MP Right Motor Output", Robot.DRIVE_BASE.getRightMotor().getMotorOutputPercent());
 	}
 
-	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished()
 	{
@@ -74,8 +63,6 @@ public class TestMotionProfile extends Command
 		 rightMP.getValue() == SetValueMotionProfile.Hold;
 	}
 
-	// Called once after isFinished returns true
-	@Override
 	protected void end()
 	{
         Robot.DRIVE_BASE.setLeftMotionControl(ControlMode.PercentOutput, 0);
@@ -84,9 +71,6 @@ public class TestMotionProfile extends Command
 		rightMP.reset();
 	}
 
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
-	@Override
 	protected void interrupted()
 	{
         super.interrupted();
