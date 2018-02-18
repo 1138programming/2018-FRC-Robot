@@ -11,6 +11,7 @@ import frc.team1138.robot.commands.MoveArmToExchange;
 import frc.team1138.robot.commands.PositionLift;
 import frc.team1138.robot.commands.ShiftBase;
 import frc.team1138.robot.commands.ShiftLift;
+import frc.team1138.robot.commands.TestMotionProfile;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -27,6 +28,7 @@ public class OI
 	public static final int KXBoxController = 1; // Arms and lifts driver
 
 	// Logitech button definitions - look below for usage
+	public static final int KButton1 = 1;
 	public static final int KButton7 = 7;
 	public static final int KButton2 = 2;
 	public static final int KButton3 = 3;
@@ -46,7 +48,7 @@ public class OI
 
 	// Define joysticks and joystick buttons
 	private Joystick logitechController, xBoxController;
-	private JoystickButton btn7, btn2, btn3, btn4, btn5, btn6, btn8; // Logitech Button
+	private JoystickButton btn1, btn7, btn2, btn3, btn4, btn5, btn6, btn8; // Logitech Button
 	private JoystickButton btnA, btnB, btnX, btnY, btnLB, btnRB, btnStrt;
 
 	public OI()
@@ -55,6 +57,7 @@ public class OI
 		xBoxController = new Joystick(KXBoxController);
 
 		// Logitech Buttons
+		btn1 = new JoystickButton(logitechController, KButton1);
 		btn7 = new JoystickButton(logitechController, KButton7);
 		btn2 = new JoystickButton(logitechController, KButton2);
 		btn3 = new JoystickButton(logitechController, KButton3);
@@ -70,8 +73,9 @@ public class OI
 		btnY = new JoystickButton(xBoxController, KButtonY);
 		btnLB = new JoystickButton(xBoxController, KLeftBumper);
 		btnRB = new JoystickButton(xBoxController, KRightBumper);
+    
+		btn1.whenPressed(new TestMotionProfile());
 		btnStrt = new JoystickButton(xBoxController, KStartButton);
-		
 		btn7.whenPressed(new ClearStickyFaults()); //Clears sticky faults
 		// btn2.whenPressed(); //Nothing assigned yet, probably will be when we have the lift mechanism going
 		btn3.whenPressed(new ShiftLift()); // Toggles rollers collecting
