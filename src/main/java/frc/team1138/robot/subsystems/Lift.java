@@ -6,10 +6,6 @@ import edu.wpi.first.wpilibj.I2C;
 
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-<<<<<<< HEAD
-
-import frc.team1138.robot.commands.DriveLiftPID;
-=======
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1138.robot.RobotMap;
@@ -19,11 +15,6 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
 import frc.team1138.robot.commands.DriveLiftPID;
-
-import java.lang.invoke.ConstantCallSite;
->>>>>>> master
-
-import java.lang.invoke.ConstantCallSite;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;

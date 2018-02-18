@@ -1,14 +1,10 @@
 package frc.team1138.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
-<<<<<<< HEAD
-import edu.wpi.first.wpilibj.DigitalInput;
-=======
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.DigitalInput;
 import frc.team1138.robot.commands.MoveArmWithJoysticks;
->>>>>>> master
 import frc.team1138.robot.commands.MoveArmWithJoysticksPID;
 import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.ControlMode;

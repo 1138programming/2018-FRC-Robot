@@ -114,6 +114,9 @@ public class Robot extends IterativeRobot
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		Robot.DRIVE_BASE.resetEncoders();
+		SmartDashboard.putNumber("Left kP", 0);
+        SmartDashboard.putNumber("Left kI", 0);
+        SmartDashboard.putNumber("Left kD", 0);
 	}
 
 	/**
@@ -126,12 +129,7 @@ public class Robot extends IterativeRobot
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("Right Base Encoder", Robot.DRIVE_BASE.getRightEncoderValue());
 		SmartDashboard.putNumber("Left Base Encoder", Robot.DRIVE_BASE.getLeftEncoderValue());
-<<<<<<< HEAD
 		// Robot.DRIVE_BASE.cureCancer();
-=======
-//		Robot.DRIVE_BASE.cureCancer();
-
->>>>>>> master
 	}
 
 	/**
