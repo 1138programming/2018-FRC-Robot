@@ -2,7 +2,6 @@ package frc.team1138.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.team1138.robot.RobotMap;
 import frc.team1138.robot.commands.DriveWithJoysticks;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
@@ -18,7 +17,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 public class DriveBase extends Subsystem
 {
 	// Declaring the talons and sensors
-	private TalonSRX baseLeftFront, baseLeftBack, baseLeftTop, baseRightFront, baseRightBack, baseRightTop;
+	private TalonSRX baseLeftFront, baseLeftBack, baseRightFront, baseRightBack;
 
 	private PigeonIMU pigeonIMU;
 	private DoubleSolenoid shifterSolenoid;
@@ -48,21 +47,24 @@ public class DriveBase extends Subsystem
 		// Setting up base talons
 		baseLeftFront = new TalonSRX(KBaseLeftFrontTalon);
 		baseLeftBack = new TalonSRX(KBaseLeftBackTalon);
-		baseLeftTop = new TalonSRX(KBaseLeftTopTalon);
+//		baseLeftTop = new TalonSRX(KBaseLeftTopTalon);
 		baseRightFront = new TalonSRX(KBaseRightFrontTalon);
 		baseRightBack = new TalonSRX(KBaseRightBackTalon);
-		baseRightTop = new TalonSRX(KBaseRightTopTalon);
+//		baseRightTop = new TalonSRX(KBaseRightTopTalon);
 
+//		baseLeftBack.setSensorPhase(true);
+//		baseLeftTop.setSensorPhase(true);
+//		baseLeftFront.setSensorPhase(true);
 		// Configuring the masters
-		baseRightFront.setInverted(true);
-		baseRightBack.setInverted(true);
-		baseRightTop.setInverted(true);
+		baseLeftFront.setInverted(true);
+		baseLeftBack.setInverted(true);
+//		baseLeftTop.setInverted(true);
 
 		// Configuring the slaves
-		baseLeftBack.set(ControlMode.Follower, getBaseLeftFront().getDeviceID());
-		baseLeftTop.set(ControlMode.Follower, getBaseLeftFront().getDeviceID());
+		baseLeftBack.set(ControlMode.Follower, baseLeftFront.getDeviceID());
+//		baseLeftTop.set(ControlMode.Follower, baseLeftFront.getDeviceID());
 		baseRightBack.set(ControlMode.Follower, baseRightFront.getDeviceID());
-		baseRightTop.set(ControlMode.Follower, baseRightFront.getDeviceID());
+//		baseRightTop.set(ControlMode.Follower, baseRightFront.getDeviceID());
 
 		// Configuring the sensors
 		shifterSolenoid = new DoubleSolenoid(KShifterSolenoid1, KShifterSolenoid2);
@@ -73,10 +75,10 @@ public class DriveBase extends Subsystem
 		
 		baseRightFront.configOpenloopRamp(1, 0);
 		baseRightBack.configOpenloopRamp(1, 0);
-		baseRightTop.configOpenloopRamp(1, 0);
+		//baseRightTop.configOpenloopRamp(1, 0);
 		getBaseLeftFront().configOpenloopRamp(1, 0);
 		baseLeftBack.configOpenloopRamp(1, 0);
-		baseLeftTop.configOpenloopRamp(1, 0);
+		//baseLeftTop.configOpenloopRamp(1, 0);
 		
 	}
 	
@@ -160,14 +162,20 @@ public class DriveBase extends Subsystem
 	// Returns value of the left encoder
 	public double getLeftEncoderValue()
 	{
-		return getBaseLeftFront().getSensorCollection().getQuadraturePosition(); // May need to be reversed
+		return baseLeftFront.getSelectedSensorPosition(0);
 	}
 
 	// Returns value of the right encoder
 	public double getRightEncoderValue()
 	{
-		return baseRightFront.getSensorCollection().getQuadraturePosition();
+		return baseRightFront.getSelectedSensorPosition(0);
 	}
+
+// 	public void cureCancer() // We have found the cure to cancer!
+// 	{
+// 		baseRightFront.clearStickyFaults(10);
+// 		baseLeftFront.clearStickyFaults(10);
+// 	}
 
 	// Used to drive the base in a "tank drive" format, this is the standard
 	public void tankDrive(double left, double right)
@@ -214,5 +222,21 @@ public class DriveBase extends Subsystem
 		{
 			lowShiftBase();
 		}
+	}
+
+	public void setLeftMotionControl(ControlMode mode, double value) {
+		this.baseLeftFront.set(mode, value);
+	}
+	
+	public void setRightMotionControl(ControlMode mode, double value) {
+		this.baseRightFront.set(mode, value);
+	}
+	
+	public TalonSRX getRightMotor() {
+		return this.baseRightFront; 
+	}
+	
+	public TalonSRX getLeftMotor() {
+		return this.baseLeftFront; 
 	}
 }

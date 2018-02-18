@@ -89,7 +89,7 @@ public class OI
 		if (logitechController.getThrottle() < -KXboxDeadZoneLimit
 				|| logitechController.getThrottle() > KXboxDeadZoneLimit)
 		{
-			return logitechController.getThrottle(); // TODO check if it's twist for z-rotate axis
+			return -logitechController.getThrottle(); // TODO check if it's twist for z-rotate axis
 		}
 		else
 		{
@@ -101,7 +101,7 @@ public class OI
 	{ // Left controller is left side drive
 		if (logitechController.getY() < -KXboxDeadZoneLimit || logitechController.getY() > KXboxDeadZoneLimit)
 		{
-			return logitechController.getY();
+			return -logitechController.getY();
 		}
 		else
 		{
