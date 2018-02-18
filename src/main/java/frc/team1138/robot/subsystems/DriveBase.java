@@ -34,7 +34,7 @@ public class DriveBase extends Subsystem
 	// All of the solenoids are doubles, so they need 2 numbers each. If you change
 	// one,
 	// be sure to change the other one of the pair also.
-	public static final int KShifterSolenoid1 = 0;
+	public static final int KShifterSolenoid1 = 1;
 	public static final int KShifterSolenoid2 = 2;
 
 	// Variable for base ultrasonic

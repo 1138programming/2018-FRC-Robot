@@ -79,7 +79,9 @@ public class OI
 		btn5.whenPressed(new ShiftBase()); // Shifts the base
 		
 		btnLB.whenPressed(new EjectCube());
+//		btnLB.toggleWhenPressed(new EjectCube());
 		btnRB.whenPressed(new CollectCube());
+//		btnRB.toggleWhenPressed(new CollectCube());
 		btnA.whenPressed(new CycleArm()); // Puts the arm through a full cycle
 		btnB.whenPressed(new MoveArmToExchange()); // Moves the arm to the exchange position
 //		btnX.whenPressed(new PositionLift(5)); // High position TODO test these values

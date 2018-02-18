@@ -57,7 +57,7 @@ public class Lift extends /*PID*/Subsystem
 	public static final double KGravity = 0.4;
 	private static final double KTicksPerRotation = 4096;
 	private static final int KSolSpot1 = 4;
-	private static final int KSolSpot2 = 3;
+	private static final int KSolSpot2 = 5;
 	private static final double KMotorRevDividedByOutputRotation = 39.2;
 	private static final double KOneOverMotorRevOutputRotation = .02551020408;
 	private static final int I2CENCODER_DEFAULT_ADDRESS = 0X30;

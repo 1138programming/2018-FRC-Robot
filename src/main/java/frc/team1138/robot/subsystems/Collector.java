@@ -1,6 +1,7 @@
 package frc.team1138.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,7 +24,8 @@ public class Collector extends Subsystem
 	public static final int KLeftCollectorMotor = 10;
 	public static final int KRightCollectorMotor = 11;
 	public static final int KCubPossLimit = 0;
-	public static final int KPlunger = 5;
+	public static final int KPlunger1 = 3;
+//	public static final int KPlunger2 = 7;
 	public static final double KCollectorSpeed = .7;
 	public static final boolean KForward = true;
 	public static final boolean KBackward = false;
@@ -44,7 +46,7 @@ public class Collector extends Subsystem
 		leftCollector.set(ControlMode.Follower, rightCollector.getDeviceID());
 
 		// Solenoid
-		plunger = new Solenoid(KPlunger);
+		plunger = new Solenoid(KPlunger1);
 	}
 
 	public void initDefaultCommand()
@@ -64,7 +66,7 @@ public class Collector extends Subsystem
 		plungerBackward(); // TODO check which way
 		if (rightCollector.getMotorOutputPercent() == 0)
 		{
-			rightCollector.set(ControlMode.PercentOutput, KCollectorSpeed);
+			rightCollector.set(ControlMode.PercentOutput, -KCollectorSpeed);
 		}
 		else
 		{
@@ -81,7 +83,8 @@ public class Collector extends Subsystem
 	{
 		if (rightCollector.getMotorOutputPercent() == 0)
 		{
-			rightCollector.set(ControlMode.PercentOutput, -KCollectorSpeed);
+			rightCollector.set(ControlMode.PercentOutput, KCollectorSpeed);
+			SmartDashboard.putNumber("Collector Motor", rightCollector.getMotorOutputPercent());
 			kickCubeWithPlunger(); // TODO check which way
 		}
 		else
@@ -93,26 +96,25 @@ public class Collector extends Subsystem
 	// The two methods cause the plunger to move forward or backward
 	public void plungerForward()
 	{
-		plunger.set(KForward);
+		plunger.set(/*DoubleSolenoid.Value.*/KForward);
 	}
 
 	public void plungerBackward()
 	{
-		plunger.set(KBackward);
+		plunger.set(/*DoubleSolenoid.Value.*/KBackward);
 	}
 
 	// The method causes the plunger to kick
 	public void kickCubeWithPlunger()
 	{
 		plungerForward();
-		plunger.setPulseDuration(0.30);
-		plunger.startPulse();
+		Timer.delay(0.3);
 		plungerBackward();
 	}
 	
 	public void togglePlunger()
 	{
-		if(plunger.get())
+		if(plunger.get() /*== DoubleSolenoid.Value.kForward*/)
 		{
 			plungerBackward();
 		}
@@ -120,6 +122,6 @@ public class Collector extends Subsystem
 		{
 			plungerForward();
 		}
-		SmartDashboard.putBoolean("Plunger", plunger.get());
+//		SmartDashboard.putString("Plunger", plunger.get().toString());
 	}
 }
