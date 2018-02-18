@@ -1,37 +1,39 @@
 package frc.team1138.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1138.robot.Robot;
 
-public class EjectCube extends Command
+public class StopLeftCollector extends Command
 {
 
-	public EjectCube()
+	public StopLeftCollector()
 	{
 		requires(Robot.COLLECTOR);
 	}
 
 	protected void initialize()
 	{
-//		Robot.COLLECTOR.kickCubeWithPlunger();
+
 	}
 
 	protected void execute()
 	{
-		Robot.COLLECTOR.ejectCubeWithRollers();
+		Robot.COLLECTOR.stopCollectorLeft();
+		//SmartDashboard.putBoolean("", value);
 	}
 
 	@Override
 	protected boolean isFinished()
 	{
 		// TODO Auto-generated method stub
-		return true;
 //		return false;
+		return true;
 	}
 
 	protected void end()
 	{
-//		Robot.COLLECTOR.stopCollector();	
+//		Robot.COLLECTOR.stopCollector();
 	}
 
 	protected void interrupted()

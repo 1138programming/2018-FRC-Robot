@@ -4,10 +4,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1138.robot.Robot;
 
-public class CollectCube extends Command
+public class CollectCubeRight extends Command
 {
 
-	public CollectCube()
+	public CollectCubeRight()
 	{
 		requires(Robot.COLLECTOR);
 	}
@@ -19,7 +19,7 @@ public class CollectCube extends Command
 
 	protected void execute()
 	{
-		Robot.COLLECTOR.collectCubeWithRollers();
+		Robot.COLLECTOR.collectCubeWithRollersRight();
 		//SmartDashboard.putBoolean("", value);
 	}
 
@@ -27,16 +27,17 @@ public class CollectCube extends Command
 	protected boolean isFinished()
 	{
 		// TODO Auto-generated method stub
+//		return false;
 		return true;
-//		if()
-//			return true
 	}
 
 	protected void end()
 	{
+//		Robot.COLLECTOR.stopCollector();
 	}
 
 	protected void interrupted()
 	{
+//		end();
 	}
 }

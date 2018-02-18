@@ -31,7 +31,7 @@ public class Lift extends /*PID*/Subsystem
 	// Declaring the talons and sensors for the lift branch
 	private TalonSRX frontLift, backLift;
 	private Victor rightLatch, leftLatch;
-	private DoubleSolenoid speedShiftSolenoid;
+	private DoubleSolenoid speedShiftSolenoid, ratchetSolenoid;
 	private DigitalInput hangLimit1, hangLimit2;
 	private I2C leftIME, rightIME;
 //	private Encoder leftIME, rightIME;
@@ -59,6 +59,8 @@ public class Lift extends /*PID*/Subsystem
 	private static final int I2CENDCODER_POSITION_REGISTER = 0X40;
 	private static final int I2CENCODER_STARTING_ADDRESS = 0X10;
 	private static final int TICKS = 8;
+	private static final int KRatchet1 = 6;
+	private static final int KRatchet2 = 7;
 	
 
 	public static final int KLeftIME = I2CENCODER_STARTING_ADDRESS;
@@ -86,6 +88,7 @@ public class Lift extends /*PID*/Subsystem
 		
 		// Configuring the solenoid
 		speedShiftSolenoid = new DoubleSolenoid(KSolSpot1, KSolSpot2);
+		ratchetSolenoid = new DoubleSolenoid(KRatchet1, KRatchet2);
 
 		// Configuring the sensors
 		hangLimit1 = new DigitalInput(KHangLimit); // Limit switch
@@ -266,4 +269,28 @@ public class Lift extends /*PID*/Subsystem
 //			
 //		}
 //
+	
+	// Shifts the lift to the high speed position
+	private void engageRatchet()
+	{
+		ratchetSolenoid.set(DoubleSolenoid.Value.kReverse);
+	}
+
+	// Shifts the lift the low speed position
+	private void disengageRatchet()
+	{
+		ratchetSolenoid.set(DoubleSolenoid.Value.kForward);
+	}
+	
+	public void ratchetIt()
+	{
+		if (ratchetSolenoid.get() == DoubleSolenoid.Value.kForward)
+		{
+			engageRatchet();
+		}
+		else
+		{
+			disengageRatchet();
+		}
+	}
 }

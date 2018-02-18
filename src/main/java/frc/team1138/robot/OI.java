@@ -3,7 +3,8 @@ package frc.team1138.robot;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.team1138.robot.commands.ClearStickyFaults;
-import frc.team1138.robot.commands.CollectCube;
+import frc.team1138.robot.commands.CollectCubeLeft;
+import frc.team1138.robot.commands.CollectCubeRight;
 import frc.team1138.robot.commands.CycleArm;
 import frc.team1138.robot.commands.EjectCube;
 import frc.team1138.robot.commands.KickCube;
@@ -11,7 +12,10 @@ import frc.team1138.robot.commands.MoveArmToExchange;
 import frc.team1138.robot.commands.PositionLift;
 import frc.team1138.robot.commands.ShiftBase;
 import frc.team1138.robot.commands.ShiftLift;
+import frc.team1138.robot.commands.StopLeftCollector;
+import frc.team1138.robot.commands.StopRightCollector;
 import frc.team1138.robot.commands.TestMotionProfile;
+import frc.team1138.robot.commands.ToggleRatchet;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -43,6 +47,10 @@ public class OI
 	public static final int KLeftBumper = 5;
 	public static final int KRightBumper = 6;
 	public static final int KStartButton = 8;
+	
+	//Booleans to toggle the collect and eject functions
+	public static boolean toggleCollect = false;
+	public static boolean toggleEject = false;
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.
 
@@ -82,13 +90,15 @@ public class OI
 //		btn4.whenPressed(new EjectCube()); // Toggles rollers ejecting
 		btn5.whenPressed(new ShiftBase()); // Shifts the base
 		
-		btnLB.whenPressed(new EjectCube());
-//		btnLB.toggleWhenPressed(new EjectCube());
-		btnRB.whenPressed(new CollectCube());
-//		btnRB.toggleWhenPressed(new CollectCube());
+		btnLB.whenPressed(new CollectCubeLeft());
+		btnLB.whenReleased(new StopLeftCollector());
+		btnRB.whenPressed(new CollectCubeRight());
+		btnRB.whenReleased(new StopRightCollector());
 		btnA.whenPressed(new CycleArm()); // Puts the arm through a full cycle
 		btnB.whenPressed(new MoveArmToExchange()); // Moves the arm to the exchange position
 //		btnX.whenPressed(new PositionLift(5)); // High position TODO test these values
+		btnX.whenPressed(new EjectCube());
+		btnY.whenPressed(new ToggleRatchet());
 //		btnY.whenPressed(new ShiftLift()); // Shifts the lift speed
 //		btnRB.whenPressed(new PositionLift(3)); // Middle position
 //		btnLB.whenPressed(new PositionLift(1)); // Low position

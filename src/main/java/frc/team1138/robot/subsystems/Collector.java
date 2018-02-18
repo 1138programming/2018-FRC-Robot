@@ -40,10 +40,7 @@ public class Collector extends Subsystem
 		leftCollector = new TalonSRX(KLeftCollectorMotor);
 
 		// Configuring the masters
-		rightCollector.setInverted(true);
-
-		// Configuring the slaves
-		leftCollector.set(ControlMode.Follower, rightCollector.getDeviceID());
+		leftCollector.setInverted(true);
 
 		// Solenoid
 		plunger = new Solenoid(KPlunger1);
@@ -61,18 +58,20 @@ public class Collector extends Subsystem
 	// both at
 	// the same time
 
-	public void collectCubeWithRollers()
+	public void collectCubeWithRollersRight()
 	{
-		plungerBackward(); // TODO check which way
-		if (rightCollector.getMotorOutputPercent() == 0)
-		{
-			rightCollector.set(ControlMode.PercentOutput, -KCollectorSpeed);
-		}
-		else
-		{
-			rightCollector.set(ControlMode.PercentOutput, 0);
-		}
+		rightCollector.set(ControlMode.PercentOutput, -1);
 	}
+	
+	public void collectCubeWithRollersLeft()
+	{
+		leftCollector.set(ControlMode.PercentOutput, -1);
+	}
+	
+//	public void collectCubeWithRollers()
+//	{
+//		rightCollector.set(ControlMode.PercentOutput, -KCollectorSpeed);
+//	}
 
 	// This command causes the rollers to go at the -KCollectorSpeed if the motors
 	// aren't
@@ -81,18 +80,41 @@ public class Collector extends Subsystem
 	// the same time
 	public void ejectCubeWithRollers()
 	{
-		if (rightCollector.getMotorOutputPercent() == 0)
+		if (rightCollector.getMotorOutputPercent() == 0 && leftCollector.getMotorOutputPercent() == 0)
 		{
-			rightCollector.set(ControlMode.PercentOutput, KCollectorSpeed);
-			SmartDashboard.putNumber("Collector Motor", rightCollector.getMotorOutputPercent());
+			rightCollector.set(ControlMode.PercentOutput, 1);
+			leftCollector.set(ControlMode.PercentOutput, 1);
+			SmartDashboard.putNumber("Right Collector Motor", rightCollector.getMotorOutputPercent());
+			SmartDashboard.putNumber("Left Collector Motor", leftCollector.getMotorOutputPercent());
 			kickCubeWithPlunger(); // TODO check which way
 		}
 		else
 		{
-			rightCollector.set(ControlMode.PercentOutput, 0);
+			stopCollector();
 		}
 	}
 
+//	public void ejectCubeWithRollers()
+//	{
+//		rightCollector.set(ControlMode.PercentOutput, KCollectorSpeed);
+//	}
+	
+	public void stopCollector()
+	{
+		rightCollector.set(ControlMode.PercentOutput, 0);
+		leftCollector.set(ControlMode.PercentOutput, 0);
+	}
+	
+	public void stopCollectorRight()
+	{
+		rightCollector.set(ControlMode.PercentOutput, 0);
+	}
+	
+	public void stopCollectorLeft()
+	{
+		leftCollector.set(ControlMode.PercentOutput, 0);
+	}
+	
 	// The two methods cause the plunger to move forward or backward
 	public void plungerForward()
 	{

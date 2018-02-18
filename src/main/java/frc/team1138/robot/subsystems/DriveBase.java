@@ -73,11 +73,12 @@ public class DriveBase extends Subsystem
 		getBaseLeftFront().configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 //		baseRightTop.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		
-		baseRightFront.configOpenloopRamp(1, 0);
-		baseRightBack.configOpenloopRamp(1, 0);
+		//We don't want ramping rn
+//		baseRightFront.configOpenloopRamp(1, 0);
+//		baseRightBack.configOpenloopRamp(1, 0);
 		//baseRightTop.configOpenloopRamp(1, 0);
-		getBaseLeftFront().configOpenloopRamp(1, 0);
-		baseLeftBack.configOpenloopRamp(1, 0);
+//		getBaseLeftFront().configOpenloopRamp(1, 0);
+//		baseLeftBack.configOpenloopRamp(1, 0);
 		//baseLeftTop.configOpenloopRamp(1, 0);
 		
 	}
