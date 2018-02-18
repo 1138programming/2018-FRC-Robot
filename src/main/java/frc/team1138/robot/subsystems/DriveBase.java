@@ -71,7 +71,7 @@ public class DriveBase extends Subsystem
 		pigeonIMU = new PigeonIMU(getBaseLeftFront()); // TODO find out which talon it's actually on
 		pigeonIMU.setYaw(0, 0);
 		getBaseLeftFront().configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-		baseRightTop.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+//		baseRightTop.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		
 		baseRightFront.configOpenloopRamp(1, 0);
 		baseRightBack.configOpenloopRamp(1, 0);
@@ -91,8 +91,8 @@ public class DriveBase extends Subsystem
 		baseRightFront.clearStickyFaults(5000);
 		baseLeftBack.clearStickyFaults(5000);
 		baseRightBack.clearStickyFaults(5000);
-		baseLeftTop.clearStickyFaults(5000);
-		baseRightTop.clearStickyFaults(5000);
+//		baseLeftTop.clearStickyFaults(5000);
+//		baseRightTop.clearStickyFaults(5000);
 	}
 	
 	public boolean getTalonStickyFaults(TalonSRX talon)
@@ -122,15 +122,15 @@ public class DriveBase extends Subsystem
 		return baseRightBack;
 	}
 	
-	public TalonSRX getBaseLeftTop()
-	{
-		return baseLeftTop;
-	}
-	
-	public TalonSRX getBaseRightTop()
-	{
-		return baseRightTop;
-	}
+//	public TalonSRX getBaseLeftTop()
+//	{
+//		return baseLeftTop;
+//	}
+//	
+//	public TalonSRX getBaseRightTop()
+//	{
+//		return baseRightTop;
+//	}
 	
 	public void initDefaultCommand()
 	{
