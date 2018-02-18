@@ -3,6 +3,8 @@ package frc.team1138.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Talon;
@@ -106,5 +108,18 @@ public class Collector extends Subsystem
 		plunger.setPulseDuration(0.30);
 		plunger.startPulse();
 		plungerBackward();
+	}
+	
+	public void togglePlunger()
+	{
+		if(plunger.get())
+		{
+			plungerBackward();
+		}
+		else 
+		{
+			plungerForward();
+		}
+		SmartDashboard.putBoolean("Plunger", plunger.get());
 	}
 }

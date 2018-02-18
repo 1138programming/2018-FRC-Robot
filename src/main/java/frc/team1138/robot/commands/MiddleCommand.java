@@ -11,7 +11,7 @@ public class MiddleCommand extends CommandGroup
 	{
 		requires(Robot.DRIVE_BASE);
 		requires(Robot.ARM);
-		if(gameData.charAt(0) == 'L')
+		if(gameData!=null && gameData.charAt(0) == 'L')
 		{
 			addSequential(new TurnWithGyro(6, 5)); //TODO revise this when motion profiling's done
 		}

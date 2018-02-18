@@ -46,7 +46,7 @@ public class OI
 
 	// Define joysticks and joystick buttons
 	private Joystick logitechController, xBoxController;
-	private JoystickButton btn7, btn2, btn3, btn4, btn6; // Logitech Button
+	private JoystickButton btn7, btn2, btn3, btn4, btn5, btn6, btn8; // Logitech Button
 	private JoystickButton btnA, btnB, btnX, btnY, btnLB, btnRB, btnStrt;
 
 	public OI()
@@ -59,7 +59,9 @@ public class OI
 		btn2 = new JoystickButton(logitechController, KButton2);
 		btn3 = new JoystickButton(logitechController, KButton3);
 		btn4 = new JoystickButton(logitechController, KButton4);
+		btn5 = new JoystickButton(logitechController, 5);
 		btn6 = new JoystickButton(logitechController, KButton6);
+		btn8 = new JoystickButton(logitechController, 8);
 
 		// XBox Definitions (the functions of the buttons will change with time)
 		btnA = new JoystickButton(xBoxController, KButtonA);
@@ -68,19 +70,22 @@ public class OI
 		btnY = new JoystickButton(xBoxController, KButtonY);
 		btnLB = new JoystickButton(xBoxController, KLeftBumper);
 		btnRB = new JoystickButton(xBoxController, KRightBumper);
-		btnStrt = new JoystickButton(logitechController, KStartButton);
+		btnStrt = new JoystickButton(xBoxController, KStartButton);
 		
 		btn7.whenPressed(new ClearStickyFaults()); //Clears sticky faults
 		// btn2.whenPressed(); //Nothing assigned yet, probably will be when we have the lift mechanism going
-		btn3.whenPressed(new CollectCube()); // Toggles rollers collecting
-		btn4.whenPressed(new EjectCube()); // Toggles rollers ejecting
-		btn6.whenPressed(new ShiftBase()); // Shifts the base
+		btn3.whenPressed(new ShiftLift()); // Toggles rollers collecting
+//		btn4.whenPressed(new EjectCube()); // Toggles rollers ejecting
+		btn5.whenPressed(new ShiftBase()); // Shifts the base
+		
+		btnLB.whenPressed(new EjectCube());
+		btnRB.whenPressed(new CollectCube());
 		btnA.whenPressed(new CycleArm()); // Puts the arm through a full cycle
 		btnB.whenPressed(new MoveArmToExchange()); // Moves the arm to the exchange position
-		btnX.whenPressed(new PositionLift(5)); // High position TODO test these values
-		btnY.whenPressed(new ShiftLift()); // Shifts the lift speed
-		btnRB.whenPressed(new PositionLift(3)); // Middle position
-		btnLB.whenPressed(new PositionLift(1)); // Low position
+//		btnX.whenPressed(new PositionLift(5)); // High position TODO test these values
+//		btnY.whenPressed(new ShiftLift()); // Shifts the lift speed
+//		btnRB.whenPressed(new PositionLift(3)); // Middle position
+//		btnLB.whenPressed(new PositionLift(1)); // Low position
 		btnStrt.whenPressed(new KickCube()); // Kicks the cube when it may be stuck using the plunger
 	}
 
@@ -134,5 +139,15 @@ public class OI
 	public double getXBoxPOV()
 	{ // POV left and right is dumper conveyor
 		return xBoxController.getRawAxis(6);
+	}
+	
+	public boolean triggerLiftUp()
+	{
+		return btn6.get();
+	}
+	
+	public boolean triggerLiftDown()
+	{
+		return btn8.get();
 	}
 }
