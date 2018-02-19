@@ -3,7 +3,7 @@ package frc.team1138.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.I2C;
-
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 
@@ -15,6 +15,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import frc.team1138.robot.OI;
+
 /**
  *
  */
@@ -23,6 +25,7 @@ public class Lift extends PIDSubsystem
 	// Declaring the talons and sensors for the lift branch
 	private TalonSRX frontLift, backLift;
 	private Victor rightLatch, leftLatch;
+	private Servo latch;
 	private DoubleSolenoid speedShiftSolenoid;
 	private DigitalInput hangLimit1, hangLimit2;
 	private I2C leftIME, rightIME;
@@ -34,6 +37,7 @@ public class Lift extends PIDSubsystem
 	public static final int KBackLiftTalon = 9;
 	public static final int KRightLatchVictor = 0;
 	public static final int KLeftLatchVictor = 1;
+	public static final int KLatchServo = 0;
 	//public static final int KLeftIME = 6;
 	//public static final int KRightIME = 7; 
 	public static final int KHangLimit = 3;
@@ -50,10 +54,14 @@ public class Lift extends PIDSubsystem
 	private static final int I2CENDCODER_POSITION_REGISTER = 0X40;
 	private static final int I2CENCODER_STARTING_ADDRESS = 0X10;
 	private static final int TICKS = 8;
-	
+	private static final double survoPosition = 77.61; //This is the number I calculated for the exact angle for the latches.
+	public static int servoWaiting = 0;
 
 	public static final int KLeftIME = I2CENCODER_STARTING_ADDRESS;
 	public static final int KRightIME = I2CENCODER_STARTING_ADDRESS + 1; 
+
+	private OI oi; 
+	
 
 	public Lift()
 	{
@@ -63,13 +71,14 @@ public class Lift extends PIDSubsystem
 		getPIDController().setContinuous(true); // Change based on need, probably should be continuous
 		getPIDController().setInputRange(-100000, 100000); // TODO figure out range after getting the bot
 		getPIDController().setOutputRange(-1.0, 1.0);
-
+		oi = new OI();
 		// Setting up base talons
 		frontLift = new TalonSRX(KFrontLiftTalon);
 		backLift = new TalonSRX(KBackLiftTalon);
 		//Latch 
 		rightLatch = new Victor(KRightLatchVictor);
 		leftLatch = new Victor(KLeftLatchVictor);
+		latch = new Servo(KLatchServo);
 		// Configuring the talons
 		frontLift.setInverted(true);
 		backLift.set(ControlMode.Follower, frontLift.getDeviceID());
@@ -257,4 +266,27 @@ public class Lift extends PIDSubsystem
 //			
 //		}
 //
+	public void moveLatch()
+	{
+
+		if(servoWaiting == 0)
+		{
+			latch.setAngle(115);
+			servoWaiting++;
+		}
+		else if(servoWaiting == 1 && oi.btn2.get())
+		{
+			latch.setAngle(200);
+			servoWaiting++;
+		}
+		else if(servoWaiting == 2 && oi.btn2.get())
+		{
+			latch.setAngle(0);
+			servoWaiting = 0;
+		}
+		else
+		{
+			
+		}
+	}
 }

@@ -44,7 +44,13 @@ public class OI
 
 	// Define joysticks and joystick buttons
 	private Joystick logitechController, xBoxController;
-	private JoystickButton btn2, btn3, btn4, btn6; // Logitech Button
+	public JoystickButton btn2; // Logitech Button
+
+	private JoystickButton btn3;
+
+	private JoystickButton btn4;
+
+	private JoystickButton btn6;
 	private JoystickButton btnA, btnB, btnX, btnY, btnLB, btnRB, btnStrt;
 
 	public OI()
