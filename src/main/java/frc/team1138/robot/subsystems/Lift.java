@@ -48,7 +48,7 @@ public class Lift extends /*PID*/Subsystem
 	public static final int KLowerLimit = 4; // I don't think we actually have this anymore
 	public static final int KHallEffect = 5; // Or this
 	private static final double KDeadZoneLimit = 0.1;
-	public static final double KGravity = 0.4;
+	public static final double KGravity = 1;
 	private static final double KTicksPerRotation = 4096;
 	private static final int KSolSpot1 = 4;
 	private static final int KSolSpot2 = 5;

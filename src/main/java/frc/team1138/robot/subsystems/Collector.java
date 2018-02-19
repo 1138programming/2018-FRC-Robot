@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team1138.robot.commands.DriveCollector;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -49,7 +50,7 @@ public class Collector extends Subsystem
 	public void initDefaultCommand()
 	{
 		// Set the default command for a subsystem here.
-//		setDefaultCommand(new DriveWithJoysticks());
+		setDefaultCommand(new DriveCollector());
 	}
 
 	// This command causes the rollers to go at the KCollectorSpeed if the motors
@@ -66,6 +67,12 @@ public class Collector extends Subsystem
 	public void collectCubeWithRollersLeft()
 	{
 		leftCollector.set(ControlMode.PercentOutput, -1);
+	}
+	
+	public void driveCollector(double rightAxis, double leftAxis)
+	{
+		rightCollector.set(ControlMode.PercentOutput, rightAxis);
+		leftCollector.set(ControlMode.PercentOutput, leftAxis);
 	}
 	
 //	public void collectCubeWithRollers()

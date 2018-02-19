@@ -2,6 +2,7 @@ package frc.team1138.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.team1138.robot.commands.ClearStickyFaults;
 import frc.team1138.robot.commands.CollectCubeLeft;
 import frc.team1138.robot.commands.CollectCubeRight;
@@ -130,15 +131,15 @@ public class OI
 		}
 	}
 
-	public boolean getLeftTrigger()
+	public double getLeftTrigger()
 	{ // left controller's trigger is currently unused
-		return true;
+		return (-xBoxController.getRawAxis(3));
 		// Add function here, currently this doesn't do much.
 	}
 
-	public boolean getRightTrigger()
+	public double getRightTrigger()
 	{ // right controller's trigger engages the shift on the base
-		return true;
+		return (-xBoxController.getRawAxis(2));
 		// Add function here, currently this doesn't do much.
 	}
 

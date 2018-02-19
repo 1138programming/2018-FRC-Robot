@@ -31,8 +31,8 @@ public class Arm extends /*PID*/Subsystem
 	public static final int KArmUpperLimit = 2;
 	// setting dead zone limit
 	public static final double KDeadZoneLimit = 0.05;
-	public static final double KBigLimit = 0.10;
-	public static final double KSlowSpeed = 0.3;
+	public static final double KBigLimit = 0.8;
+	public static final double KSlowSpeed = 0.5;
 	public static final double KLowSpeed = 0.4; // TODO set variable;
 	public static final int KLowValue = 5; // TODO set variable;
 	public static final int KZeroSpeed = 0; // TODO set variable;
