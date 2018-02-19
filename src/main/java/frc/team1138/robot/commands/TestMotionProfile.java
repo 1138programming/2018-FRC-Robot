@@ -31,8 +31,8 @@ public class TestMotionProfile extends Command
 	protected void initialize()
 	{
         Robot.DRIVE_BASE.resetEncoders();
-		leftMP = new ProfileExecutor(Robot.DRIVE_BASE.getLeftMotor(), LeftProfiles.Cross_Line);
-		rightMP = new ProfileExecutor(Robot.DRIVE_BASE.getRightMotor(), RightProfiles.Cross_Line);
+		leftMP = new ProfileExecutor(Robot.DRIVE_BASE.getLeftMotor(), LeftProfiles.U_Turn);
+		rightMP = new ProfileExecutor(Robot.DRIVE_BASE.getRightMotor(), RightProfiles.U_Turn);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
