@@ -31,7 +31,7 @@ public class Lift extends /*PID*/Subsystem
 	// Declaring the talons and sensors for the lift branch
 	private TalonSRX frontLift, backLift;
 	private Victor rightLatch, leftLatch;
-	private DoubleSolenoid speedShiftSolenoid;
+	private DoubleSolenoid speedShiftSolenoid, ratchetSolenoid;
 	private DigitalInput hangLimit1, hangLimit2;
 	private I2C leftIME, rightIME;
 //	private Encoder leftIME, rightIME;
@@ -48,10 +48,10 @@ public class Lift extends /*PID*/Subsystem
 	public static final int KLowerLimit = 4; // I don't think we actually have this anymore
 	public static final int KHallEffect = 5; // Or this
 	private static final double KDeadZoneLimit = 0.1;
-	public static final double KGravity = 0.4;
+	public static final double KGravity = 1;
 	private static final double KTicksPerRotation = 4096;
 	private static final int KSolSpot1 = 4;
-	private static final int KSolSpot2 = 3;
+	private static final int KSolSpot2 = 5;
 	private static final double KMotorRevDividedByOutputRotation = 39.2;
 	private static final double KOneOverMotorRevOutputRotation = .02551020408;
 	private static final int I2CENCODER_DEFAULT_ADDRESS = 0X30;
@@ -59,6 +59,8 @@ public class Lift extends /*PID*/Subsystem
 	private static final int I2CENDCODER_POSITION_REGISTER = 0X40;
 	private static final int I2CENCODER_STARTING_ADDRESS = 0X10;
 	private static final int TICKS = 8;
+	private static final int KRatchet1 = 6;
+	private static final int KRatchet2 = 7;
 	
 
 	public static final int KLeftIME = I2CENCODER_STARTING_ADDRESS;
@@ -86,6 +88,7 @@ public class Lift extends /*PID*/Subsystem
 		
 		// Configuring the solenoid
 		speedShiftSolenoid = new DoubleSolenoid(KSolSpot1, KSolSpot2);
+		ratchetSolenoid = new DoubleSolenoid(KRatchet1, KRatchet2);
 
 		// Configuring the sensors
 		hangLimit1 = new DigitalInput(KHangLimit); // Limit switch
@@ -266,4 +269,28 @@ public class Lift extends /*PID*/Subsystem
 //			
 //		}
 //
+	
+	// Shifts the lift to the high speed position
+	private void engageRatchet()
+	{
+		ratchetSolenoid.set(DoubleSolenoid.Value.kReverse);
+	}
+
+	// Shifts the lift the low speed position
+	private void disengageRatchet()
+	{
+		ratchetSolenoid.set(DoubleSolenoid.Value.kForward);
+	}
+	
+	public void ratchetIt()
+	{
+		if (ratchetSolenoid.get() == DoubleSolenoid.Value.kForward)
+		{
+			engageRatchet();
+		}
+		else
+		{
+			disengageRatchet();
+		}
+	}
 }

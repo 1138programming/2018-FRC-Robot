@@ -7,14 +7,14 @@ import frc.team1138.robot.Robot;
 /**
  *
  */
-public class DriveLift extends Command
+public class DriveCollector extends Command
 {
 	private OI oi;
 
-	public DriveLift()
+	public DriveCollector()
 	{
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.LIFT);
+		requires(Robot.COLLECTOR);
 		oi = new OI();
 	}
 
@@ -22,45 +22,27 @@ public class DriveLift extends Command
 	@Override
 	protected void initialize()
 	{
-
 	}
 
 	// Called repeatedly when this Command is scheduled to run
-	// Runs the lift using the joystick axis
 	@Override
 	protected void execute()
 	{
-		if (oi.triggerLiftDown() && oi.triggerLiftUp())
-		{
-			Robot.LIFT.moveLift(0);
-		}
-		else if (oi.triggerLiftDown()) 
-		{
-			Robot.LIFT.moveLift(-0.8);
-		}
-		else if (oi.triggerLiftUp())
-		{
-			Robot.LIFT.moveLift(0.8);
-		}
-		else 
-		{
-			Robot.LIFT.moveLift(0);
-		}
+		//Experimental Stuff Goes Here
+		Robot.COLLECTOR.driveCollector(oi.getRightTrigger(), oi.getLeftTrigger());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished()
 	{
-//		return Robot.LIFT.onTarget();
-		return true;
+		return false;
 	}
 
 	// Called once after isFinished returns true
 	@Override
 	protected void end()
 	{
-//		Robot.LIFT.setLift(Robot.LIFT.getPosition());
 	}
 
 	// Called when another command which requires one or more of the same
@@ -68,6 +50,5 @@ public class DriveLift extends Command
 	@Override
 	protected void interrupted()
 	{
-		end();
 	}
 }

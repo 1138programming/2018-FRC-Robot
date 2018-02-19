@@ -34,7 +34,7 @@ public class DriveBase extends Subsystem
 	// All of the solenoids are doubles, so they need 2 numbers each. If you change
 	// one,
 	// be sure to change the other one of the pair also.
-	public static final int KShifterSolenoid1 = 0;
+	public static final int KShifterSolenoid1 = 1;
 	public static final int KShifterSolenoid2 = 2;
 
 	// Variable for base ultrasonic
@@ -73,11 +73,12 @@ public class DriveBase extends Subsystem
 		getBaseLeftFront().configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 //		baseRightTop.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 		
-		baseRightFront.configOpenloopRamp(1, 0);
-		baseRightBack.configOpenloopRamp(1, 0);
+		//We don't want ramping rn
+//		baseRightFront.configOpenloopRamp(1, 0);
+//		baseRightBack.configOpenloopRamp(1, 0);
 		//baseRightTop.configOpenloopRamp(1, 0);
-		getBaseLeftFront().configOpenloopRamp(1, 0);
-		baseLeftBack.configOpenloopRamp(1, 0);
+//		getBaseLeftFront().configOpenloopRamp(1, 0);
+//		baseLeftBack.configOpenloopRamp(1, 0);
 		//baseLeftTop.configOpenloopRamp(1, 0);
 		
 	}

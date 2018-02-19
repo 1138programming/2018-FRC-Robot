@@ -19,7 +19,7 @@ import frc.team1138.robot.Robot;
 public class TestMotionProfile extends Command
 {
 	private ProfileExecutor leftMP, rightMP;
-    private double kP, kD, kI;
+    private double kP = 0.15, kD = 0.5, kI = 0.0;
 	public TestMotionProfile()
 	{
 		// TODO Auto-generated constructor stub
@@ -39,9 +39,9 @@ public class TestMotionProfile extends Command
 	@Override
 	protected void execute()
 	{
-        kP = SmartDashboard.getNumber("Left kP", 0);
-        kI = SmartDashboard.getNumber("Left kI", 0);
-        kD = SmartDashboard.getNumber("Left kD", 0);
+//        kP = SmartDashboard.getNumber("Left kP", 0);
+//        kI = SmartDashboard.getNumber("Left kI", 0);
+//        kD = SmartDashboard.getNumber("Left kD", 0);
 
         Robot.DRIVE_BASE.getLeftMotor().config_kP(0, kP, Constants.kTimeoutMs);
         Robot.DRIVE_BASE.getLeftMotor().config_kI(0, kI, Constants.kTimeoutMs);
