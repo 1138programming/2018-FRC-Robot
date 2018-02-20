@@ -44,6 +44,6 @@ public class CycleLatch extends Command
 
 	protected void interrupted()
 	{
-		
+		SmartDashboard.putString("Where is latch?","Interrupted");
 	}
 }

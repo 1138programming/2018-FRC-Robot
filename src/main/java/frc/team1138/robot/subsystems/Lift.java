@@ -24,8 +24,8 @@ public class Lift extends PIDSubsystem
 {
 	// Declaring the talons and sensors for the lift branch
 	private TalonSRX frontLift, backLift;
-	private Victor rightLatch, leftLatch;
-	private Servo latch;
+//	private Victor rightLatch, leftLatch;
+	private Servo rightLatch, leftLatch;
 	private DoubleSolenoid speedShiftSolenoid;
 	private DigitalInput hangLimit1, hangLimit2;
 	private I2C leftIME, rightIME;
@@ -35,9 +35,10 @@ public class Lift extends PIDSubsystem
 	// code
 	public static final int KFrontLiftTalon = 8;
 	public static final int KBackLiftTalon = 9;
-	public static final int KRightLatchVictor = 0;
-	public static final int KLeftLatchVictor = 1;
-	public static final int KLatchServo = 0;
+//	public static final int KRightLatchVictor = 0;
+//	public static final int KLeftLatchVictor = 1;
+	public static final int KRightLatchServo = 1;
+	public static final int KLeftLatchServo = 2;
 	//public static final int KLeftIME = 6;
 	//public static final int KRightIME = 7; 
 	public static final int KHangLimit = 3;
@@ -54,7 +55,6 @@ public class Lift extends PIDSubsystem
 	private static final int I2CENDCODER_POSITION_REGISTER = 0X40;
 	private static final int I2CENCODER_STARTING_ADDRESS = 0X10;
 	private static final int TICKS = 8;
-	private static final double survoPosition = 77.61; //This is the number I calculated for the exact angle for the latches.
 	public static int servoWaiting = 0;
 
 	public static final int KLeftIME = I2CENCODER_STARTING_ADDRESS;
@@ -76,13 +76,14 @@ public class Lift extends PIDSubsystem
 		frontLift = new TalonSRX(KFrontLiftTalon);
 		backLift = new TalonSRX(KBackLiftTalon);
 		//Latch 
-		rightLatch = new Victor(KRightLatchVictor);
-		leftLatch = new Victor(KLeftLatchVictor);
-		latch = new Servo(KLatchServo);
+//		rightLatch = new Victor(KRightLatchVictor);
+//		leftLatch = new Victor(KLeftLatchVictor);
+		rightLatch = new Servo(KRightLatchServo);
+		leftLatch = new Servo(KLeftLatchServo);
 		// Configuring the talons
 		frontLift.setInverted(true);
 		backLift.set(ControlMode.Follower, frontLift.getDeviceID());
-		rightLatch.setInverted(true);
+//		rightLatch.setInverted(true);
 		
 		// Configuring the solenoid
 		speedShiftSolenoid = new DoubleSolenoid(KSolSpot1, KSolSpot2);
@@ -268,25 +269,31 @@ public class Lift extends PIDSubsystem
 //
 	public void moveLatch()
 	{
-
-		if(servoWaiting == 0)
+		switch(servoWaiting)
 		{
-			latch.setAngle(115);
+		case 0:
+			System.out.println(servoWaiting);
+			rightLatch.set(.361);
+			leftLatch.set(.361);
 			servoWaiting++;
-		}
-		else if(servoWaiting == 1 && oi.btn2.get())
-		{
-			latch.setAngle(200);
+			break;
+		case 1:
+			System.out.println(servoWaiting);
+			rightLatch.set(.888);
+			leftLatch.set(.888);
 			servoWaiting++;
-		}
-		else if(servoWaiting == 2 && oi.btn2.get())
-		{
-			latch.setAngle(0);
+			break;
+		case 2:
+			System.out.println(servoWaiting);
+			rightLatch.set(0);
+			leftLatch.set(0);
 			servoWaiting = 0;
-		}
-		else
-		{
-			
+			break;
+		default:
+			System.out.println("default");
+			rightLatch.set(0);
+			leftLatch.set(0);
+			break;
 		}
 	}
 }
