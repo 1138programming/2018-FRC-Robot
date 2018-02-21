@@ -8,7 +8,8 @@ import frc.team1138.robot.commands.CollectCubeLeft;
 import frc.team1138.robot.commands.CollectCubeRight;
 import frc.team1138.robot.commands.CycleArm;
 import frc.team1138.robot.commands.EjectCube;
-import frc.team1138.robot.commands.KickCube;
+import frc.team1138.robot.commands.LockLift;
+import frc.team1138.robot.commands.TogglePlunger;
 import frc.team1138.robot.commands.MoveArmToExchange;
 import frc.team1138.robot.commands.PositionLift;
 import frc.team1138.robot.commands.ShiftBase;
@@ -34,11 +35,13 @@ public class OI
 
 	// Logitech button definitions - look below for usage
 	public static final int KButton1 = 1;
-	public static final int KButton7 = 7;
 	public static final int KButton2 = 2;
 	public static final int KButton3 = 3;
 	public static final int KButton4 = 4;
+	public static final int KButton5 = 5;
 	public static final int KButton6 = 6;
+	public static final int KButton7 = 7;
+	public static final int KButton8 = 8;
 
 	// XBox button definitions - look below for usage
 	public static final int KButtonA = 1;
@@ -49,16 +52,13 @@ public class OI
 	public static final int KRightBumper = 6;
 	public static final int KStartButton = 8;
 	
-	//Booleans to toggle the collect and eject functions
-	public static boolean toggleCollect = false;
-	public static boolean toggleEject = false;
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.
 
 	// Define joysticks and joystick buttons
 	private Joystick logitechController, xBoxController;
-	private JoystickButton btn1, btn7, btn2, btn3, btn4, btn5, btn6, btn8; // Logitech Button
-	private JoystickButton btnA, btnB, btnX, btnY, btnLB, btnRB, btnStrt;
+	private JoystickButton btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8; // Logitech Button
+	private JoystickButton btnA, btnB, btnX, btnY, btnLB, btnRB, btnStrt; // Xbox Buttons
 
 	public OI()
 	{
@@ -67,13 +67,13 @@ public class OI
 
 		// Logitech Buttons
 		btn1 = new JoystickButton(logitechController, KButton1);
-		btn7 = new JoystickButton(logitechController, KButton7);
 		btn2 = new JoystickButton(logitechController, KButton2);
 		btn3 = new JoystickButton(logitechController, KButton3);
 		btn4 = new JoystickButton(logitechController, KButton4);
-		btn5 = new JoystickButton(logitechController, 5);
+		btn5 = new JoystickButton(logitechController, KButton5);
 		btn6 = new JoystickButton(logitechController, KButton6);
-		btn8 = new JoystickButton(logitechController, 8);
+		btn7 = new JoystickButton(logitechController, KButton7);
+		btn8 = new JoystickButton(logitechController, KButton8);
 
 		// XBox Definitions (the functions of the buttons will change with time)
 		btnA = new JoystickButton(xBoxController, KButtonA);
@@ -82,28 +82,37 @@ public class OI
 		btnY = new JoystickButton(xBoxController, KButtonY);
 		btnLB = new JoystickButton(xBoxController, KLeftBumper);
 		btnRB = new JoystickButton(xBoxController, KRightBumper);
-    
-		btn1.whenPressed(new TestMotionProfile());
 		btnStrt = new JoystickButton(xBoxController, KStartButton);
-		btn7.whenPressed(new ClearStickyFaults()); //Clears sticky faults
-		// btn2.whenPressed(); //Nothing assigned yet, probably will be when we have the lift mechanism going
-		btn3.whenPressed(new ShiftLift()); // Toggles rollers collecting
-//		btn4.whenPressed(new EjectCube()); // Toggles rollers ejecting
-		btn5.whenPressed(new ShiftBase()); // Shifts the base
 		
-		btnLB.whenPressed(new CollectCubeLeft());
-		btnLB.whenReleased(new StopLeftCollector());
-		btnRB.whenPressed(new CollectCubeRight());
-		btnRB.whenReleased(new StopRightCollector());
-		btnA.whenPressed(new CycleArm()); // Puts the arm through a full cycle
-		btnB.whenPressed(new MoveArmToExchange()); // Moves the arm to the exchange position
+//		btn1.whenPressed(new TestMotionProfile());
+//		btn2.whenPressed(); //Nothing assigned yet, probably will be when we have the lift mechanism going
+//		btn4.whenPressed(new EjectCube()); // Toggles rollers ejecting
+		
+//		btnLB.whenReleased(new StopLeftCollector()); // Stops the left collector when the button is released
+//		btnRB.whenReleased(new StopRightCollector()); // Stops the right collector
+		
 //		btnX.whenPressed(new PositionLift(5)); // High position TODO test these values
-		btnX.whenPressed(new EjectCube());
-		btnY.whenPressed(new ToggleRatchet());
+		
 //		btnY.whenPressed(new ShiftLift()); // Shifts the lift speed
 //		btnRB.whenPressed(new PositionLift(3)); // Middle position
 //		btnLB.whenPressed(new PositionLift(1)); // Low position
-		btnStrt.whenPressed(new KickCube()); // Kicks the cube when it may be stuck using the plunger
+		
+		btn3.whenPressed(new ShiftLift()); // Toggles rollers collecting
+		btn4.whenPressed(new LockLift()); // Toggles locking in the lift when carrying
+		btn5.whenPressed(new ShiftBase()); // Shifts the base
+		btn7.whenPressed(new ClearStickyFaults()); //Clears sticky faults
+		
+		btnLB.whenPressed(new CollectCubeLeft()); // Runs left collector
+		btnLB.whenReleased(new CollectCubeLeft()); // Stops the left collector when the button is released
+		
+		btnRB.whenPressed(new CollectCubeRight()); // Runs the right collector
+		btnRB.whenReleased(new CollectCubeRight()); // Stops the right collector
+		
+		btnA.whenPressed(new CycleArm()); // Puts the arm through a full cycle
+		btnB.whenPressed(new MoveArmToExchange()); // Moves the arm to the exchange position
+		btnX.whenPressed(new EjectCube());
+		btnY.whenPressed(new ToggleRatchet());
+		btnStrt.whenPressed(new TogglePlunger()); // Lets the drivers kick the cube when it may be stuck using the plunger
 	}
 
 	public double getRightAxis()

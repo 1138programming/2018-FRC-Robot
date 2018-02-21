@@ -6,7 +6,7 @@ import frc.team1138.robot.commands.ClearStickyFaults;
 import frc.team1138.robot.commands.CollectCubeRight;
 import frc.team1138.robot.commands.CycleArm;
 import frc.team1138.robot.commands.EjectCube;
-import frc.team1138.robot.commands.KickCube;
+import frc.team1138.robot.commands.TogglePlunger;
 import frc.team1138.robot.commands.MoveArmToExchange;
 import frc.team1138.robot.commands.PositionLift;
 import frc.team1138.robot.commands.ShiftBase;
@@ -81,7 +81,7 @@ public class OITest
 		btnY.whenPressed(new ShiftLift()); // Shifts the lift speed
 		btnRB.whenPressed(new PositionLift(3)); // Middle position
 		btnLB.whenPressed(new PositionLift(1)); // Low position
-		btnStrt.whenPressed(new KickCube()); // Kicks the cube when it may be stuck using the plunger
+		btnStrt.whenPressed(new TogglePlunger()); // Kicks the cube when it may be stuck using the plunger
 	}
 
 	public double getRightAxis()

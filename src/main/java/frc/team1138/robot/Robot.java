@@ -37,7 +37,7 @@ public class Robot extends IterativeRobot
 	public static OI oi;
 
 	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	SendableChooser<Command> chooser;
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -46,11 +46,13 @@ public class Robot extends IterativeRobot
 	@Override
 	public void robotInit()
 	{
+		chooser = new SendableChooser<>();
 		oi = new OI();
 		 chooser.addDefault("Middle", new MiddleCommand());
 		 chooser.addObject("Right", new RightCommand());
 		 chooser.addObject("Left", new LeftCommand());
 		SmartDashboard.putData("Auto mode", chooser);
+		SmartDashboard.putString("Is this working", "Hopefully");
 	}
 
 	/**

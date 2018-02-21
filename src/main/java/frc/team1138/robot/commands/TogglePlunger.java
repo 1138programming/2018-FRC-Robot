@@ -3,9 +3,9 @@ package frc.team1138.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team1138.robot.Robot;
 
-public class KickCube extends Command
+public class TogglePlunger extends Command
 {
-	public KickCube()
+	public TogglePlunger()
 	{
 		requires(Robot.COLLECTOR);
 	}

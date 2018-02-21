@@ -7,6 +7,8 @@ import frc.team1138.robot.Robot;
 public class CollectCubeRight extends Command
 {
 
+	private boolean toggle = true; 
+	
 	public CollectCubeRight()
 	{
 		requires(Robot.COLLECTOR);
@@ -19,7 +21,10 @@ public class CollectCubeRight extends Command
 
 	protected void execute()
 	{
-		Robot.COLLECTOR.collectCubeWithRollersRight();
+		if(toggle)
+			Robot.COLLECTOR.collectCubeWithRollersRight();
+		else
+			Robot.COLLECTOR.stopCollectorRight();
 		//SmartDashboard.putBoolean("", value);
 	}
 
@@ -27,17 +32,19 @@ public class CollectCubeRight extends Command
 	protected boolean isFinished()
 	{
 		// TODO Auto-generated method stub
-//		return false;
 		return true;
 	}
 
 	protected void end()
 	{
-//		Robot.COLLECTOR.stopCollector();
+		if(toggle)
+			toggle = false;
+		else
+			toggle = true;
 	}
 
 	protected void interrupted()
 	{
-//		end();
+		end();
 	}
 }
