@@ -15,7 +15,10 @@ import frc.team1138.robot.commands.RightCommand;
 import frc.team1138.robot.subsystems.Arm;
 import frc.team1138.robot.subsystems.DriveBase;
 import frc.team1138.robot.subsystems.Lift;
+import frc.team1138.robot.subsystems.LEDSubsystem;
+import frc.team1138.robot.subsystems.LEDSubsystem.LEDModes;
 
+import java.io.IOException;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -30,6 +33,7 @@ public class Robot extends IterativeRobot
 	public static final Arm ARM = new Arm();
 	public static final Lift LIFT = new Lift();
 	public static final Collector COLLECTOR = new Collector();
+	public static LEDSubsystem ledSubsystem = new LEDSubsystem();
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -57,7 +61,11 @@ public class Robot extends IterativeRobot
 	@Override
 	public void disabledInit()
 	{
-
+		try {
+			ledSubsystem.setMode(LEDModes.Off);
+		} catch (IOException e) {
+			System.out.println(e);
+		}
 	}
 
 	@Override
@@ -94,6 +102,12 @@ public class Robot extends IterativeRobot
 		{
 			autonomousCommand.start();
 		}
+		
+		try {
+			ledSubsystem.setMode(LEDModes.Idle);
+		} catch (IOException e) {
+			System.out.println(e);
+		}
 	}
 
 	/**
@@ -115,9 +129,12 @@ public class Robot extends IterativeRobot
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		Robot.DRIVE_BASE.resetEncoders();
-		SmartDashboard.putNumber("Left kP", 0);
-        SmartDashboard.putNumber("Left kI", 0);
-        SmartDashboard.putNumber("Left kD", 0);
+
+		try {
+			ledSubsystem.setMode(LEDModes.Idle);
+		} catch (IOException e) {
+			System.out.println(e);
+		}
 	}
 
 	/**
@@ -131,6 +148,15 @@ public class Robot extends IterativeRobot
 		SmartDashboard.putNumber("Right Base Encoder", Robot.DRIVE_BASE.getRightEncoderValue());
 		SmartDashboard.putNumber("Left Base Encoder", Robot.DRIVE_BASE.getLeftEncoderValue());
 		// Robot.DRIVE_BASE.cureCancer();
+	}
+	
+	@Override
+	public void testInit() {
+		try {
+			ledSubsystem.setMode(LEDModes.Idle);
+		} catch (IOException e) {
+			System.out.println(e);
+		}
 	}
 
 	/**
