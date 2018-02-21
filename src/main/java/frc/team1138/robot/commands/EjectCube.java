@@ -3,8 +3,10 @@ package frc.team1138.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team1138.robot.Robot;
 
+
 public class EjectCube extends Command
 {
+	private boolean toggle = true;
 
 	public EjectCube()
 	{
@@ -13,7 +15,13 @@ public class EjectCube extends Command
 
 	protected void initialize()
 	{
-//		Robot.COLLECTOR.kickCubeWithPlunger();
+		if(toggle)
+			Robot.COLLECTOR.kickCubeWithPlunger();
+		else
+		{
+			Robot.COLLECTOR.stopCollectorLeft();
+			Robot.COLLECTOR.stopCollectorRight();
+		}
 	}
 
 	protected void execute()
@@ -26,16 +34,18 @@ public class EjectCube extends Command
 	{
 		// TODO Auto-generated method stub
 		return true;
-//		return false;
 	}
 
 	protected void end()
 	{
-//		Robot.COLLECTOR.stopCollector();	
+		if(toggle)
+			toggle = false;
+		else
+			toggle = true;
 	}
 
 	protected void interrupted()
 	{
-//		end();
+		end();
 	}
 }

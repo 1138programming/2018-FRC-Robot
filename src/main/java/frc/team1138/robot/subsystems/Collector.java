@@ -85,32 +85,33 @@ public class Collector extends Subsystem
 	// moving, and if they are, then it doesn't move (to prevent them from doing
 	// both at
 	// the same time
-	public void ejectCubeWithRollers()
-	{
-		if (rightCollector.getMotorOutputPercent() == 0 && leftCollector.getMotorOutputPercent() == 0)
-		{
-			rightCollector.set(ControlMode.PercentOutput, 1);
-			leftCollector.set(ControlMode.PercentOutput, 1);
-			SmartDashboard.putNumber("Right Collector Motor", rightCollector.getMotorOutputPercent());
-			SmartDashboard.putNumber("Left Collector Motor", leftCollector.getMotorOutputPercent());
-			kickCubeWithPlunger(); // TODO check which way
-		}
-		else
-		{
-			stopCollector();
-		}
-	}
-
 //	public void ejectCubeWithRollers()
 //	{
-//		rightCollector.set(ControlMode.PercentOutput, KCollectorSpeed);
+//		if (rightCollector.getMotorOutputPercent() == 0 && leftCollector.getMotorOutputPercent() == 0)
+//		{
+//			rightCollector.set(ControlMode.PercentOutput, 1);
+//			leftCollector.set(ControlMode.PercentOutput, 1);
+//			SmartDashboard.putNumber("Right Collector Motor", rightCollector.getMotorOutputPercent());
+//			SmartDashboard.putNumber("Left Collector Motor", leftCollector.getMotorOutputPercent());
+//			kickCubeWithPlunger(); // TODO check which way
+//		}
+//		else
+//		{
+//			stopCollector();
+//		}
 //	}
-	
-	public void stopCollector()
+
+	public void ejectCubeWithRollers()
 	{
-		rightCollector.set(ControlMode.PercentOutput, 0);
-		leftCollector.set(ControlMode.PercentOutput, 0);
+		rightCollector.set(ControlMode.PercentOutput, 1);
+		leftCollector.set(ControlMode.PercentOutput, 1);
 	}
+	
+//	public void stopCollector()
+//	{
+//		rightCollector.set(ControlMode.PercentOutput, 0);
+//		leftCollector.set(ControlMode.PercentOutput, 0);
+//	}
 	
 	public void stopCollectorRight()
 	{
