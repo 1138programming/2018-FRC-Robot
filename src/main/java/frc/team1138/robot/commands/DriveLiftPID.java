@@ -7,14 +7,14 @@ import frc.team1138.robot.Robot;
 /**
  *
  */
-public class DriveWithJoysticks extends Command
+public class DriveLiftPID extends Command
 {
 	private OI oi;
 
-	public DriveWithJoysticks()
+	public DriveLiftPID()
 	{
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.DRIVE_BASE);
+		requires(Robot.LIFT);
 		oi = new OI();
 	}
 
@@ -22,20 +22,22 @@ public class DriveWithJoysticks extends Command
 	@Override
 	protected void initialize()
 	{
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
+	// Runs the lift using the joystick axis
 	@Override
 	protected void execute()
 	{
-		//Experimental Stuff Goes Here
-		Robot.DRIVE_BASE.tankDrive(oi.getLeftAxis(), oi.getRightAxis());
+		Robot.LIFT.liftWithJoysticks(oi.getRightXBoxAxis());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished()
 	{
+//		return Robot.LIFT.onTarget();
 		return false;
 	}
 
@@ -43,6 +45,7 @@ public class DriveWithJoysticks extends Command
 	@Override
 	protected void end()
 	{
+//		Robot.LIFT.setLift(Robot.LIFT.getPosition());
 	}
 
 	// Called when another command which requires one or more of the same
@@ -50,5 +53,6 @@ public class DriveWithJoysticks extends Command
 	@Override
 	protected void interrupted()
 	{
+		end();
 	}
 }

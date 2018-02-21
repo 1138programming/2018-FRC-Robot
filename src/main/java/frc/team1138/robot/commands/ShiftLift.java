@@ -1,21 +1,18 @@
 package frc.team1138.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team1138.robot.OI;
 import frc.team1138.robot.Robot;
 
 /**
  *
  */
-public class DriveWithJoysticks extends Command
+public class ShiftLift extends Command
 {
-	private OI oi;
 
-	public DriveWithJoysticks()
+	public ShiftLift()
 	{
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.DRIVE_BASE);
-		oi = new OI();
+		requires(Robot.LIFT);
 	}
 
 	// Called just before this Command runs the first time
@@ -25,24 +22,26 @@ public class DriveWithJoysticks extends Command
 	}
 
 	// Called repeatedly when this Command is scheduled to run
+	// Shifts the lift between it's fast and slow speeds
 	@Override
 	protected void execute()
 	{
-		//Experimental Stuff Goes Here
-		Robot.DRIVE_BASE.tankDrive(oi.getLeftAxis(), oi.getRightAxis());
+		Robot.LIFT.toggleLiftSpeed();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished()
 	{
-		return false;
+//		return Robot.LIFT.onTarget();
+		return true;
 	}
 
 	// Called once after isFinished returns true
 	@Override
 	protected void end()
 	{
+//		Robot.LIFT.setLift(Robot.LIFT.getPosition());
 	}
 
 	// Called when another command which requires one or more of the same
@@ -50,5 +49,6 @@ public class DriveWithJoysticks extends Command
 	@Override
 	protected void interrupted()
 	{
+		end();
 	}
 }

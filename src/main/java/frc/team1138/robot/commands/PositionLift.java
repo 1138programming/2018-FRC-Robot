@@ -1,48 +1,49 @@
 package frc.team1138.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team1138.robot.OI;
 import frc.team1138.robot.Robot;
 
 /**
  *
  */
-public class DriveWithJoysticks extends Command
+public class PositionLift extends Command
 {
-	private OI oi;
+	double encoderValue;
 
-	public DriveWithJoysticks()
+	public PositionLift(double encoderValue)
 	{
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.DRIVE_BASE);
-		oi = new OI();
+		requires(Robot.LIFT);
+		this.encoderValue = encoderValue;
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize()
 	{
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
-	@Override
+	// Lifts (or lowers) the lift using the encoders and PID
 	protected void execute()
 	{
-		//Experimental Stuff Goes Here
-		Robot.DRIVE_BASE.tankDrive(oi.getLeftAxis(), oi.getRightAxis());
+		Robot.LIFT.liftWithEncoders(encoderValue);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished()
 	{
-		return false;
+//		return Robot.LIFT.onTarget();
+		return true;
 	}
 
 	// Called once after isFinished returns true
 	@Override
 	protected void end()
 	{
+//		Robot.LIFT.setLift(Robot.LIFT.getPosition());
 	}
 
 	// Called when another command which requires one or more of the same
@@ -50,5 +51,6 @@ public class DriveWithJoysticks extends Command
 	@Override
 	protected void interrupted()
 	{
+		end();
 	}
 }
