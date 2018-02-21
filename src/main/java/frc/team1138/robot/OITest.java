@@ -2,9 +2,7 @@ package frc.team1138.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.team1138.robot.commands.ClearStickyFaults;
-import frc.team1138.robot.commands.CollectCubeLeft;
 import frc.team1138.robot.commands.CollectCubeRight;
 import frc.team1138.robot.commands.CycleArm;
 import frc.team1138.robot.commands.EjectCube;
@@ -13,16 +11,12 @@ import frc.team1138.robot.commands.MoveArmToExchange;
 import frc.team1138.robot.commands.PositionLift;
 import frc.team1138.robot.commands.ShiftBase;
 import frc.team1138.robot.commands.ShiftLift;
-import frc.team1138.robot.commands.StopLeftCollector;
-import frc.team1138.robot.commands.StopRightCollector;
-import frc.team1138.robot.commands.TestMotionProfile;
-import frc.team1138.robot.commands.ToggleRatchet;
 
 /**
  * This class is the glue that binds the controls on the physical operator
  * interface to the commands and command groups that allow control of the robot.
  */
-public class OI
+public class OITest
 {
 
 	// Limit for Xbox joystick axes to get out of the "dead zone"
@@ -34,7 +28,6 @@ public class OI
 
 	// Logitech button definitions - look below for usage
 	public static final int KButton1 = 1;
-	public static final int KButton7 = 7;
 	public static final int KButton2 = 2;
 	public static final int KButton3 = 3;
 	public static final int KButton4 = 4;
@@ -48,32 +41,25 @@ public class OI
 	public static final int KLeftBumper = 5;
 	public static final int KRightBumper = 6;
 	public static final int KStartButton = 8;
-	
-	//Booleans to toggle the collect and eject functions
-	public static boolean toggleCollect = false;
-	public static boolean toggleEject = false;
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.
 
 	// Define joysticks and joystick buttons
 	private Joystick logitechController, xBoxController;
-	private JoystickButton btn1, btn7, btn2, btn3, btn4, btn5, btn6, btn8; // Logitech Button
+	private JoystickButton btn1, btn2, btn3, btn4, btn6; // Logitech Button
 	private JoystickButton btnA, btnB, btnX, btnY, btnLB, btnRB, btnStrt;
 
-	public OI()
+	public OITest()
 	{
 		logitechController = new Joystick(KLogitechController);
 		xBoxController = new Joystick(KXBoxController);
 
 		// Logitech Buttons
 		btn1 = new JoystickButton(logitechController, KButton1);
-		btn7 = new JoystickButton(logitechController, KButton7);
 		btn2 = new JoystickButton(logitechController, KButton2);
 		btn3 = new JoystickButton(logitechController, KButton3);
 		btn4 = new JoystickButton(logitechController, KButton4);
-		btn5 = new JoystickButton(logitechController, 5);
 		btn6 = new JoystickButton(logitechController, KButton6);
-		btn8 = new JoystickButton(logitechController, 8);
 
 		// XBox Definitions (the functions of the buttons will change with time)
 		btnA = new JoystickButton(xBoxController, KButtonA);
@@ -82,27 +68,19 @@ public class OI
 		btnY = new JoystickButton(xBoxController, KButtonY);
 		btnLB = new JoystickButton(xBoxController, KLeftBumper);
 		btnRB = new JoystickButton(xBoxController, KRightBumper);
-    
-		btn1.whenPressed(new TestMotionProfile());
-		btnStrt = new JoystickButton(xBoxController, KStartButton);
-		btn7.whenPressed(new ClearStickyFaults()); //Clears sticky faults
-		// btn2.whenPressed(); //Nothing assigned yet, probably will be when we have the lift mechanism going
-		btn3.whenPressed(new ShiftLift()); // Toggles rollers collecting
-//		btn4.whenPressed(new EjectCube()); // Toggles rollers ejecting
-		btn5.whenPressed(new ShiftBase()); // Shifts the base
+		btnStrt = new JoystickButton(logitechController, KStartButton);
 		
-		btnLB.whenPressed(new CollectCubeLeft());
-		btnLB.whenReleased(new StopLeftCollector());
-		btnRB.whenPressed(new CollectCubeRight());
-		btnRB.whenReleased(new StopRightCollector());
+		btn1.whenPressed(new ClearStickyFaults()); //Clears sticky faults
+		// btn2.whenPressed(); //Nothing assigned yet, probably will be when we have the lift mechanism going
+		btn3.whenPressed(new CollectCubeRight()); // Toggles rollers collecting
+		btn4.whenPressed(new EjectCube()); // Toggles rollers ejecting
+		btn6.whenPressed(new ShiftBase()); // Shifts the base
 		btnA.whenPressed(new CycleArm()); // Puts the arm through a full cycle
 		btnB.whenPressed(new MoveArmToExchange()); // Moves the arm to the exchange position
-//		btnX.whenPressed(new PositionLift(5)); // High position TODO test these values
-		btnX.whenPressed(new EjectCube());
-		btnY.whenPressed(new ToggleRatchet());
-//		btnY.whenPressed(new ShiftLift()); // Shifts the lift speed
-//		btnRB.whenPressed(new PositionLift(3)); // Middle position
-//		btnLB.whenPressed(new PositionLift(1)); // Low position
+		btnX.whenPressed(new PositionLift(5)); // High position TODO test these values
+		btnY.whenPressed(new ShiftLift()); // Shifts the lift speed
+		btnRB.whenPressed(new PositionLift(3)); // Middle position
+		btnLB.whenPressed(new PositionLift(1)); // Low position
 		btnStrt.whenPressed(new KickCube()); // Kicks the cube when it may be stuck using the plunger
 	}
 
@@ -111,7 +89,7 @@ public class OI
 		if (logitechController.getThrottle() < -KXboxDeadZoneLimit
 				|| logitechController.getThrottle() > KXboxDeadZoneLimit)
 		{
-			return -logitechController.getThrottle(); // TODO check if it's twist for z-rotate axis
+			return logitechController.getThrottle(); // TODO check if it's twist for z-rotate axis
 		}
 		else
 		{
@@ -123,7 +101,7 @@ public class OI
 	{ // Left controller is left side drive
 		if (logitechController.getY() < -KXboxDeadZoneLimit || logitechController.getY() > KXboxDeadZoneLimit)
 		{
-			return -logitechController.getY();
+			return logitechController.getY();
 		}
 		else
 		{
@@ -131,15 +109,15 @@ public class OI
 		}
 	}
 
-	public double getLeftTrigger()
+	public boolean getLeftTrigger()
 	{ // left controller's trigger is currently unused
-		return (-xBoxController.getRawAxis(3));
+		return true;
 		// Add function here, currently this doesn't do much.
 	}
 
-	public double getRightTrigger()
+	public boolean getRightTrigger()
 	{ // right controller's trigger engages the shift on the base
-		return (-xBoxController.getRawAxis(2));
+		return true;
 		// Add function here, currently this doesn't do much.
 	}
 
@@ -156,15 +134,5 @@ public class OI
 	public double getXBoxPOV()
 	{ // POV left and right is dumper conveyor
 		return xBoxController.getRawAxis(6);
-	}
-	
-	public boolean triggerLiftUp()
-	{
-		return btn6.get();
-	}
-	
-	public boolean triggerLiftDown()
-	{
-		return btn8.get();
 	}
 }

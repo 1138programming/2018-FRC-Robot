@@ -2,18 +2,16 @@ package frc.team1138.robot;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.team1138.robot.subsystems.Collector;
 import frc.team1138.robot.commands.LeftCommand;
 import frc.team1138.robot.commands.MiddleCommand;
 import frc.team1138.robot.commands.RightCommand;
-import frc.team1138.robot.commands.SideScore;
-import frc.team1138.robot.commands.TurnWithGyro;
 import frc.team1138.robot.subsystems.Arm;
 import frc.team1138.robot.subsystems.DriveBase;
 import frc.team1138.robot.subsystems.Lift;
@@ -52,8 +50,7 @@ public class Robot extends IterativeRobot
 		 chooser.addDefault("Middle", new MiddleCommand());
 		 chooser.addObject("Right", new RightCommand());
 		 chooser.addObject("Left", new LeftCommand());
-		//SmartDashboard.putData("Auto mode", chooser);
-		SmartDashboard.putData(chooser);
+		SmartDashboard.putData("Auto mode", chooser);
 	}
 
 	/**
@@ -132,6 +129,7 @@ public class Robot extends IterativeRobot
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		Robot.DRIVE_BASE.resetEncoders();
+
 		try {
 			ledSubsystem.setMode(LEDModes.Idle);
 		} catch (IOException e) {
@@ -149,7 +147,7 @@ public class Robot extends IterativeRobot
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("Right Base Encoder", Robot.DRIVE_BASE.getRightEncoderValue());
 		SmartDashboard.putNumber("Left Base Encoder", Robot.DRIVE_BASE.getLeftEncoderValue());
-		Robot.DRIVE_BASE.cureCancer();
+		// Robot.DRIVE_BASE.cureCancer();
 	}
 	
 	@Override
@@ -168,5 +166,6 @@ public class Robot extends IterativeRobot
 	public void testPeriodic()
 	{
 		LiveWindow.run();
+		Scheduler.getInstance().run();
 	}
 }
