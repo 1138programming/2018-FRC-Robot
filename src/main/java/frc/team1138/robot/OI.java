@@ -8,6 +8,7 @@ import frc.team1138.robot.commands.CollectCubeLeft;
 import frc.team1138.robot.commands.CollectCubeRight;
 import frc.team1138.robot.commands.CycleArm;
 import frc.team1138.robot.commands.EjectCube;
+import frc.team1138.robot.commands.LockLift;
 import frc.team1138.robot.commands.TogglePlunger;
 import frc.team1138.robot.commands.MoveArmToExchange;
 import frc.team1138.robot.commands.PositionLift;
@@ -97,6 +98,7 @@ public class OI
 //		btnLB.whenPressed(new PositionLift(1)); // Low position
 		
 		btn3.whenPressed(new ShiftLift()); // Toggles rollers collecting
+		btn4.whenPressed(new LockLift()); // Toggles locking in the lift when carrying
 		btn5.whenPressed(new ShiftBase()); // Shifts the base
 		btn7.whenPressed(new ClearStickyFaults()); //Clears sticky faults
 		

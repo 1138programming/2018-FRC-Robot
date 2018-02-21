@@ -2,6 +2,7 @@ package frc.team1138.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1138.robot.commands.DriveWithJoysticks;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
@@ -223,6 +224,7 @@ public class DriveBase extends Subsystem
 		{
 			lowShiftBase();
 		}
+		SmartDashboard.putString("Base Solenoid:", shifterSolenoid.get().toString());
 	}
 
 	public void setLeftMotionControl(ControlMode mode, double value) {

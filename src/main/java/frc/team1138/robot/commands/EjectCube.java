@@ -15,18 +15,20 @@ public class EjectCube extends Command
 
 	protected void initialize()
 	{
+	}
+
+	protected void execute()
+	{
 		if(toggle)
+		{
+			Robot.COLLECTOR.ejectCubeWithRollers();
 			Robot.COLLECTOR.kickCubeWithPlunger();
+		}
 		else
 		{
 			Robot.COLLECTOR.stopCollectorLeft();
 			Robot.COLLECTOR.stopCollectorRight();
 		}
-	}
-
-	protected void execute()
-	{
-		Robot.COLLECTOR.ejectCubeWithRollers();
 	}
 
 	@Override

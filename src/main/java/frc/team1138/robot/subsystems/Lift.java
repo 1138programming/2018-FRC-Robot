@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.I2C;
-
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -32,6 +32,7 @@ public class Lift extends /*PID*/Subsystem
 	private TalonSRX frontLift, backLift;
 	private Victor rightLatch, leftLatch;
 	private DoubleSolenoid speedShiftSolenoid, ratchetSolenoid;
+	private DoubleSolenoid lockingSolenoid;
 	private DigitalInput hangLimit1, hangLimit2;
 	private I2C leftIME, rightIME;
 //	private Encoder leftIME, rightIME;
@@ -61,6 +62,10 @@ public class Lift extends /*PID*/Subsystem
 	private static final int TICKS = 8;
 	private static final int KRatchet1 = 6;
 	private static final int KRatchet2 = 7;
+	private static final int KLockingSolenoid1 = 0;
+	private static final int KLockingSolenoid2 = 9;
+	private static final boolean KForward = true;
+	private static final boolean KReverse = false;
 	
 
 	public static final int KLeftIME = I2CENCODER_STARTING_ADDRESS;
@@ -89,6 +94,7 @@ public class Lift extends /*PID*/Subsystem
 		// Configuring the solenoid
 		speedShiftSolenoid = new DoubleSolenoid(KSolSpot1, KSolSpot2);
 		ratchetSolenoid = new DoubleSolenoid(KRatchet1, KRatchet2);
+//		lockingSolenoid = new DoubleSolenoid(KLockingSolenoid1, KLockingSolenoid2);
 
 		// Configuring the sensors
 		hangLimit1 = new DigitalInput(KHangLimit); // Limit switch
@@ -291,6 +297,18 @@ public class Lift extends /*PID*/Subsystem
 		else
 		{
 			disengageRatchet();
+		}
+	}
+	
+	public void toggleLocker()
+	{
+		if(lockingSolenoid.get() == DoubleSolenoid.Value.kForward)
+		{
+			lockingSolenoid.set(DoubleSolenoid.Value.kOff);
+		}
+		else
+		{
+			lockingSolenoid.set(DoubleSolenoid.Value.kForward);
 		}
 	}
 }
