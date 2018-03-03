@@ -1,17 +1,15 @@
 package frc.team1138.robot;
 
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import frc.team1138.robot.subsystems.Collector;
-import frc.team1138.robot.commands.LeftCommand;
-import frc.team1138.robot.commands.MiddleCommand;
-import frc.team1138.robot.commands.RightCommand;
+import frc.team1138.robot.AutoCommand.LeftCommand;
+import frc.team1138.robot.AutoCommand.MiddleCommand;
+import frc.team1138.robot.AutoCommand.RightCommand;
 import frc.team1138.robot.subsystems.Arm;
 import frc.team1138.robot.subsystems.DriveBase;
 import frc.team1138.robot.subsystems.Lift;
@@ -35,9 +33,10 @@ public class Robot extends IterativeRobot
 	public static final Collector COLLECTOR = new Collector();
 	public static LEDSubsystem ledSubsystem = new LEDSubsystem();
 	public static OI oi;
+	public static PowerDistributionPanel pdp;
 
 	Command autonomousCommand;
-	SendableChooser<Command> chooser;
+	SendableChooser chooser;
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -46,13 +45,14 @@ public class Robot extends IterativeRobot
 	@Override
 	public void robotInit()
 	{
-		chooser = new SendableChooser<>();
+		chooser = new SendableChooser();
 		oi = new OI();
-		 chooser.addDefault("Middle", new MiddleCommand());
-		 chooser.addObject("Right", new RightCommand());
-		 chooser.addObject("Left", new LeftCommand());
+		pdp =  new PowerDistributionPanel();
+		chooser.addDefault("Middle", new MiddleCommand());
+		chooser.addObject("Right", new RightCommand());
+		chooser.addObject("Left", new LeftCommand());
 		SmartDashboard.putData("Auto mode", chooser);
-		SmartDashboard.putString("Is this working", "Hopefully");
+
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class Robot extends IterativeRobot
 	@Override
 	public void autonomousInit()
 	{
-		autonomousCommand = chooser.getSelected();
+		autonomousCommand = (Command) chooser.getSelected();
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
@@ -149,6 +149,7 @@ public class Robot extends IterativeRobot
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("Right Base Encoder", Robot.DRIVE_BASE.getRightEncoderValue());
 		SmartDashboard.putNumber("Left Base Encoder", Robot.DRIVE_BASE.getLeftEncoderValue());
+		SmartDashboard.putNumber("Gyro", Robot.DRIVE_BASE.getAngle());
 		// Robot.DRIVE_BASE.cureCancer();
 	}
 	
@@ -167,7 +168,10 @@ public class Robot extends IterativeRobot
 	@Override
 	public void testPeriodic()
 	{
-		LiveWindow.run();
 		Scheduler.getInstance().run();
+		if (pdp.getVoltage() < 6.5) {
+			pdp.clearStickyFaults();
+			SmartDashboard.putNumber("PDP Sticky", pdp.getVoltage());
+		}
 	}
 }

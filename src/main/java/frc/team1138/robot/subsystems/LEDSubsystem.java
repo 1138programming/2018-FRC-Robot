@@ -1,7 +1,6 @@
 package frc.team1138.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.team1138.robot.commands.UpdateLedStatus;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;

@@ -69,10 +69,13 @@ public class DriveBase extends Subsystem
 
 		// Configuring the sensors
 		shifterSolenoid = new DoubleSolenoid(KShifterSolenoid1, KShifterSolenoid2);
-		pigeonIMU = new PigeonIMU(getBaseLeftFront()); // TODO find out which talon it's actually on
+		pigeonIMU = new PigeonIMU(baseLeftBack); // TODO find out which talon it's actually on
 		pigeonIMU.setYaw(0, 0);
-		getBaseLeftFront().configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-//		baseRightTop.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+
+		baseLeftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		baseRightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
+		
+
 		
 		//We don't want ramping rn
 //		baseRightFront.configOpenloopRamp(1, 0);
@@ -151,13 +154,13 @@ public class DriveBase extends Subsystem
 	{
 		double[] ypr = new double[3];
 		pigeonIMU.getYawPitchRoll(ypr);
-		return (-ypr[0]);
+		return (ypr[0]);
 	}
 
 	// Resets both encoders
 	public void resetEncoders()
 	{
-		getBaseLeftFront().getSensorCollection().setQuadraturePosition(0, 0);
+		baseLeftFront.getSensorCollection().setQuadraturePosition(0, 0);
 		baseRightFront.getSensorCollection().setQuadraturePosition(0, 0);
 	}
 

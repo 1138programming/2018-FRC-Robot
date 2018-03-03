@@ -1,18 +1,11 @@
 package frc.team1138.robot.commands;
 
 import edu.wpi.first.wpilibj.SolenoidBase;
-import edu.wpi.first.wpilibj.hal.SolenoidJNI;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.hal.PDPJNI;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import com.ctre.phoenix.sensors.PigeonIMU;
-import com.ctre.phoenix.sensors.PigeonIMU_StickyFaults;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import frc.team1138.robot.Robot;
-import frc.team1138.robot.OITest;
-import frc.team1138.robot.subsystems.DriveBase;
 
 /**
  * @author Zheyuan Hu

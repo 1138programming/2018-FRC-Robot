@@ -2,7 +2,6 @@ package frc.team1138.robot.subsystems;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import frc.team1138.robot.subsystems.DriveBase;
 
 public class Camera extends Subsystem
 {

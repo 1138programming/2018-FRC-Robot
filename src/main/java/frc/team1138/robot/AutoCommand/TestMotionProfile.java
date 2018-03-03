@@ -1,9 +1,7 @@
-package frc.team1138.robot.commands;
+package frc.team1138.robot.AutoCommand;
 
 import frc.team1138.robot.MotionProfile.Constants;
-import frc.team1138.robot.MotionProfile.LeftProfiles;
 import frc.team1138.robot.MotionProfile.ProfileExecutor;
-import frc.team1138.robot.MotionProfile.RightProfiles;
 
 import com.ctre.phoenix.motion.SetValueMotionProfile;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -19,41 +17,38 @@ import frc.team1138.robot.Robot;
 public class TestMotionProfile extends Command
 {
 	private ProfileExecutor leftMP, rightMP;
-    private double kP = 0.15, kD = 0.5, kI = 0.0;
-	public TestMotionProfile()
+	private double[][] leftProfile, rightProfile; 
+	private double kP = 0.03, kD = 0.1, kI = 0;
+	public TestMotionProfile(double[][] leftProfile, double[][] rightProfile)
 	{
-		// TODO Auto-generated constructor stub
-        requires(Robot.DRIVE_BASE);
+		requires(Robot.DRIVE_BASE);
+		this.leftProfile = leftProfile;
+		this.rightProfile = rightProfile;
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize()
 	{
-        Robot.DRIVE_BASE.resetEncoders();
-		leftMP = new ProfileExecutor(Robot.DRIVE_BASE.getLeftMotor(), LeftProfiles.Cross_Line);
-		rightMP = new ProfileExecutor(Robot.DRIVE_BASE.getRightMotor(), RightProfiles.Cross_Line);
+		Robot.DRIVE_BASE.resetEncoders();
+		leftMP = new ProfileExecutor(Robot.DRIVE_BASE.getLeftMotor(), this.leftProfile);
+		rightMP = new ProfileExecutor(Robot.DRIVE_BASE.getRightMotor(), this.rightProfile);
+
+		Robot.DRIVE_BASE.getLeftMotor().config_kP(0, kP, Constants.kTimeoutMs);
+        Robot.DRIVE_BASE.getLeftMotor().config_kI(0, kI, Constants.kTimeoutMs);
+		Robot.DRIVE_BASE.getLeftMotor().config_kD(0, kD, Constants.kTimeoutMs);
+        Robot.DRIVE_BASE.getLeftMotor().config_kF(0, 0.029593844, Constants.kTimeoutMs);
+
+		Robot.DRIVE_BASE.getRightMotor().config_kP(0, kP, Constants.kTimeoutMs);
+        Robot.DRIVE_BASE.getRightMotor().config_kI(0, kI, Constants.kTimeoutMs);
+        Robot.DRIVE_BASE.getRightMotor().config_kD(0, kD, Constants.kTimeoutMs);
+        Robot.DRIVE_BASE.getRightMotor().config_kF(0, 0.0305994257, Constants.kTimeoutMs);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute()
 	{
-//        kP = SmartDashboard.getNumber("Left kP", 0);
-//        kI = SmartDashboard.getNumber("Left kI", 0);
-//        kD = SmartDashboard.getNumber("Left kD", 0);
-
-        Robot.DRIVE_BASE.getLeftMotor().config_kP(0, kP, Constants.kTimeoutMs);
-        Robot.DRIVE_BASE.getLeftMotor().config_kI(0, kI, Constants.kTimeoutMs);
-		Robot.DRIVE_BASE.getLeftMotor().config_kD(0, kD, Constants.kTimeoutMs);
-		// Robot.DRIVE_BASE.getLeftMotor().config_kF(0, 0.4, Constants.kTimeoutMs);
-        Robot.DRIVE_BASE.getLeftMotor().config_kF(0, 0.02827216, Constants.kTimeoutMs);
-
-		Robot.DRIVE_BASE.getRightMotor().config_kP(0, kP, Constants.kTimeoutMs);
-        Robot.DRIVE_BASE.getRightMotor().config_kI(0, kI, Constants.kTimeoutMs);
-        Robot.DRIVE_BASE.getRightMotor().config_kD(0, kD, Constants.kTimeoutMs);
-        Robot.DRIVE_BASE.getRightMotor().config_kF(0, 0.02760091, Constants.kTimeoutMs);
-
 		leftMP.control();
 		rightMP.control();
 		leftMP.startMotionProfile();

@@ -2,7 +2,6 @@ package frc.team1138.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
-import edu.wpi.first.wpilibj.buttons.Trigger;
 import frc.team1138.robot.commands.ClearStickyFaults;
 import frc.team1138.robot.commands.CollectCubeLeft;
 import frc.team1138.robot.commands.CollectCubeRight;
@@ -11,12 +10,8 @@ import frc.team1138.robot.commands.EjectCube;
 import frc.team1138.robot.commands.LockLift;
 import frc.team1138.robot.commands.TogglePlunger;
 import frc.team1138.robot.commands.MoveArmToExchange;
-import frc.team1138.robot.commands.PositionLift;
 import frc.team1138.robot.commands.ShiftBase;
 import frc.team1138.robot.commands.ShiftLift;
-import frc.team1138.robot.commands.StopLeftCollector;
-import frc.team1138.robot.commands.StopRightCollector;
-import frc.team1138.robot.commands.TestMotionProfile;
 import frc.team1138.robot.commands.ToggleRatchet;
 
 /**
