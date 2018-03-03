@@ -10,58 +10,68 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 /**
- *
+ *This is the arm subsystem for the robot called Keystone.
+ *Currently, all PID functionality is commented out until
+ *we get to mess with the encoder. TODO check all of the
+ *goods with the arm encoder.
  */
+
 public class Arm extends /*PID*/Subsystem
 {
-	// Declaring the talons, digital limits, and encoder
+	// Declaring the talons and digital input (touch sensor)
 	private TalonSRX armMotor;
-	private DigitalInput armLowerLimit, armUpperLimit;
+	private DigitalInput armLowerLimit;
 
-	// Making variables for the arm talon
+	// Making variable for the arm talon
 	public static final int KArmMotor = 7;
-	// making variables for the limits
+	
+	// Making variables for the limit (and a deadzone/reverse deadzone for driving)
 	public static final int KArmLowerLimit = 1;
-	public static final int KArmUpperLimit = 2;
-	// setting dead zone limit
-	public static final double KDeadZoneLimit = 0.05;
-	public static final double KBigLimit = 0.8;
-	public static final double KSlowSpeed = 0.5;
-	public static final double KLowSpeed = 0.4; // TODO set variable;
-	public static final int KLowValue = 5; // TODO set variable;
-	public static final int KZeroSpeed = 0; // TODO set variable;
-	public static final int KEncoderValue = 1000;
-	public static final int KTicksPerRotation = 4096;
+	public static final double KDeadZoneLimit = 0.1; // Deadzone
+	public static final double KBigLimit = 0.8; // Reverse deadzone (if value's too large)
+	
+	//Setting speeds and encoders
+	public static final double KSlowSpeed = 0.4; //Slow speed of the arm
+	public static final int KZeroSpeed = 0; // Speed for not moving
+	public static final int KTicksPerRotation = 4096; // The ticks per rotation on the arm encoder
+	
+//	public static final int KEncoderValue = 1000;
+//	public static final int KLowValue = 5;
 
 	public Arm()
 	{
 //		super("Arm PID", 0, 0, 0); // TODO mess with P, I, and D
-//		setAbsoluteTolerance(100); // Threshold/error allowed TODO change this value to correct value
+//		setAbsoluteTolerance(100); // Threshold/error allowed
 //		getPIDController().setContinuous(true); // Change based on need, probably should be continuous
 //		getPIDController().setInputRange(-1000000000, 1000000000); // TODO figure out after getting the bot
-//		getPIDController().setOutputRange(-1.0, 1.0);
+//		getPIDController().setOutputRange(-1.0, 1.0); // Max and min speed for the arm
 
 		// Setting up the arm motor talon
 		armMotor = new TalonSRX(KArmMotor);
 
-		// setting up the limit digital input
+		// Setting up the limits as digital inputs
 		armLowerLimit = new DigitalInput(KArmLowerLimit);
-		armUpperLimit = new DigitalInput(KArmUpperLimit);
 
-		// setting up encoders
+		// Setting up encoder
 		armMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
 
 		// Setting up PID controller
 //		getPIDController().enable();
 		
-		//Configuring encoder
-		armMotor.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0, 10); // TODO I don't know if this is
-																					// quite the right function to clear
-																					// the encoder when it touches the
-																					// limit, so TODO figure out the
-																					// true value
+		// Configuring encoder to clear when arm hits the limit switch
+		// TODO test if this is correct way to clear it
+		armMotor.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0, 10);
 	}
-
+	
+	
+	/*
+	 * The order for methods as of 3 March 2018 (edit if needed):
+	 * Default Command
+	 * Basic Arm Functionality (without and with PID, in that order)
+	 * Moving arm to lower limit switch
+	 * PID Functionality and Methods
+	*/
+	
 	// Sets the default command
 	public void initDefaultCommand()
 	{
@@ -69,7 +79,7 @@ public class Arm extends /*PID*/Subsystem
 		setDefaultCommand(new MoveArmWithJoysticks());
 	}
 
-	// TODO set arm to output in pid output
+	// Sets arm to armAxis output, currently used to manually drive the robot
 	public void moveArm(double armAxis)
 	{
 		if (armAxis > -KBigLimit || armAxis < KBigLimit)
@@ -86,7 +96,7 @@ public class Arm extends /*PID*/Subsystem
 		SmartDashboard.putNumber("Arm Motor", this.armMotor.getMotorOutputPercent()); 
 	}
 
-	// move to set point with dead zone limit
+	// Moves arm to set point with dead zone limit, will be for PID functionality
 	public void driveArm(double armAxis)
 	{
 		if (armAxis > KDeadZoneLimit || armAxis < -KDeadZoneLimit)
@@ -100,62 +110,46 @@ public class Arm extends /*PID*/Subsystem
 		}
 	}
 
-	// move arm to the limit switch with pid
+	// Moves arm to the limit switch with PID
 	public void moveArmToLimitSwitch(double encoderValue)
 	{
 		if (armLowerLimit.get() != true)
 		{
-//			getPIDController().setSetpoint(encoderValue * KTicksPerRotation);
+//			setGoal(encoderValue);
 		}
 		else
 		{
 //			getPIDController().setSetpoint(0);
 		}
 
-		// if (armMotor.getSensorCollection().getQuadraturePosition() < encoderValue)
-		// {
-		// if (armMotor.getSensorCollection().getQuadraturePosition() <
-		// KLowValue*KTicksPerRotation)
-		// {
-		// armMotor.set(ControlMode.PercentOutput, KLowSpeed);
-		// }
-		// else
-		// {
-		// armMotor.set(ControlMode.PercentOutput, armSpeed);
-		// }
-		// }
-		// else {
-		// armMotor.set(ControlMode.PercentOutput, KZeroSpeed);
-		//
-		// }
+		// Currently this is here as a backup once we test the actual functionality
+		// TODO get rid of this if we know it is not needed (once bot is tested)
+//		 if (armMotor.getSensorCollection().getQuadraturePosition() < encoderValue)
+//		 {
+//		 if (armMotor.getSensorCollection().getQuadraturePosition() <
+//		 KLowValue*KTicksPerRotation)
+//		 {
+//		 armMotor.set(ControlMode.PercentOutput, KSlowSpeed);
+//		 }
+//		 else
+//		 {
+//		 armMotor.set(ControlMode.PercentOutput, armSpeed);
+//		 }
+//		 }
+//		 else {
+//		 armMotor.set(ControlMode.PercentOutput, KZeroSpeed);
+//		
+//		 }
 	}
-
-	// move to setpoint with encoders
-	public void moveArmWithEncoders(double position)
-	{
-//		getPIDController().setSetpoint(position * KTicksPerRotation);
-	}
-
-	// get encoder value
-	public double returnEncoderValue()
-	{
-		return armMotor.getSensorCollection().getQuadraturePosition();
-	}
-
-	// set setpoint
-	public void setGoal(double setpoint)
-	{
-//		getPIDController().setSetpoint(setpoint);
-	}
-
-	// getting encodoer value for pid
+	
+	// Returning encodoer value for pid
 //	@Override
 //	protected double returnPIDInput()
 //	{
 //		return returnEncoderValue();
 //	}
 
-	// move up or down if not on target
+	// Move up or down if not on target
 //	@Override
 //	protected void usePIDOutput(double output)
 //	{
@@ -180,7 +174,19 @@ public class Arm extends /*PID*/Subsystem
 //		}
 //	}
 
-	// calls for if it is true or false
+	// Move arm to setpoint with encoders by setting the setpoint to another value
+	public void setGoal(double position)
+	{
+//		getPIDController().setSetpoint(position * KTicksPerRotation);
+	}
+
+	// Returns the encoder value
+	public double returnEncoderValue()
+	{
+		return armMotor.getSensorCollection().getQuadraturePosition();
+	}
+
+	// Returns whether or not the robot is on target
 //	@Override
 //	public boolean onTarget()
 //	{

@@ -31,18 +31,18 @@ public class TestMotionProfile extends Command
 	protected void initialize()
 	{
 		Robot.DRIVE_BASE.resetEncoders();
-		leftMP = new ProfileExecutor(Robot.DRIVE_BASE.getLeftMotor(), this.leftProfile);
-		rightMP = new ProfileExecutor(Robot.DRIVE_BASE.getRightMotor(), this.rightProfile);
+		leftMP = new ProfileExecutor(Robot.DRIVE_BASE.getBaseLeftFront(), this.leftProfile);
+		rightMP = new ProfileExecutor(Robot.DRIVE_BASE.getBaseRightFront(), this.rightProfile);
 
-		Robot.DRIVE_BASE.getLeftMotor().config_kP(0, kP, Constants.kTimeoutMs);
-        Robot.DRIVE_BASE.getLeftMotor().config_kI(0, kI, Constants.kTimeoutMs);
-		Robot.DRIVE_BASE.getLeftMotor().config_kD(0, kD, Constants.kTimeoutMs);
-        Robot.DRIVE_BASE.getLeftMotor().config_kF(0, 0.029593844, Constants.kTimeoutMs);
+		Robot.DRIVE_BASE.getBaseLeftFront().config_kP(0, kP, Constants.kTimeoutMs);
+        Robot.DRIVE_BASE.getBaseLeftFront().config_kI(0, kI, Constants.kTimeoutMs);
+		Robot.DRIVE_BASE.getBaseLeftFront().config_kD(0, kD, Constants.kTimeoutMs);
+        Robot.DRIVE_BASE.getBaseLeftFront().config_kF(0, 0.029593844, Constants.kTimeoutMs);
 
-		Robot.DRIVE_BASE.getRightMotor().config_kP(0, kP, Constants.kTimeoutMs);
-        Robot.DRIVE_BASE.getRightMotor().config_kI(0, kI, Constants.kTimeoutMs);
-        Robot.DRIVE_BASE.getRightMotor().config_kD(0, kD, Constants.kTimeoutMs);
-        Robot.DRIVE_BASE.getRightMotor().config_kF(0, 0.0305994257, Constants.kTimeoutMs);
+		Robot.DRIVE_BASE.getBaseRightFront().config_kP(0, kP, Constants.kTimeoutMs);
+        Robot.DRIVE_BASE.getBaseRightFront().config_kI(0, kI, Constants.kTimeoutMs);
+        Robot.DRIVE_BASE.getBaseRightFront().config_kD(0, kD, Constants.kTimeoutMs);
+        Robot.DRIVE_BASE.getBaseRightFront().config_kF(0, 0.0305994257, Constants.kTimeoutMs);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -57,8 +57,8 @@ public class TestMotionProfile extends Command
 		SetValueMotionProfile rightOutput = rightMP.getValue();
 		Robot.DRIVE_BASE.setLeftMotionControl(ControlMode.MotionProfile, leftOutput.value);
 		Robot.DRIVE_BASE.setRightMotionControl(ControlMode.MotionProfile, rightOutput.value);
-		SmartDashboard.putNumber("MP Left Motor Output", Robot.DRIVE_BASE.getLeftMotor().getMotorOutputPercent());
-		SmartDashboard.putNumber("MP Right Motor Output", Robot.DRIVE_BASE.getRightMotor().getMotorOutputPercent());
+		SmartDashboard.putNumber("MP Left Motor Output", Robot.DRIVE_BASE.getBaseLeftFront().getMotorOutputPercent());
+		SmartDashboard.putNumber("MP Right Motor Output", Robot.DRIVE_BASE.getBaseRightFront().getMotorOutputPercent());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
