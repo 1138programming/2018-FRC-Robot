@@ -1,6 +1,7 @@
 package frc.team1138.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1138.robot.OI;
 import frc.team1138.robot.Robot;
 
@@ -31,6 +32,8 @@ public class DriveLiftPID extends Command
 	protected void execute()
 	{
 		Robot.LIFT.liftWithJoysticks(oi.getRightXBoxAxis());
+		// Robot.LIFT.moveLift(oi.getRightXBoxAxis());
+		SmartDashboard.putNumber("Lift Encoder", Robot.LIFT.getEncoderValue());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

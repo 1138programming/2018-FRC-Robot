@@ -154,7 +154,7 @@ public class OI
 
 	public double getRightXBoxAxis()
 	{ // right xbox axis controls the dumper arm
-		return (-xBoxController.getRawAxis(5));
+		return (xBoxController.getRawAxis(5));
 	}
 
 	public double getXBoxPOV()

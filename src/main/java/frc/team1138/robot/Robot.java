@@ -131,6 +131,7 @@ public class Robot extends IterativeRobot
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		Robot.DRIVE_BASE.resetEncoders();
+		Robot.LIFT.resetLiftEncoder();
 
 		try {
 			ledSubsystem.setMode(LEDModes.Idle);

@@ -24,7 +24,7 @@ public class MoveArmToExchange extends Command
 	@Override
 	protected void execute()
 	{
-		Robot.ARM.moveArmWithEncoders(2.5); // TODO experiment with this value when testable
+		// Robot.ARM.moveArmWithEncoders(2.5); // TODO experiment with this value when testable
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
