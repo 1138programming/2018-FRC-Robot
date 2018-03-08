@@ -28,6 +28,19 @@ public class LEDSubsystem extends Subsystem
 			return value;
 		}
 	}
+
+	public enum DeviceByte {
+		LED			((byte) 0);
+
+		private final byte value;
+		private DeviceByte(byte value) {
+			this.value = value;
+		}
+
+		public byte getValue() {
+			return value;
+		}
+	}
 	
 	public enum LEDResults {
 		Success			((byte) 0),
@@ -69,13 +82,14 @@ public class LEDSubsystem extends Subsystem
 	
 	public void setMode(LEDModes mode) throws IOException {
 		// Turn the the mode into a byte to send (from the enum declaration)
-		byte[] toSend = new byte[1];
-		toSend[0] = mode.getValue();
+		byte[] toSend = new byte[2];
+		toSend[0] = DeviceByte.LED.getValue();
+		toSend[1] = mode.getValue();
 		
 		if (Wire != null && toSend != null) {
 			// Check that we have a proper I2C connection to avoid
 			// NullPointerExceptions
-			Wire.writeBulk(toSend, 1);
+			Wire.writeBulk(toSend, 2);
 		}
 		
 		// Receive a response to check for an error
