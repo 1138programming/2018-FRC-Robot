@@ -29,7 +29,7 @@ public class DriveCollector extends Command
 	protected void execute()
 	{
 		//Experimental Stuff Goes Here
-		Robot.COLLECTOR.driveCollector(oi.getRightTrigger(), oi.getLeftTrigger());
+		Robot.COLLECTOR.driveCollector(oi.getRightTrigger()*0.75, oi.getLeftTrigger()*0.75);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

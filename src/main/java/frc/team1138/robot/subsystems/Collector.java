@@ -57,15 +57,15 @@ public class Collector extends Subsystem
 	// both at
 	// the same time
 
-	public void collectCubeWithRollersRight()
+	public void collectCubeWithRollersRight(double value)
 	{
-		rightCollector.set(ControlMode.PercentOutput, -1);
+		rightCollector.set(ControlMode.PercentOutput, value);
 		SmartDashboard.putNumber("Right Collector", rightCollector.getMotorOutputPercent());
 	}
 	
-	public void collectCubeWithRollersLeft()
+	public void collectCubeWithRollersLeft(double value)
 	{
-		leftCollector.set(ControlMode.PercentOutput, 0);
+		leftCollector.set(ControlMode.PercentOutput, value);
 		SmartDashboard.putNumber("Left Collector", leftCollector.getMotorOutputPercent());
 	}
 	

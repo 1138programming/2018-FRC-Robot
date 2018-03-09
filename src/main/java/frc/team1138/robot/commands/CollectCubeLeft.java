@@ -1,12 +1,13 @@
 package frc.team1138.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import frc.team1138.robot.OI;
 import frc.team1138.robot.Robot;
 
 public class CollectCubeLeft extends Command
 {
 
-	private boolean toggle = true;
+//	private boolean toggle = true;
 	
 	public CollectCubeLeft()
 	{
@@ -20,10 +21,12 @@ public class CollectCubeLeft extends Command
 
 	protected void execute()
 	{
-		if(toggle)
-			Robot.COLLECTOR.collectCubeWithRollersLeft();
-		else
-			Robot.COLLECTOR.stopCollectorLeft();
+		Robot.COLLECTOR.collectCubeWithRollersLeft(Robot.oi.getLeftTrigger());
+		Robot.COLLECTOR.collectCubeWithRollersRight(Robot.oi.getRightTrigger());
+//		if(toggle)
+//			Robot.COLLECTOR.collectCubeWithRollersLeft();
+//		else
+//			Robot.COLLECTOR.stopCollectorLeft();
 		//SmartDashboard.putBoolean("", value);
 	}
 
@@ -36,10 +39,10 @@ public class CollectCubeLeft extends Command
 
 	protected void end()
 	{
-		if(toggle)
-			toggle = false;
-		else
-			toggle = true;
+//		if(toggle)
+//			toggle = false;
+//		else
+//			toggle = true;
 	}
 
 	protected void interrupted()

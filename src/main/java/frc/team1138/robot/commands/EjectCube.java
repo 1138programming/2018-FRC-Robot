@@ -6,7 +6,7 @@ import frc.team1138.robot.Robot;
 
 public class EjectCube extends Command
 {
-	private boolean toggle = true;
+//	private boolean toggle = true;
 
 	public EjectCube()
 	{
@@ -19,16 +19,16 @@ public class EjectCube extends Command
 
 	protected void execute()
 	{
-		if(toggle)
-		{
-			Robot.COLLECTOR.ejectCubeWithRollers();
-			Robot.COLLECTOR.kickCubeWithPlunger();
-		}
-		else
-		{
-			Robot.COLLECTOR.stopCollectorLeft();
-			Robot.COLLECTOR.stopCollectorRight();
-		}
+		Robot.COLLECTOR.ejectCubeWithRollers();
+		Robot.COLLECTOR.kickCubeWithPlunger();
+//		if(toggle)
+//		{
+//			
+//		}
+//		else
+//		{
+//			
+//		}
 	}
 
 	@Override
@@ -40,10 +40,12 @@ public class EjectCube extends Command
 
 	protected void end()
 	{
-		if(toggle)
-			toggle = false;
-		else
-			toggle = true;
+//		if(toggle)
+//			toggle = false;
+//		else
+//			toggle = true;
+		Robot.COLLECTOR.stopCollectorLeft();
+		Robot.COLLECTOR.stopCollectorRight();
 	}
 
 	protected void interrupted()

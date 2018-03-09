@@ -97,11 +97,14 @@ public class OI
 		btn5.whenPressed(new ShiftBase()); // Shifts the base
 		btn7.whenPressed(new ClearStickyFaults()); //Clears sticky faults
 		
-		btnLB.whenPressed(new CollectCubeLeft()); // Runs left collector
-		btnLB.whenReleased(new CollectCubeLeft()); // Stops the left collector when the button is released
-		
-		btnRB.whenPressed(new CollectCubeRight()); // Runs the right collector
-		btnRB.whenReleased(new CollectCubeRight()); // Stops the right collector
+//		btnLB.whenPressed(new CollectCubeLeft()); // Runscollector
+//		btnLB.whenReleased(new CollectCubeLeft()); // Stops collector when the button is released
+//
+//		btnLB.whenPressed(new CollectCubeLeft()); // Runs left collector
+//		btnLB.whenReleased(new CollectCubeLeft()); // Stops the left collector when the button is released
+//		
+//		btnRB.whenPressed(new CollectCubeRight()); // Runs the right collector
+//		btnRB.whenReleased(new CollectCubeRight()); // Stops the right collector
 		
 		btnA.whenPressed(new CycleArm()); // Puts the arm through a full cycle
 		btnB.whenPressed(new MoveArmToExchange()); // Moves the arm to the exchange position
@@ -137,13 +140,13 @@ public class OI
 
 	public double getLeftTrigger()
 	{ // left controller's trigger is currently unused
-		return (-xBoxController.getRawAxis(3));
+		return (-(xBoxController.getRawAxis(3)));
 		// Add function here, currently this doesn't do much.
 	}
 
 	public double getRightTrigger()
 	{ // right controller's trigger engages the shift on the base
-		return (xBoxController.getRawAxis(2));
+		return (-(xBoxController.getRawAxis(2)));
 		// Add function here, currently this doesn't do much.
 	}
 
