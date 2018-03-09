@@ -3,6 +3,7 @@ package frc.team1138.robot.subsystems;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1138.robot.commands.DriveCollector;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -59,11 +60,13 @@ public class Collector extends Subsystem
 	public void collectCubeWithRollersRight()
 	{
 		rightCollector.set(ControlMode.PercentOutput, -1);
+		SmartDashboard.putNumber("Right Collector", rightCollector.getMotorOutputPercent());
 	}
 	
 	public void collectCubeWithRollersLeft()
 	{
-		leftCollector.set(ControlMode.PercentOutput, -1);
+		leftCollector.set(ControlMode.PercentOutput, 0);
+		SmartDashboard.putNumber("Left Collector", leftCollector.getMotorOutputPercent());
 	}
 	
 	public void driveCollector(double rightAxis, double leftAxis)

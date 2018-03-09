@@ -143,7 +143,7 @@ public class OI
 
 	public double getRightTrigger()
 	{ // right controller's trigger engages the shift on the base
-		return (-xBoxController.getRawAxis(2));
+		return (xBoxController.getRawAxis(2));
 		// Add function here, currently this doesn't do much.
 	}
 
@@ -154,7 +154,7 @@ public class OI
 
 	public double getRightXBoxAxis()
 	{ // right xbox axis controls the dumper arm
-		return (xBoxController.getRawAxis(5));
+		return (-xBoxController.getRawAxis(5));
 	}
 
 	public double getXBoxPOV()

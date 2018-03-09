@@ -1,7 +1,7 @@
 package frc.team1138.robot.commands;
 
 import frc.team1138.robot.Robot;
-import frc.team1138.robot.subsystems.LEDSubsystem.LEDModes;
+import frc.team1138.robot.subsystems.CoprocessorSubsystem.LEDModes;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.DigitalInput;
 
@@ -20,7 +20,7 @@ public class UpdateLedStatus extends Command {
 	
 	public UpdateLedStatus() {
 		// TODO Auto0generated constructor stub
-		requires(Robot.ledSubsystem);
+		requires(Robot.coprocessorSubsystem);
 		cubeLimitSwitch = new DigitalInput(0);
 		rungLimitSwitch = new DigitalInput(1);
 		lastUpdateTime = System.currentTimeMillis();
@@ -37,7 +37,7 @@ public class UpdateLedStatus extends Command {
 				lastUpdateTime = System.currentTimeMillis() + 650;
 				try {
 					lastMode = cubeLimitSwitch;
-					Robot.ledSubsystem.setMode(LEDModes.Cube);
+					Robot.coprocessorSubsystem.setMode(LEDModes.Cube);
 				} catch (IOException e) {
 					System.out.println(e);
 				}
@@ -45,14 +45,14 @@ public class UpdateLedStatus extends Command {
 				lastUpdateTime = System.currentTimeMillis() + 650;
 				try {
 					lastMode = rungLimitSwitch;
-					Robot.ledSubsystem.setMode(LEDModes.Rung);
+					Robot.coprocessorSubsystem.setMode(LEDModes.Rung);
 				} catch (IOException e) {
 					System.out.println(e);
 				}
 			} else if (lastMode != null && cubeLimitSwitch.get() && rungLimitSwitch.get()) {
 				try {
 					lastMode = null;
-					Robot.ledSubsystem.setMode(LEDModes.Idle);
+					Robot.coprocessorSubsystem.setMode(LEDModes.Idle);
 				} catch (IOException e) {
 					System.out.println(e);
 				}

@@ -31,8 +31,8 @@ public class DriveLiftPID extends Command
 	@Override
 	protected void execute()
 	{
-		Robot.LIFT.liftWithJoysticks(oi.getRightXBoxAxis());
-		// Robot.LIFT.moveLift(oi.getRightXBoxAxis());
+		// Robot.LIFT.liftWithJoysticks(oi.getRightXBoxAxis());
+		Robot.LIFT.moveLift(oi.getRightXBoxAxis());
 		SmartDashboard.putNumber("Lift Encoder", Robot.LIFT.getEncoderValue());
 	}
 

@@ -9,9 +9,9 @@ import java.io.IOException;
 
 
 /**
-* The LEDSubsystem class
+* The CoprocessorSubsystem class
 */
-public class LEDSubsystem extends Subsystem
+public class CoprocessorSubsystem extends Subsystem
 {
 	public enum LEDModes {
 		Off			((byte) 0),
@@ -30,7 +30,8 @@ public class LEDSubsystem extends Subsystem
 	}
 
 	public enum DeviceByte {
-		LED			((byte) 0);
+		LED			((byte) 0),
+		ULTRASONIC	((byte) 1);
 
 		private final byte value;
 		private DeviceByte(byte value) {
@@ -60,10 +61,10 @@ public class LEDSubsystem extends Subsystem
 	private final I2C Wire;
 	private byte[] received;
 	
-	public LEDSubsystem()
+	public CoprocessorSubsystem()
 	{
 		System.out.println("LED Subsystem Initializing...");
-		received = new byte[1];
+		received = new byte[2];
 		Wire = new I2C(Port.kMXP, 4);
 		
 		try {
@@ -99,5 +100,22 @@ public class LEDSubsystem extends Subsystem
 		if (received[0] == LEDResults.Error.getValue()) {
 			throw new IOException("Error from rioDuino");
 		}
+	}
+
+	public int getUltrasonic() throws IOException {
+		byte[] toSend = new byte[1];
+		toSend[0] = DeviceByte.ULTRASONIC.getValue();
+
+		if (Wire != null && toSend != null) {
+			Wire.writeBulk(toSend, 1);
+		}
+
+		Wire.readOnly(received, 2);
+
+		if (received[0] == LEDResults.Error.getValue()) {
+			throw new IOException("Error from rioDuino");
+		}
+
+		return (int) received[1];
 	}
 }

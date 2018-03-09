@@ -2,6 +2,7 @@ package frc.team1138.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team1138.robot.Robot;
+import frc.team1138.robot.subsystems.Lift.LatchPos;
 
 /**
  *
@@ -26,6 +27,7 @@ public class ToggleRatchet extends Command
 	protected void execute()
 	{
 		Robot.LIFT.ratchetIt();
+		Robot.LIFT.moveLatch(LatchPos.AUTON_POS);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

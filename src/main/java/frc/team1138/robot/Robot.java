@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1138.robot.subsystems.Collector;
@@ -13,8 +14,9 @@ import frc.team1138.robot.AutoCommand.RightCommand;
 import frc.team1138.robot.subsystems.Arm;
 import frc.team1138.robot.subsystems.DriveBase;
 import frc.team1138.robot.subsystems.Lift;
-import frc.team1138.robot.subsystems.LEDSubsystem;
-import frc.team1138.robot.subsystems.LEDSubsystem.LEDModes;
+import frc.team1138.robot.subsystems.CoprocessorSubsystem;
+import frc.team1138.robot.subsystems.CoprocessorSubsystem.LEDModes;
+import frc.team1138.robot.subsystems.Lift.LatchPos;
 
 import java.io.IOException;
 /**
@@ -31,7 +33,7 @@ public class Robot extends IterativeRobot
 	public static final Arm ARM = new Arm();
 	public static final Lift LIFT = new Lift();
 	public static final Collector COLLECTOR = new Collector();
-	public static LEDSubsystem ledSubsystem = new LEDSubsystem();
+	public static CoprocessorSubsystem coprocessorSubsystem = new CoprocessorSubsystem();
 	public static OI oi;
 	public static PowerDistributionPanel pdp;
 
@@ -47,7 +49,8 @@ public class Robot extends IterativeRobot
 	{
 		chooser = new SendableChooser();
 		oi = new OI();
-		pdp =  new PowerDistributionPanel();
+		pdp =  new PowerDistributionPanel(0);
+		LiveWindow.disableTelemetry(pdp);
 		chooser.addDefault("Middle", new MiddleCommand());
 		chooser.addObject("Right", new RightCommand());
 		chooser.addObject("Left", new LeftCommand());
@@ -64,7 +67,7 @@ public class Robot extends IterativeRobot
 	public void disabledInit()
 	{
 		try {
-			ledSubsystem.setMode(LEDModes.Off);
+			coprocessorSubsystem.setMode(LEDModes.Off);
 		} catch (IOException e) {
 			System.out.println(e);
 		}
@@ -106,10 +109,12 @@ public class Robot extends IterativeRobot
 		}
 		
 		try {
-			ledSubsystem.setMode(LEDModes.Idle);
+			coprocessorSubsystem.setMode(LEDModes.Idle);
 		} catch (IOException e) {
 			System.out.println(e);
 		}
+
+		Robot.LIFT.moveLatch(LatchPos.AUTON_POS);
 	}
 
 	/**
@@ -134,7 +139,7 @@ public class Robot extends IterativeRobot
 		Robot.LIFT.resetLiftEncoder();
 
 		try {
-			ledSubsystem.setMode(LEDModes.Idle);
+			coprocessorSubsystem.setMode(LEDModes.Idle);
 		} catch (IOException e) {
 			System.out.println(e);
 		}
@@ -151,13 +156,15 @@ public class Robot extends IterativeRobot
 		SmartDashboard.putNumber("Right Base Encoder", Robot.DRIVE_BASE.getRightEncoderValue());
 		SmartDashboard.putNumber("Left Base Encoder", Robot.DRIVE_BASE.getLeftEncoderValue());
 		SmartDashboard.putNumber("Gyro", Robot.DRIVE_BASE.getAngle());
+		Robot.LIFT.testSoul();
+		SmartDashboard.putNumber("Lift POS again", Robot.LIFT.getEncoderValue());
 		// Robot.DRIVE_BASE.cureCancer();
 	}
 	
 	@Override
 	public void testInit() {
 		try {
-			ledSubsystem.setMode(LEDModes.Idle);
+			coprocessorSubsystem.setMode(LEDModes.Idle);
 		} catch (IOException e) {
 			System.out.println(e);
 		}
@@ -170,9 +177,9 @@ public class Robot extends IterativeRobot
 	public void testPeriodic()
 	{
 		Scheduler.getInstance().run();
-		if (pdp.getVoltage() < 6.5) {
+		if (pdp.getVoltage() < 6.8) {
 			pdp.clearStickyFaults();
-			SmartDashboard.putNumber("PDP Sticky", pdp.getVoltage());
 		}
+		SmartDashboard.putNumber("PDP Voltage", pdp.getVoltage());
 	}
 }
