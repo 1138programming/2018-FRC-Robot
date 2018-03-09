@@ -10,13 +10,10 @@ import frc.team1138.robot.Robot;
  */
 public class DriveLiftPID extends Command
 {
-	private OI oi;
-
 	public DriveLiftPID()
 	{
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.LIFT);
-		oi = new OI();
 	}
 
 	// Called just before this Command runs the first time
@@ -32,8 +29,8 @@ public class DriveLiftPID extends Command
 	protected void execute()
 	{
 		// Robot.LIFT.liftWithJoysticks(oi.getRightXBoxAxis());
-		Robot.LIFT.moveLift(oi.getRightXBoxAxis());
-		SmartDashboard.putNumber("Lift Encoder", Robot.LIFT.getEncoderValue());
+		// Robot.LIFT.moveLift(Robot.oi.getRightXBoxAxis());
+		Robot.LIFT.operateLift();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

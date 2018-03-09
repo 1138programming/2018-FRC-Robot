@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Camera extends Subsystem
 {
-	private CameraServer cam;
+	private static CameraServer cam;
 	
 	@Override
 	protected void initDefaultCommand() 

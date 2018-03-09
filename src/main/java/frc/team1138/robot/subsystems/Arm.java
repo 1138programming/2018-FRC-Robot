@@ -31,7 +31,7 @@ public class Arm extends /*PID*/Subsystem
 	public static final double KBigLimit = 0.8; // Reverse deadzone (if value's too large)
 	
 	//Setting speeds and encoders
-	public static final double KSlowSpeed = 0.4; //Slow speed of the arm
+	public static final double KSlowSpeed = 0.6; //Slow speed of the arm
 	public static final int KZeroSpeed = 0; // Speed for not moving
 	public static final int KTicksPerRotation = 4096; // The ticks per rotation on the arm encoder
 	

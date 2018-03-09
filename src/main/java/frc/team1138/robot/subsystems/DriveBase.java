@@ -103,13 +103,13 @@ public class DriveBase extends Subsystem
 	}
 	public TalonSRX getBaseRightFront()
 	{
-		return this.baseLeftFront;
+		return this.baseRightFront;
 	}
 	public TalonSRX getBaseLeftBack()
 	{
 		return this.baseLeftBack;
 	}
-	public TalonSRX getBaseRightBack()
+	public TalonSRX getBaseRightBack()  
 	{
 		return this.baseRightBack;
 	}

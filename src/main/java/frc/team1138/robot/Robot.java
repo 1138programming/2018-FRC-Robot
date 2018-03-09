@@ -12,6 +12,7 @@ import frc.team1138.robot.AutoCommand.LeftCommand;
 import frc.team1138.robot.AutoCommand.MiddleCommand;
 import frc.team1138.robot.AutoCommand.RightCommand;
 import frc.team1138.robot.subsystems.Arm;
+import frc.team1138.robot.subsystems.Camera;
 import frc.team1138.robot.subsystems.DriveBase;
 import frc.team1138.robot.subsystems.Lift;
 import frc.team1138.robot.subsystems.CoprocessorSubsystem;
@@ -33,6 +34,7 @@ public class Robot extends IterativeRobot
 	public static final Arm ARM = new Arm();
 	public static final Lift LIFT = new Lift();
 	public static final Collector COLLECTOR = new Collector();
+	public static final Camera camera = new Camera();
 	public static CoprocessorSubsystem coprocessorSubsystem = new CoprocessorSubsystem();
 	public static OI oi;
 	public static PowerDistributionPanel pdp;
@@ -114,7 +116,7 @@ public class Robot extends IterativeRobot
 			System.out.println(e);
 		}
 
-		Robot.LIFT.moveLatch(LatchPos.AUTON_POS);
+		// Robot.LIFT.moveLatch(LatchPos.AUTON_POS);
 	}
 
 	/**
@@ -157,7 +159,6 @@ public class Robot extends IterativeRobot
 		SmartDashboard.putNumber("Left Base Encoder", Robot.DRIVE_BASE.getLeftEncoderValue());
 		SmartDashboard.putNumber("Gyro", Robot.DRIVE_BASE.getAngle());
 		Robot.LIFT.testSoul();
-		SmartDashboard.putNumber("Lift POS again", Robot.LIFT.getEncoderValue());
 		// Robot.DRIVE_BASE.cureCancer();
 	}
 	

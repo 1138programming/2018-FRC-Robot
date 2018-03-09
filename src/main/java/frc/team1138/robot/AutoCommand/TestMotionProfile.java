@@ -18,7 +18,7 @@ public class TestMotionProfile extends Command
 {
 	private ProfileExecutor leftMP, rightMP;
 	private double[][] leftProfile, rightProfile; 
-	private double kP = 0.03, kD = 0.1, kI = 0;
+	private double kP = 0.1, kD = 0.5, kI = 0;
 	public TestMotionProfile(double[][] leftProfile, double[][] rightProfile)
 	{
 		requires(Robot.DRIVE_BASE);

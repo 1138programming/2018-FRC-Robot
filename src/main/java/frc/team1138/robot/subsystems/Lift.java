@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.team1138.robot.Robot;
 import frc.team1138.robot.commands.DriveLift;
 import frc.team1138.robot.commands.DriveLiftPID;
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -104,19 +105,19 @@ public class Lift extends PIDSubsystem
 			if ((this.returnPIDInput() - this.getSetpoint()) < 0)
 			{ // Need to move up
 				System.out.println("Move Up");
-				moveLift(output);
+				frontLift.set(ControlMode.PercentOutput, output);
 			}
 			else if ((this.returnPIDInput() - this.getSetpoint()) > 0)
 			{ // Need to move down
 				System.out.println("Move Down");
-				moveLift(output);
+				frontLift.set(ControlMode.PercentOutput, output);
 			}
 			System.out.println("Error: " + (getEncoderValue() - this.getSetpoint()));
 			System.out.println("Input: " + this.returnPIDInput());
 		}
 		else
 		{
-			moveLift(0);
+			frontLift.set(ControlMode.PercentOutput, 0);
 		}
 	}
 
@@ -151,25 +152,56 @@ public class Lift extends PIDSubsystem
 		backLift.getSensorCollection().setQuadraturePosition(0, 10);
 	}
 
+	// public void moveLiftWithDeadZone(double value)
+	// {
+	// 	if(value > KDeadZoneLimit || value < -KDeadZoneLimit) 
+	// 	{
+	// 		frontLift.set(ControlMode.PercentOutput, value);
+	// 	}
+	// }
+
 	// Moves the lift without PID
-	public void moveLift(double liftAxis)
+	public void operateLift()//(double liftAxis)
 	{
 		SmartDashboard.putBoolean("Lift Limit Switch Rev", frontLift.getSensorCollection().isRevLimitSwitchClosed());
 		SmartDashboard.putBoolean("Lift Limit Switch Fwd", frontLift.getSensorCollection().isFwdLimitSwitchClosed());
 		SmartDashboard.putNumber("Lift front motor", frontLift.get());
 		SmartDashboard.putNumber("Lift back motor", backLift.get());
-		SmartDashboard.putNumber("Lift Axis", liftAxis);
-		if(liftAxis > KDeadZoneLimit || (liftAxis < -KDeadZoneLimit && !frontLift.getSensorCollection().isRevLimitSwitchClosed()))
+		// SmartDashboard.putNumber("Lift Axis", liftAxis);
+		SmartDashboard.putBoolean("BTN8", Robot.oi.btn8.get());
+		SmartDashboard.putBoolean("BTN6", Robot.oi.btn6.get());
+		if (Robot.oi.btn8.get()) 
 		{
-			SmartDashboard.putBoolean("moving lift", true);
-			frontLift.set(ControlMode.PercentOutput, liftAxis * 0.6);
-			// frontLift.set(ControlMode.PercentOutput, liftAxis);
+			frontLift.set(ControlMode.PercentOutput, 0.7);
 		}
 		else
 		{
-			SmartDashboard.putBoolean("moving lift", false);
 			frontLift.set(ControlMode.PercentOutput, 0);
 		}
+		if (Robot.oi.btn6.get())
+		{
+			frontLift.set(ControlMode.PercentOutput, -0.5);
+		}
+		else
+		{
+			frontLift.set(ControlMode.PercentOutput, 0);
+		}
+		// if(liftAxis > KDeadZoneLimit) 
+		// {
+		// 	SmartDashboard.putString("moving lift", "UP");  
+		// 	frontLift.set(ControlMode.PercentOutput, liftAxis * 0.6);
+		// }
+		// else if (liftAxis < -KDeadZoneLimit && !frontLift.getSensorCollection().isRevLimitSwitchClosed())
+		// {
+		// 	SmartDashboard.putString("moving lift", "DOWN");
+		// 	frontLift.set(ControlMode.PercentOutput, liftAxis * 0.6);
+		// 	// frontLift.set(ControlMode.PercentOutput, liftAxis);
+		// }
+		// else
+		// {
+		// 	SmartDashboard.putBoolean("moving lift", false);
+		// 	frontLift.set(ControlMode.PercentOutput, 0);
+		// }
 	}
 
 	// Lifts (or lowers) the robot using the joysticks and PID
@@ -301,5 +333,6 @@ public class Lift extends PIDSubsystem
 		SmartDashboard.putBoolean("Lock Lift black", lockSolenoid.isBlackListed());
 		SmartDashboard.putNumber("left servo", leftServo.get());
 		SmartDashboard.putNumber("right servo", rightServo.get());
+		SmartDashboard.putNumber("Lift Encoder", getEncoderValue());
 	}
 }

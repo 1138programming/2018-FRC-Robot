@@ -51,9 +51,9 @@ public class OI
 	// following variables to use with your drivetrain subsystem.
 
 	// Define joysticks and joystick buttons
-	private Joystick logitechController, xBoxController;
-	private JoystickButton btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8; // Logitech Button
-	private JoystickButton btnA, btnB, btnX, btnY, btnLB, btnRB, btnStrt; // Xbox Buttons
+	public Joystick logitechController, xBoxController;
+	public JoystickButton btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8; // Logitech Button
+	public JoystickButton btnA, btnB, btnX, btnY, btnLB, btnRB, btnStrt; // Xbox Buttons
 
 	public OI()
 	{
