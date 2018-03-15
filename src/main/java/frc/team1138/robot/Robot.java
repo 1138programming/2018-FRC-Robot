@@ -157,7 +157,7 @@ public class Robot extends IterativeRobot
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("Right Base Encoder", Robot.DRIVE_BASE.getRightEncoderValue());
 		SmartDashboard.putNumber("Left Base Encoder", Robot.DRIVE_BASE.getLeftEncoderValue());
-		SmartDashboard.putNumber("Gyro", Robot.DRIVE_BASE.getAngle());
+		// SmartDashboard.putNumber("Gyro", Robot.DRIVE_BASE.getAngle());
 		Robot.LIFT.testSoul();
 		// Robot.DRIVE_BASE.cureCancer();
 	}

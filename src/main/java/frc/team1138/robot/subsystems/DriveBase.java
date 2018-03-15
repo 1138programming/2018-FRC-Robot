@@ -19,7 +19,7 @@ public class DriveBase extends Subsystem
 {
 	// Declaring the talons, sensors, and solenoids
 	private TalonSRX baseLeftFront, baseLeftBack, baseRightFront, baseRightBack;
-	private PigeonIMU pigeonIMU;
+	// private PigeonIMU pigeonIMU;
 	private DoubleSolenoid shifterSolenoid;
 
 	// Making variables for base talon slots so there aren't magic numbers floating
@@ -65,8 +65,8 @@ public class DriveBase extends Subsystem
 
 		// Configuring the solenoids and sensors
 		shifterSolenoid = new DoubleSolenoid(KShifterSolenoid1, KShifterSolenoid2); // Solenoid
-		pigeonIMU = new PigeonIMU(baseLeftBack); // Gyro
-		pigeonIMU.setYaw(0, 0); // Basically, this resets the gyro
+		// pigeonIMU = new PigeonIMU(baseLeftBack); // Gyro
+		// pigeonIMU.setYaw(0, 0); // Basically, this resets the gyro
 		baseLeftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Left Encoder
 		baseRightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Right Encoder
 		
@@ -117,13 +117,15 @@ public class DriveBase extends Subsystem
 	// Used to drive the base in a "tank drive" format, this is the standard
 	public void tankDrive(double left, double right)
 	{
+		SmartDashboard.putNumber("Left Base Input", left);
+		SmartDashboard.putNumber("Right Base Input", right);
 		if (left > KDeadZoneLimit || left < -KDeadZoneLimit)
 		{
-			getBaseLeftFront().set(ControlMode.PercentOutput, left);
+			baseLeftFront.set(ControlMode.PercentOutput, left);
 		}
 		else
 		{
-			getBaseLeftFront().set(ControlMode.PercentOutput, 0);
+			baseLeftFront.set(ControlMode.PercentOutput, 0);
 		}
 
 		if (right > KDeadZoneLimit || right < -KDeadZoneLimit)
@@ -182,14 +184,14 @@ public class DriveBase extends Subsystem
 	// Used for reseting the gyro
 	public void resetGyro()
 	{
-		pigeonIMU.setYaw(0, 0);
+		// pigeonIMU.setYaw(0, 0);
 	}
 
 	// @return current gyro value in degrees from 180.0 to -180.0
 	public double getAngle()
 	{
 		double[] ypr = new double[3];
-		pigeonIMU.getYawPitchRoll(ypr);
+		// pigeonIMU.getYawPitchRoll(ypr);
 		return (ypr[0]);
 	}
 

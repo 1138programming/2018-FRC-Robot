@@ -9,13 +9,13 @@ import frc.team1138.robot.Robot;
  */
 public class DriveCollector extends Command
 {
-	private OI oi;
+	// private OI oi;
 
 	public DriveCollector()
 	{
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.COLLECTOR);
-		oi = new OI();
+		// oi = new OI();
 	}
 
 	// Called just before this Command runs the first time
@@ -29,7 +29,8 @@ public class DriveCollector extends Command
 	protected void execute()
 	{
 		//Experimental Stuff Goes Here
-		Robot.COLLECTOR.driveCollector(oi.getRightTrigger()*0.75, oi.getLeftTrigger()*0.75);
+		// Robot.COLLECTOR.driveCollector(oi.getRightTrigger()*0.75, oi.getLeftTrigger()*0.75);
+		Robot.COLLECTOR.driveCollector(Robot.oi.getRightTrigger()*0.75, Robot.oi.getLeftTrigger()*0.75);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

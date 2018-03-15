@@ -2,7 +2,6 @@ package frc.team1138.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.team1138.robot.OI;
 import frc.team1138.robot.Robot;
 
 /**

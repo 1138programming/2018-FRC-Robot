@@ -9,13 +9,13 @@ import frc.team1138.robot.Robot;
  */
 public class DriveLift extends Command
 {
-	private OI oi;
+	// private OI oi;
 
 	public DriveLift()
 	{
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.LIFT);
-		oi = new OI();
+		// oi = new OI();
 	}
 
 	// Called just before this Command runs the first time

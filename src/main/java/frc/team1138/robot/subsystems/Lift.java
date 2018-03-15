@@ -1,27 +1,21 @@
 package frc.team1138.robot.subsystems;
 
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.Victor;
-import edu.wpi.first.wpilibj.command.PIDSubsystem;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1138.robot.Robot;
-import frc.team1138.robot.commands.DriveLift;
 import frc.team1138.robot.commands.DriveLiftPID;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 /**
  *This is the lift subsystem for the robot called Keystone.
  */
 
-public class Lift extends PIDSubsystem
+public class Lift extends /*PID*/Subsystem
 {
 	// Declaring the talons, solenoids, and sensors for the lift branch
 	private WPI_TalonSRX frontLift, backLift;
@@ -43,15 +37,10 @@ public class Lift extends PIDSubsystem
 	// private static final int KLockingSolenoid2 = 9;
 	// private static final boolean KForward = true;
 	// private static final boolean KReverse = false;
+	private static double lastPoint;
 	
 	public Lift()
 	{
-		super("Lift PID", 0, 0, 0.5); // Sets up as PID loop TODO mess with these values
-		setAbsoluteTolerance(50); // error allowed
-		getPIDController().setContinuous(true); // Change based on need, probably should be continuous
-		getPIDController().setInputRange(-30000, 30000); // TODO figure out range after getting the bot
-		getPIDController().setOutputRange(-1.0, 1.0);
-
 		// Setting up lift and latch talons
 		frontLift = new WPI_TalonSRX(KFrontLiftTalon);
 		backLift = new WPI_TalonSRX(KBackLiftTalon);
@@ -61,9 +50,8 @@ public class Lift extends PIDSubsystem
 		// leftLatch = new Victor(KLeftLatchVictor);
 		
 		// Configuring the talons
-		// backLift.setInverted(true);
+		backLift.setInverted(true);
 		frontLift.setInverted(true);
-		backLift.set(ControlMode.Follower, frontLift.getDeviceID());
 
 		// rightLatch.setInverted(true);
 		
@@ -73,8 +61,11 @@ public class Lift extends PIDSubsystem
 		// lockingSolenoid = new DoubleSolenoid(KLockingSolenoid1, KLockingSolenoid2);
 		lockSolenoid = new Solenoid(KLockingSolenoid1);
 		backLift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Encoder
+		backLift.setSensorPhase(true);
+		resetLiftEncoder();
+		lastPoint = 0;
 		frontLift.setName("Lift", "FrontLift");
-		// getPIDController().enable();
+		// backLift.set(ControlMode.Follower, frontLift.getDeviceID());
 	}
 	
 	public enum LatchPos {
@@ -82,6 +73,12 @@ public class Lift extends PIDSubsystem
 		AUTON_POS,
 		FULL_OPEN_POS
 	};
+
+	public enum LiftPos {
+		BUTTOM,
+		MIDDLE,
+		TOP
+	}
 	/*
 	 * The order for methods as of 3 March 2018 (edit if needed):
 	 * Default Command
@@ -95,56 +92,17 @@ public class Lift extends PIDSubsystem
 		// setDefaultCommand(new DriveLift());
 	}
 
-	// Uses the input to utilize PID
-	@Override
-	protected void usePIDOutput(double output)
+	public void setLift(double value) 
 	{
-		if (!getPIDController().onTarget())
-		{
-			SmartDashboard.putNumber("output", output);
-			if ((this.returnPIDInput() - this.getSetpoint()) < 0)
-			{ // Need to move up
-				System.out.println("Move Up");
-				frontLift.set(ControlMode.PercentOutput, output);
-			}
-			else if ((this.returnPIDInput() - this.getSetpoint()) > 0)
-			{ // Need to move down
-				System.out.println("Move Down");
-				frontLift.set(ControlMode.PercentOutput, output);
-			}
-			System.out.println("Error: " + (getEncoderValue() - this.getSetpoint()));
-			System.out.println("Input: " + this.returnPIDInput());
-		}
-		else
-		{
-			frontLift.set(ControlMode.PercentOutput, 0);
-		}
-	}
-
-	// Returns the input for the PID loop
-	@Override
-	protected double returnPIDInput()
-	{
-		return getEncoderValue();
-	}
-
-	// Sets the lift controller to a setpoint
-//	public void setLift(double target)
-//	{
-//		getPIDController().setSetpoint(target);
-//	}
-
-	// Checks if the PID is on target
-	@Override
-	public boolean onTarget()
-	{
-		return super.onTarget();
+		frontLift.set(ControlMode.PercentOutput, value);
+		backLift.set(ControlMode.PercentOutput, value);
 	}
 
 	// Returns the value of the encoder
 	public double getEncoderValue()
 	{
-		return backLift.getSensorCollection().getQuadraturePosition();
+		// return backLift.getSensorCollection().getQuadraturePosition();
+		return backLift.getSelectedSensorPosition(0);
 	}
 
 	public void resetLiftEncoder() 
@@ -170,21 +128,32 @@ public class Lift extends PIDSubsystem
 		// SmartDashboard.putNumber("Lift Axis", liftAxis);
 		SmartDashboard.putBoolean("BTN8", Robot.oi.btn8.get());
 		SmartDashboard.putBoolean("BTN6", Robot.oi.btn6.get());
+
+		// SmartDashboard.putNumber("Lift POS", getPosition());
+		// SmartDashboard.putNumber("error", getPIDController().getError());
+		// SmartDashboard.putNumber("setPoint", getPIDController().getSetpoint());
+		// SmartDashboard.putNumber("result", getPIDController().get());
+		// SmartDashboard.putNumber("lastPoint", lastPoint);
+
 		if (Robot.oi.btn8.get()) 
 		{
-			frontLift.set(ControlMode.PercentOutput, 0.7);
+			// getPIDController().setSetpoint(getPosition() - 100);
+			// lastPoint = getPosition();
+			frontLift.set(ControlMode.PercentOutput, -0.75);
+			backLift.set(ControlMode.PercentOutput, -0.75);
+		}
+		else if (Robot.oi.btn6.get())
+		{
+			// getPIDController().setSetpoint(getPosition() + 100);
+			// lastPoint = getPosition();
+			frontLift.set(ControlMode.PercentOutput, 0.75);
+			backLift.set(ControlMode.PercentOutput, 0.75);
 		}
 		else
 		{
+			// getPIDController().setSetpoint(lastPoint);
 			frontLift.set(ControlMode.PercentOutput, 0);
-		}
-		if (Robot.oi.btn6.get())
-		{
-			frontLift.set(ControlMode.PercentOutput, -0.5);
-		}
-		else
-		{
-			frontLift.set(ControlMode.PercentOutput, 0);
+			backLift.set(ControlMode.PercentOutput, 0);
 		}
 		// if(liftAxis > KDeadZoneLimit) 
 		// {
@@ -205,27 +174,28 @@ public class Lift extends PIDSubsystem
 	}
 
 	// Lifts (or lowers) the robot using the joysticks and PID
-	public void liftWithJoysticks(double liftAxis)
-	{
-		SmartDashboard.putNumber("Lift POS", getPosition());
-		SmartDashboard.putNumber("error", getPIDController().getError());
-		SmartDashboard.putNumber("setPoint", getPIDController().getSetpoint());
-		SmartDashboard.putNumber("result", getPIDController().get());
-		if (liftAxis > KDeadZoneLimit || (liftAxis < -KDeadZoneLimit && !frontLift.getSensorCollection().isRevLimitSwitchClosed()))
-		{
-			getPIDController().setSetpoint(getPosition() + liftAxis * 300);
-		}
-		else
-		{
-			getPIDController().setSetpoint(getPosition());
-		}
-	}
+	// public void liftWithJoysticks(double liftAxis)
+	// {
+	// 	SmartDashboard.putNumber("Lift POS", getPosition());
+	// 	SmartDashboard.putNumber("error", getPIDController().getError());
+	// 	SmartDashboard.putNumber("setPoint", getPIDController().getSetpoint());
+	// 	SmartDashboard.putNumber("result", getPIDController().get());
+	// 	if (liftAxis > KDeadZoneLimit || (liftAxis < -KDeadZoneLimit && !frontLift.getSensorCollection().isRevLimitSwitchClosed()))
+	// 	{
+	// 		getPIDController().setSetpoint(getPosition() + liftAxis * 300);
+	// 	}
+	// 	else
+	// 	{
+	// 		getPIDController().setSetpoint(getPosition());
+	// 	}
+	// }
 
 	// Moves the lift using the encoders
-	public void liftWithEncoders(double rotations)
-	{
+// 	public void liftWithEncoders(double rotations)
+// 	{
 //		getPIDController().setSetpoint(rotations * KTicksPerRotation);
-	}
+// 	}
+
 	public void moveLatch(LatchPos servoWaiting)
 	{
 		switch(servoWaiting)
