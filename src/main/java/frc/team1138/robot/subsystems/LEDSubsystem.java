@@ -43,6 +43,20 @@ public class LEDSubsystem extends Subsystem
 		}
 	}
 	
+	public enum DeviceByte {
+		LED			((byte) 0),
+		Ultrasonic		((byte) 1);
+		
+		private final byte value;
+		private DeviceByte(byte value) {
+			this.value = value;
+		}
+		
+		public byte getValue() {
+			return value;
+		}
+	}
+	
 	// Initialize the I2C port
 	private final I2C Wire;
 	private byte[] received;
@@ -50,7 +64,7 @@ public class LEDSubsystem extends Subsystem
 	public LEDSubsystem()
 	{
 		System.out.println("LED Subsystem Initializing...");
-		received = new byte[1];
+		received = new byte[2];
 		Wire = new I2C(Port.kMXP, 4);
 		
 		try {
@@ -69,13 +83,14 @@ public class LEDSubsystem extends Subsystem
 	
 	public void setMode(LEDModes mode) throws IOException {
 		// Turn the the mode into a byte to send (from the enum declaration)
-		byte[] toSend = new byte[1];
-		toSend[0] = mode.getValue();
+		byte[] toSend = new byte[2];
+		toSend[0] = DeviceByte.LED.getValue();
+		toSend[1] = mode.getValue();
 		
 		if (Wire != null && toSend != null) {
 			// Check that we have a proper I2C connection to avoid
 			// NullPointerExceptions
-			Wire.writeBulk(toSend, 1);
+			Wire.writeBulk(toSend, 2);
 		}
 		
 		// Receive a response to check for an error
@@ -85,5 +100,26 @@ public class LEDSubsystem extends Subsystem
 		if (received[0] == LEDResults.Error.getValue()) {
 			throw new IOException("Error from rioDuino");
 		}
+	}
+	
+	public int ultrasonicValue() {
+		// Turn the the mode into a byte to send (from the enum declaration)
+		byte[] toSend = new byte[1];
+		toSend[0] = DeviceByte.Ultrasonic.getValue();
+		
+		if (Wire != null && toSend != null) {
+			// Check that we have a proper I2C connection to avoid
+			// NullPointerExceptions
+			Wire.writeBulk(toSend, 1);
+		}
+		
+		// Receive a response to check for an error
+		Wire.readOnly(received,  2);
+		
+		// Do we have an error?
+		if (received[0] == LEDResults.Error.getValue()) {
+			return -2;
+		}
+		return (int) received[1];
 	}
 }
