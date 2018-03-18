@@ -165,6 +165,7 @@ public class Robot extends IterativeRobot
 		// SmartDashboard.putNumber("Gyro", Robot.DRIVE_BASE.getAngle());
 		Robot.LIFT.testSoul();
 		// Robot.DRIVE_BASE.cureCancer();
+		SmartDashboard.putNumber("Ultrasonic Value", Robot.coprocessorSubsystem.ultrasonicValue());
 	}
 	
 	@Override
