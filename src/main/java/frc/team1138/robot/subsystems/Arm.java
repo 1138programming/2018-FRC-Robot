@@ -8,6 +8,7 @@ import com.ctre.phoenix.ParamEnum;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 /**
  *This is the arm subsystem for the robot called Keystone.
@@ -19,11 +20,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 public class Arm extends /*PID*/Subsystem
 {
 	// Declaring the talons and digital input (touch sensor)
-	private TalonSRX armMotor;
+	private WPI_TalonSRX armMotor;
 	private DigitalInput armLowerLimit;
 
 	// Making variable for the arm talon
-	public static final int KArmMotor = 7;
+	public static final int KArmMotor = 12; //changed from 7 to 12 after ARIZONA
 	
 	// Making variables for the limit (and a deadzone/reverse deadzone for driving)
 	public static final int KArmLowerLimit = 1;
@@ -47,20 +48,14 @@ public class Arm extends /*PID*/Subsystem
 //		getPIDController().setOutputRange(-1.0, 1.0); // Max and min speed for the arm
 
 		// Setting up the arm motor talon
-		armMotor = new TalonSRX(KArmMotor);
+		armMotor = new WPI_TalonSRX(KArmMotor);
 
 		// Setting up the limits as digital inputs
 		armLowerLimit = new DigitalInput(KArmLowerLimit);
 
 		// Setting up encoder
 		armMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0);
-
-		// Setting up PID controller
-//		getPIDController().enable();
-		
-		// Configuring encoder to clear when arm hits the limit switch
-		// TODO test if this is correct way to clear it
-		armMotor.configSetParameter(ParamEnum.eClearPositionOnLimitF, 1, 0, 0, 10);
+		armMotor.setSensorPhase(true);
 	}
 	
 	
@@ -79,6 +74,11 @@ public class Arm extends /*PID*/Subsystem
 		setDefaultCommand(new MoveArmWithJoysticks());
 	}
 
+	public enum ArmPos {
+		FLAT,
+		PERPENDICULAR,
+		HALF;
+	}
 	// Sets arm to armAxis output, currently used to manually drive the robot
 	public void moveArm(double armAxis)
 	{
@@ -97,17 +97,9 @@ public class Arm extends /*PID*/Subsystem
 	}
 
 	// Moves arm to set point with dead zone limit, will be for PID functionality
-	public void driveArm(double armAxis)
+	public void driveArm(double value)
 	{
-		if (armAxis > KDeadZoneLimit || armAxis < -KDeadZoneLimit)
-		{
-//			getPIDController().setSetpoint(getPosition() + armAxis * 1000); // TODO experiment with this last constant
-																			// value
-		}
-		else
-		{
-//			getPIDController().setSetpoint(getPosition());
-		}
+		armMotor.set(ControlMode.PercentOutput, value);
 	}
 
 	// Moves arm to the limit switch with PID
@@ -183,7 +175,12 @@ public class Arm extends /*PID*/Subsystem
 	// Returns the encoder value
 	public double returnEncoderValue()
 	{
-		return armMotor.getSensorCollection().getQuadraturePosition();
+		return armMotor.getSelectedSensorPosition(0);
+	}
+
+	public void resetEncoder()
+	{
+		armMotor.getSensorCollection().setQuadraturePosition(0, 10);
 	}
 
 	// Returns whether or not the robot is on target

@@ -106,7 +106,7 @@ public class OI
 //		btnRB.whenPressed(new CollectCubeRight()); // Runs the right collector
 //		btnRB.whenReleased(new CollectCubeRight()); // Stops the right collector
 		
-		btnA.whenPressed(new CycleArm()); // Puts the arm through a full cycle
+		// btnA.whenPressed(new CycleArm()); // Puts the arm through a full cycle
 		btnB.whenPressed(new MoveArmToExchange()); // Moves the arm to the exchange position
 		btnX.whenPressed(new EjectCube());
 		btnY.whenPressed(new ToggleRatchet());
@@ -140,13 +140,13 @@ public class OI
 
 	public double getLeftTrigger()
 	{ // left controller's trigger is currently unused
-		return (-(xBoxController.getRawAxis(3)));
+		return (-(xBoxController.getRawAxis(2)));
 		// Add function here, currently this doesn't do much.
 	}
 
-	public double getRightTrigger()
+	public boolean getRightTrigger()
 	{ // right controller's trigger engages the shift on the base
-		return (-(xBoxController.getRawAxis(2)));
+		return (xBoxController.getRawAxis(3) > 0.1);
 		// Add function here, currently this doesn't do much.
 	}
 

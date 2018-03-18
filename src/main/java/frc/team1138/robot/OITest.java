@@ -75,7 +75,7 @@ public class OITest
 		btn3.whenPressed(new CollectCubeRight()); // Toggles rollers collecting
 		btn4.whenPressed(new EjectCube()); // Toggles rollers ejecting
 		btn6.whenPressed(new ShiftBase()); // Shifts the base
-		btnA.whenPressed(new CycleArm()); // Puts the arm through a full cycle
+		// btnA.whenPressed(new CycleArm()); // Puts the arm through a full cycle
 		btnB.whenPressed(new MoveArmToExchange()); // Moves the arm to the exchange position
 		// btnX.whenPressed(new PositionLift(5)); // High position TODO test these values
 		btnY.whenPressed(new ShiftLift()); // Shifts the lift speed

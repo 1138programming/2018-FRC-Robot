@@ -69,10 +69,18 @@ public class Collector extends Subsystem
 		SmartDashboard.putNumber("Left Collector", leftCollector.getMotorOutputPercent());
 	}
 	
-	public void driveCollector(double rightAxis, double leftAxis)
+	public void driveCollector(boolean collect)
 	{
-		rightCollector.set(ControlMode.PercentOutput, rightAxis);
-		leftCollector.set(ControlMode.PercentOutput, leftAxis);
+		if (collect) 
+		{
+			rightCollector.set(ControlMode.PercentOutput, -0.5);
+			leftCollector.set(ControlMode.PercentOutput, -1);
+		}
+		else
+		{
+			rightCollector.set(ControlMode.PercentOutput, 0);
+			leftCollector.set(ControlMode.PercentOutput, 0);
+		}
 	}
 	
 //	public void collectCubeWithRollers()

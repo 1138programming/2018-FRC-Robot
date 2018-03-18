@@ -1,5 +1,6 @@
 package frc.team1138.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.PIDCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1138.robot.Robot;
@@ -11,38 +12,29 @@ import frc.team1138.robot.subsystems.Lift.LiftPos;
 public class PositionLift extends PIDCommand
 {
 	LiftPos pos;
-
-	public PositionLift(LiftPos pos)
+	double delay;
+	double start = 0; 
+	double diff = 0; 
+	public PositionLift(LiftPos pos, double delaySec)
 	{
-		super("Lift PID", 0.0, 0, 0.0); // Sets up as PID loop TODO mess with these values
-		getPIDController().setAbsoluteTolerance(50); // error allowed
+		super("Lift PID", 0.0008, 0, 0.0004); // Sets up as PID loop TODO mess with these values
+		getPIDController().setAbsoluteTolerance(200); // error allowed
 		getPIDController().setContinuous(false); // Change based on need, probably should be continuous
 		getPIDController().setInputRange(-30000, 30000); // TODO figure out range after getting the bot
-		getPIDController().setOutputRange(-1.0, 1.0);
-		getPIDController().enable();
+		getPIDController().setOutputRange(-0.75, 0.75);
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.LIFT);
 		this.pos = pos;
-		setName("Lift subsystem", "Position PIDCommand");
+		this.delay = delaySec;
+		getPIDController().setName("Lift subsystem", "Position PIDCommand");
 	}
 
 	// Called just before this Command runs the first time
 	@Override
 	protected void initialize()
 	{
-		switch (this.pos)
-		{
-			case BUTTOM:
-				this.setSetpoint(0);
-				break;
-			case MIDDLE:
-				this.setSetpoint(30000.0/2.0);
-				break;
-			case TOP:
-				this.setSetpoint(30000.0);
-				break;
-		}
-		
+		getPIDController().enable();
+		start = Timer.getFPGATimestamp();
 	}
 
 	@Override
@@ -68,13 +60,29 @@ public class PositionLift extends PIDCommand
 	// Lifts (or lowers) the lift using the encoders and PID
 	protected void execute()
 	{
+		diff = Timer.getFPGATimestamp()-start;
+		if (diff >= delay) 
+		{
+			switch (this.pos)
+			{
+				case BUTTOM:
+					this.setSetpoint(0);
+					break;
+				case MIDDLE:
+					this.setSetpoint(21750.0/2.0);
+					break;
+				case TOP:
+					this.setSetpoint(21750.0);
+					break;
+			}
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished()
 	{
-		return getPIDController().onTarget();
+		return (diff >= delay && getPIDController().onTarget());
 	}
 
 	// Called once after isFinished returns true
@@ -82,6 +90,7 @@ public class PositionLift extends PIDCommand
 	protected void end()
 	{
 		Robot.LIFT.setLift(0);
+		getPIDController().disable();
 	}
 
 	// Called when another command which requires one or more of the same

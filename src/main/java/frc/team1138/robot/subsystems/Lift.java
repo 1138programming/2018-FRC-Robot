@@ -50,7 +50,8 @@ public class Lift extends /*PID*/Subsystem
 		// leftLatch = new Victor(KLeftLatchVictor);
 		
 		// Configuring the talons
-		backLift.setInverted(true);
+		// Competition Bot needs to be inverted, NOT THE TEST BOT
+		// backLift.setInverted(true); //TODO invert for competition
 		frontLift.setInverted(true);
 
 		// rightLatch.setInverted(true);
@@ -61,11 +62,11 @@ public class Lift extends /*PID*/Subsystem
 		// lockingSolenoid = new DoubleSolenoid(KLockingSolenoid1, KLockingSolenoid2);
 		lockSolenoid = new Solenoid(KLockingSolenoid1);
 		backLift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Encoder
-		backLift.setSensorPhase(true);
+		// backLift.setSensorPhase(true); //TODO true for competition
 		resetLiftEncoder();
 		lastPoint = 0;
 		frontLift.setName("Lift", "FrontLift");
-		// backLift.set(ControlMode.Follower, frontLift.getDeviceID());
+		backLift.set(ControlMode.Follower, frontLift.getDeviceID());
 	}
 	
 	public enum LatchPos {
@@ -95,7 +96,7 @@ public class Lift extends /*PID*/Subsystem
 	public void setLift(double value) 
 	{
 		frontLift.set(ControlMode.PercentOutput, value);
-		backLift.set(ControlMode.PercentOutput, value);
+		// backLift.set(ControlMode.PercentOutput, value);
 	}
 
 	// Returns the value of the encoder
@@ -140,20 +141,20 @@ public class Lift extends /*PID*/Subsystem
 			// getPIDController().setSetpoint(getPosition() - 100);
 			// lastPoint = getPosition();
 			frontLift.set(ControlMode.PercentOutput, -0.75);
-			backLift.set(ControlMode.PercentOutput, -0.75);
+			// backLift.set(ControlMode.PercentOutput, -0.75);
 		}
 		else if (Robot.oi.btn6.get())
 		{
 			// getPIDController().setSetpoint(getPosition() + 100);
 			// lastPoint = getPosition();
 			frontLift.set(ControlMode.PercentOutput, 0.75);
-			backLift.set(ControlMode.PercentOutput, 0.75);
+			// backLift.set(ControlMode.PercentOutput, 0.75);
 		}
 		else
 		{
 			// getPIDController().setSetpoint(lastPoint);
 			frontLift.set(ControlMode.PercentOutput, 0);
-			backLift.set(ControlMode.PercentOutput, 0);
+			// backLift.set(ControlMode.PercentOutput, 0);
 		}
 		// if(liftAxis > KDeadZoneLimit) 
 		// {

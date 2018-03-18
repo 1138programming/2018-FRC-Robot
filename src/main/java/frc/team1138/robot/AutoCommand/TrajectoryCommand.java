@@ -21,9 +21,9 @@ import frc.team1138.robot.Robot;
  */
 public class TrajectoryCommand extends Command
 {
-	private TrajectoryExecutor leftMP, rightMP;
+	private TrajectoryExecutor trajectoryExecutor;
 	private Trajectory leftTrajectory, rightTrajectory;
-	private double kP = 0.1, kD = 0.5, kI = 0;
+	private double kP = 0.05, kD = 0.1, kI = 0;
 	public TrajectoryCommand(Waypoint[] points, double maxVel, double maxAccel, double maxJerk, double dt, double width)
 	{
 		requires(Robot.DRIVE_BASE);
@@ -40,32 +40,32 @@ public class TrajectoryCommand extends Command
 	protected void initialize()
 	{
 		Robot.DRIVE_BASE.resetEncoders();
-		leftMP = new TrajectoryExecutor(Robot.DRIVE_BASE.getBaseLeftFront(), this.leftTrajectory);
-		rightMP = new TrajectoryExecutor(Robot.DRIVE_BASE.getBaseRightFront(), this.rightTrajectory);
+		trajectoryExecutor = new TrajectoryExecutor(Robot.DRIVE_BASE.getBaseLeftFront(), Robot.DRIVE_BASE.getBaseRightFront(), leftTrajectory, rightTrajectory);
 
 		Robot.DRIVE_BASE.getBaseLeftFront().config_kP(0, kP, Constants.kTimeoutMs);
         Robot.DRIVE_BASE.getBaseLeftFront().config_kI(0, kI, Constants.kTimeoutMs);
 		Robot.DRIVE_BASE.getBaseLeftFront().config_kD(0, kD, Constants.kTimeoutMs);
-        Robot.DRIVE_BASE.getBaseLeftFront().config_kF(0, 0.029593844, Constants.kTimeoutMs);
+        Robot.DRIVE_BASE.getBaseLeftFront().config_kF(0, 0.1003039514, Constants.kTimeoutMs);
 
 		Robot.DRIVE_BASE.getBaseRightFront().config_kP(0, kP, Constants.kTimeoutMs);
         Robot.DRIVE_BASE.getBaseRightFront().config_kI(0, kI, Constants.kTimeoutMs);
         Robot.DRIVE_BASE.getBaseRightFront().config_kD(0, kD, Constants.kTimeoutMs);
-        Robot.DRIVE_BASE.getBaseRightFront().config_kF(0, 0.0305994257, Constants.kTimeoutMs);
+        Robot.DRIVE_BASE.getBaseRightFront().config_kF(0, 0.104398408, Constants.kTimeoutMs);
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	@Override
 	protected void execute()
 	{
-		leftMP.control();
-		rightMP.control();
-		leftMP.startMotionProfile();
-		rightMP.startMotionProfile();
-		SetValueMotionProfile leftOutput = leftMP.getValue();
-		SetValueMotionProfile rightOutput = rightMP.getValue();
-		Robot.DRIVE_BASE.setLeftMotionControl(ControlMode.MotionProfile, leftOutput.value);
+		trajectoryExecutor.control();
+		trajectoryExecutor.startMotionProfile();
+		
+		SetValueMotionProfile leftOutput = trajectoryExecutor.getLeftValue();
+		SetValueMotionProfile rightOutput = trajectoryExecutor.getRightValue();
+
 		Robot.DRIVE_BASE.setRightMotionControl(ControlMode.MotionProfile, rightOutput.value);
+		Robot.DRIVE_BASE.setLeftMotionControl(ControlMode.MotionProfile, leftOutput.value);
+		
 		SmartDashboard.putNumber("MP Left Motor Output", Robot.DRIVE_BASE.getBaseLeftFront().getMotorOutputPercent());
 		SmartDashboard.putNumber("MP Right Motor Output", Robot.DRIVE_BASE.getBaseRightFront().getMotorOutputPercent());
 	}
@@ -74,8 +74,8 @@ public class TrajectoryCommand extends Command
 	@Override
 	protected boolean isFinished()
 	{
-		return leftMP.getValue() == SetValueMotionProfile.Hold ||
-		 rightMP.getValue() == SetValueMotionProfile.Hold;
+		return trajectoryExecutor.getLeftValue() == SetValueMotionProfile.Hold ||
+			trajectoryExecutor.getRightValue() == SetValueMotionProfile.Hold;
 	}
 
 	// Called once after isFinished returns true
@@ -83,9 +83,9 @@ public class TrajectoryCommand extends Command
 	protected void end()
 	{
         Robot.DRIVE_BASE.setLeftMotionControl(ControlMode.PercentOutput, 0);
-		leftMP.reset();
 		Robot.DRIVE_BASE.setRightMotionControl(ControlMode.PercentOutput, 0);
-		rightMP.reset();
+		trajectoryExecutor.reset();
+		Robot.DRIVE_BASE.resetEncoders();
 	}
 
 	// Called when another command which requires one or more of the same

@@ -21,8 +21,8 @@ public class CollectCubeLeft extends Command
 
 	protected void execute()
 	{
-		Robot.COLLECTOR.collectCubeWithRollersLeft(Robot.oi.getLeftTrigger());
-		Robot.COLLECTOR.collectCubeWithRollersRight(Robot.oi.getRightTrigger());
+		// Robot.COLLECTOR.collectCubeWithRollersLeft(Robot.oi.getLeftTrigger());
+		// Robot.COLLECTOR.collectCubeWithRollersRight(Robot.oi.getRightTrigger());
 //		if(toggle)
 //			Robot.COLLECTOR.collectCubeWithRollersLeft();
 //		else
