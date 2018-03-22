@@ -165,7 +165,6 @@ public class Robot extends IterativeRobot
 		// SmartDashboard.putNumber("Gyro", Robot.DRIVE_BASE.getAngle());
 		Robot.LIFT.testSoul();
 		// Robot.DRIVE_BASE.cureCancer();
-		SmartDashboard.putNumber("Ultrasonic Value", Robot.coprocessorSubsystem.ultrasonicValue());
 	}
 	
 	@Override
@@ -191,5 +190,11 @@ public class Robot extends IterativeRobot
 		}
 		SmartDashboard.putNumber("PDP Voltage", pdp.getVoltage());
 		SmartDashboard.putNumber("Match Time", Timer.getMatchTime());
+	}
+	
+	@Override
+	public void robotPeriodic()
+	{
+		SmartDashboard.putNumber("Ultrasonic Value", Robot.coprocessorSubsystem.ultrasonicValue());
 	}
 }

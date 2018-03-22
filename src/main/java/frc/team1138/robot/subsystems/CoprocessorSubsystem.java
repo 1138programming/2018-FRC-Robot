@@ -168,7 +168,7 @@ public class CoprocessorSubsystem extends Subsystem
 	}
 	
 	public enum DeviceByte {
-		LED			((byte) 0),
+		LED				((byte) 0),
 		Ultrasonic		((byte) 1);
 		
 		private final byte value;
@@ -188,7 +188,7 @@ public class CoprocessorSubsystem extends Subsystem
 	public CoprocessorSubsystem()
 	{
 		System.out.println("LED Subsystem Initializing...");
-		received = new byte[2];
+		received = new byte[3];
 		Wire = new I2C(Port.kMXP, 4);
 		
 		try {
@@ -245,6 +245,7 @@ public class CoprocessorSubsystem extends Subsystem
 		if (received[0] == LEDResults.Error.getValue()) {
 			return -2;
 		}
-		return (int) received[1];
+		SmartDashboard.putNumber("Ultrasonic state", received[1]);
+		return received[1];
 	}
 }
