@@ -1,7 +1,6 @@
 package frc.team1138.robot.AutoCommand;
 
 import frc.team1138.robot.MotionProfile.Constants;
-import frc.team1138.robot.MotionProfile.ProfileExecutor;
 import frc.team1138.robot.MotionProfile.TrajectoryExecutor;
 import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
@@ -23,7 +22,7 @@ public class TrajectoryCommand extends Command
 {
 	private TrajectoryExecutor trajectoryExecutor;
 	private Trajectory leftTrajectory, rightTrajectory;
-	private double kP = 0.05, kD = 0.1, kI = 0;
+	private double kP = 0.05, kD = 0.025, kI = 0;
 	public TrajectoryCommand(Waypoint[] points, double maxVel, double maxAccel, double maxJerk, double dt, double width)
 	{
 		requires(Robot.DRIVE_BASE);
@@ -50,7 +49,9 @@ public class TrajectoryCommand extends Command
 		Robot.DRIVE_BASE.getBaseRightFront().config_kP(0, kP, Constants.kTimeoutMs);
         Robot.DRIVE_BASE.getBaseRightFront().config_kI(0, kI, Constants.kTimeoutMs);
         Robot.DRIVE_BASE.getBaseRightFront().config_kD(0, kD, Constants.kTimeoutMs);
-        Robot.DRIVE_BASE.getBaseRightFront().config_kF(0, 0.104398408, Constants.kTimeoutMs);
+		Robot.DRIVE_BASE.getBaseRightFront().config_kF(0, 0.104398408, Constants.kTimeoutMs);
+		
+		trajectoryExecutor.startMotionProfile();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -58,11 +59,11 @@ public class TrajectoryCommand extends Command
 	protected void execute()
 	{
 		trajectoryExecutor.control();
-		trajectoryExecutor.startMotionProfile();
 		
 		SetValueMotionProfile leftOutput = trajectoryExecutor.getLeftValue();
 		SetValueMotionProfile rightOutput = trajectoryExecutor.getRightValue();
 
+		// double heading_now = 
 		Robot.DRIVE_BASE.setRightMotionControl(ControlMode.MotionProfile, rightOutput.value);
 		Robot.DRIVE_BASE.setLeftMotionControl(ControlMode.MotionProfile, leftOutput.value);
 		
@@ -74,7 +75,7 @@ public class TrajectoryCommand extends Command
 	@Override
 	protected boolean isFinished()
 	{
-		return trajectoryExecutor.getLeftValue() == SetValueMotionProfile.Hold ||
+		return trajectoryExecutor.getLeftValue() == SetValueMotionProfile.Hold &&
 			trajectoryExecutor.getRightValue() == SetValueMotionProfile.Hold;
 	}
 
@@ -82,9 +83,9 @@ public class TrajectoryCommand extends Command
 	@Override
 	protected void end()
 	{
-        Robot.DRIVE_BASE.setLeftMotionControl(ControlMode.PercentOutput, 0);
-		Robot.DRIVE_BASE.setRightMotionControl(ControlMode.PercentOutput, 0);
 		trajectoryExecutor.reset();
+		Robot.DRIVE_BASE.setLeftMotionControl(ControlMode.PercentOutput, 0);
+		Robot.DRIVE_BASE.setRightMotionControl(ControlMode.PercentOutput, 0);
 		Robot.DRIVE_BASE.resetEncoders();
 	}
 

@@ -6,7 +6,9 @@ import com.ctre.phoenix.motorcontrol.can.*;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import jaci.pathfinder.Pathfinder;
 import jaci.pathfinder.Trajectory;
+import jaci.pathfinder.Trajectory.Segment;
 
 import com.ctre.phoenix.motion.*;
 import com.ctre.phoenix.motion.TrajectoryPoint.TrajectoryDuration;
@@ -275,6 +277,8 @@ public class TrajectoryExecutor {
 
 			/* printfs and/or logging */
 			// Instrumentation.process(_status, _pos, _vel, _heading);
+			SmartDashboard.putNumber("Left Heading", leftTalon.getActiveTrajectoryHeading());
+			SmartDashboard.putNumber("Right Heading", rightTalon.getActiveTrajectoryHeading());
 		}
 	}
 	/**
@@ -339,9 +343,15 @@ public class TrajectoryExecutor {
 		for (int i = 0; i < totalCnt; ++i) {
             double left_positionRot = leftTraj.get(i).position;
 			double left_velocityRPM = leftTraj.get(i).velocity;
+			double left_heading = leftTraj.get(i).heading;
+			SmartDashboard.putNumber("left head", left_heading);
+			System.out.println(left_heading);
 
 			double right_positionRot = rightTraj.get(i).position;
 			double right_velocityRPM = rightTraj.get(i).velocity;
+			double right_heading = rightTraj.get(i).heading;
+			SmartDashboard.putNumber("right head", right_heading);
+
 			/* for each point, fill our structure and pass it to API */
 			leftPoint.position = left_positionRot * Constants.kSensorUnitsPerRotation; //Convert Revolutions to Units
 			righPoint.position = right_positionRot * Constants.kSensorUnitsPerRotation; //Convert Revolutions to Units
@@ -349,8 +359,8 @@ public class TrajectoryExecutor {
 			leftPoint.velocity = left_velocityRPM * Constants.kSensorUnitsPerRotation / 600.0; //Convert RPM to Units/100ms
 			righPoint.velocity = right_velocityRPM * Constants.kSensorUnitsPerRotation / 600.0; //Convert RPM to Units/100ms
 
-			leftPoint.headingDeg = 0; /* future feature - not used in this example*/
-			righPoint.headingDeg = 0; /* future feature - not used in this example*/
+			leftPoint.headingDeg = left_heading; /* future feature - not used in this example*/
+			righPoint.headingDeg = right_heading; /* future feature - not used in this example*/
 
 			leftPoint.profileSlotSelect0 = 0; /* which set of gains would you like to use [0,3]? */
 			righPoint.profileSlotSelect0 = 0; /* which set of gains would you like to use [0,3]? */

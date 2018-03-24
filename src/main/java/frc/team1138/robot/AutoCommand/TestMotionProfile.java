@@ -56,7 +56,7 @@ public class TestMotionProfile extends Command
 		SetValueMotionProfile leftOutput = leftMP.getValue();
 		SetValueMotionProfile rightOutput = rightMP.getValue();
 		Robot.DRIVE_BASE.setLeftMotionControl(ControlMode.MotionProfile, leftOutput.value);
-		Robot.DRIVE_BASE.setRightMotionControl(ControlMode.MotionProfile, rightOutput.value);
+		Robot.DRIVE_BASE.setRightMotionControl(ControlMode .MotionProfile, rightOutput.value);
 		SmartDashboard.putNumber("MP Left Motor Output", Robot.DRIVE_BASE.getBaseLeftFront().getMotorOutputPercent());
 		SmartDashboard.putNumber("MP Right Motor Output", Robot.DRIVE_BASE.getBaseRightFront().getMotorOutputPercent());
 	}
@@ -65,7 +65,7 @@ public class TestMotionProfile extends Command
 	@Override
 	protected boolean isFinished()
 	{
-		return leftMP.getValue() == SetValueMotionProfile.Hold ||
+		return leftMP.getValue() == SetValueMotionProfile.Hold &&
 		 rightMP.getValue() == SetValueMotionProfile.Hold;
 	}
 

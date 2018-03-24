@@ -20,20 +20,21 @@ public class RightCommand extends CommandGroup
             addSequential(new TrajectoryCommand(Ways.RIGHT_FAR_SCALE_Part1, 8, 5, 70, 0.05, 2.25));
             addSequential(new TrajectoryCommand(Ways.RIGHT_FAR_SCALE_Part2, 8, 5, 70, 0.05, 2.25));
             addParallel(new TrajectoryCommand(Ways.RIGHT_FAR_SCALE_PART3, 8, 5, 70, 0.05, 2.25));
-            addParallel(new PositionLift(LiftPos.TOP, 4.0));
+            // addParallel(new PositionLift(LiftPos.TOP, 4.0));
             // addParallel(new CycleArm(ArmPos.FLAT, 6.0));
             // addSequential(new EjectCube());
         } 
         else if (scaleSide == MatchData.OwnedSide.RIGHT)
         {
-            addParallel(new TrajectoryCommand(Ways.RIGHT_NEAR_SCALE, 8, 5, 70, 0.05, 2.25));
-            addParallel(new PositionLift(LiftPos.TOP, 4.0));
+            addSequential(new TrajectoryCommand(Ways.RIGHT_NEAR_SCALE, 8, 5, 70, 0.05, 2.25));
+            // addParallel(new PositionLift(LiftPos.TOP, 4.0));
             // addParallel(new CycleArm(ArmPos.FLAT, 6.0));
             addSequential(new EjectCube());
         }
         else {
             // Do something when you cannot get the Side of the SWITCH
             // I.E. flash the LEDs
+            addParallel(new TrajectoryCommand(Ways.RIGHT_NEAR_SWITCH, 8, 5, 70, 0.05, 2.25));
         }
     }
 }

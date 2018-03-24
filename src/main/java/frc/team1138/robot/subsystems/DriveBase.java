@@ -19,7 +19,7 @@ public class DriveBase extends Subsystem
 {
 	// Declaring the talons, sensors, and solenoids
 	private TalonSRX baseLeftFront, baseLeftBack, baseRightFront, baseRightBack;
-	// private PigeonIMU pigeonIMU;
+	private PigeonIMU pigeonIMU;
 	private DoubleSolenoid shifterSolenoid;
 
 	// Making variables for base talon slots so there aren't magic numbers floating
@@ -65,8 +65,8 @@ public class DriveBase extends Subsystem
 
 		// Configuring the solenoids and sensors
 		shifterSolenoid = new DoubleSolenoid(KShifterSolenoid1, KShifterSolenoid2); // Solenoid
-		// pigeonIMU = new PigeonIMU(baseLeftBack); // Gyro
-		// pigeonIMU.setYaw(0, 0); // Basically, this resets the gyro
+		pigeonIMU = new PigeonIMU(baseLeftBack); // Gyro
+		pigeonIMU.setYaw(0, 0); // Basically, this resets the gyro
 		baseLeftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Left Encoder
 		baseRightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Right Encoder
 		
@@ -191,7 +191,7 @@ public class DriveBase extends Subsystem
 	public double getAngle()
 	{
 		double[] ypr = new double[3];
-		// pigeonIMU.getYawPitchRoll(ypr);
+		pigeonIMU.getYawPitchRoll(ypr);
 		return (ypr[0]);
 	}
 

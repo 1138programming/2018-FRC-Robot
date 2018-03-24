@@ -9,6 +9,11 @@ public class Ways {
         new Waypoint(120/12.0 ,54/12.0 ,Pathfinder.d2r(0)),
     };
 
+    public static final Waypoint[] TEST_45 = new Waypoint[] {
+        new Waypoint(0/12.0 ,54/12.0 ,Pathfinder.d2r(0)),
+        new Waypoint(120/12.0 ,54/12.0 ,Pathfinder.d2r(45)),
+    };
+
     public static final Waypoint[] RIGHT_NEAR_SWITCH = new Waypoint[]{
         new Waypoint(1.6666666666666667 ,3.75 ,Pathfinder.d2r(0)),
         new Waypoint(9.666666666666666 ,1.6666666666666667 ,Pathfinder.d2r(0)),
@@ -45,7 +50,7 @@ public class Ways {
 
     public static final Waypoint[] MID_2_LEFT_SWITCH = new Waypoint[] {
         new Waypoint(1.9166666666666667 ,12.916666666666666 ,Pathfinder.d2r(0)),
-        new Waypoint(10 ,18 ,Pathfinder.d2r(0))
+        new Waypoint(10 ,18 ,Pathfinder.d2r(45))
     };
 
     public static final Waypoint[] LEFT_NEAR_SWITCH = new Waypoint[] {
