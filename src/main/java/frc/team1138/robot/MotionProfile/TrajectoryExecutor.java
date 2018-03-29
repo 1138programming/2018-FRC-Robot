@@ -143,7 +143,7 @@ public class TrajectoryExecutor {
 	 *         current motion profile trajectory point.
 	 */
     public SetValueMotionProfile getLeftValue() {
-        return this.leftSetValue;
+		return this.leftSetValue;
 	}
 	
 	/**
@@ -156,6 +156,9 @@ public class TrajectoryExecutor {
         return this.rightSetValue;
     }
 
+	public boolean isEnd() {
+		return (this.rightSetValue == SetValueMotionProfile.Hold || this.rightSetValue == SetValueMotionProfile.Hold);
+	}
 	/**
 	 * Called every loop.
 	 */
@@ -248,37 +251,39 @@ public class TrajectoryExecutor {
 						 * because we set the last point's isLast to true, we will
 						 * get here when the MP is done
 						 */
-						leftSetValue = SetValueMotionProfile.Hold;
+						this.leftSetValue = SetValueMotionProfile.Hold;
+						SmartDashboard.putString("Left State", this.leftSetValue.toString());
 						_state = 0;
 						_loopTimeout = -1;
+						leftTalon.set(ControlMode.PercentOutput, 0);
 					}
 					if (rightProfileStatus.activePointValid && rightProfileStatus.isLast) {
 						/*
 						 * because we set the last point's isLast to true, we will
 						 * get here when the MP is done
 						 */
-						rightSetValue = SetValueMotionProfile.Hold;
+						this.rightSetValue = SetValueMotionProfile.Hold;
+						SmartDashboard.putString("Right State", this.rightSetValue.toString());
 						_state = 0;
 						_loopTimeout = -1;
+						rightTalon.set(ControlMode.PercentOutput, 0);
 					}
 					break;
 			}
 
 			/* Get the motion profile status every loop */
-			leftTalon.getMotionProfileStatus(leftProfileStatus);
+			leftTalon.getMotionProfileStatus(this.leftProfileStatus);
 			_heading = leftTalon.getActiveTrajectoryHeading();
 			_pos = leftTalon.getActiveTrajectoryPosition();
 			_vel = leftTalon.getActiveTrajectoryVelocity();
 
-			rightTalon.getMotionProfileStatus(rightProfileStatus);
+			rightTalon.getMotionProfileStatus(this.rightProfileStatus);
 			_heading = rightTalon.getActiveTrajectoryHeading();
 			_pos = rightTalon.getActiveTrajectoryPosition();
 			_vel = rightTalon.getActiveTrajectoryVelocity();
 
 			/* printfs and/or logging */
 			// Instrumentation.process(_status, _pos, _vel, _heading);
-			SmartDashboard.putNumber("Left Heading", leftTalon.getActiveTrajectoryHeading());
-			SmartDashboard.putNumber("Right Heading", rightTalon.getActiveTrajectoryHeading());
 		}
 	}
 	/**
@@ -344,13 +349,10 @@ public class TrajectoryExecutor {
             double left_positionRot = leftTraj.get(i).position;
 			double left_velocityRPM = leftTraj.get(i).velocity;
 			double left_heading = leftTraj.get(i).heading;
-			SmartDashboard.putNumber("left head", left_heading);
-			System.out.println(left_heading);
 
 			double right_positionRot = rightTraj.get(i).position;
 			double right_velocityRPM = rightTraj.get(i).velocity;
 			double right_heading = rightTraj.get(i).heading;
-			SmartDashboard.putNumber("right head", right_heading);
 
 			/* for each point, fill our structure and pass it to API */
 			leftPoint.position = left_positionRot * Constants.kSensorUnitsPerRotation; //Convert Revolutions to Units

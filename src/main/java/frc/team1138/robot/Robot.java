@@ -149,6 +149,7 @@ public class Robot extends IterativeRobot
 			System.out.println(e);
 		}
 		Robot.ARM.resetEncoder();
+		Robot.DRIVE_BASE.resetEncoders();
 	}
 
 	/**
