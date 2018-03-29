@@ -6,6 +6,7 @@ import frc.team1138.robot.MotionProfile.Ways;
 import frc.team1138.robot.commands.CycleArm;
 import frc.team1138.robot.commands.EjectCube;
 import frc.team1138.robot.commands.PositionLift;
+import frc.team1138.robot.commands.ShiftBase;
 import frc.team1138.robot.subsystems.Arm.ArmPos;
 import frc.team1138.robot.subsystems.Lift.LiftPos;
 import openrio.powerup.MatchData;
@@ -18,18 +19,23 @@ public class RightCommand extends CommandGroup
         MatchData.OwnedSide scaleSide = MatchData.getOwnedSide(MatchData.GameFeature.SCALE);
         if (scaleSide == MatchData.OwnedSide.LEFT)
         {
-            addSequential(new TrajectoryCommand(Ways.RIGHT_FAR_SCALE_Part1, 12, 8, 70, 0.05, 2.25, GearRatio.HIGH_GEAR), 7.0);
-            addSequential(new TrajectoryCommand(Ways.RIGHT_FAR_SCALE_Part2, 8, 5, 70, 0.05, 2.25, GearRatio.HIGH_GEAR));
+            // addSequential(new TrajectoryCommand(Ways.RIGHT_FAR_SCALE_Part1, 12, 8, 70, 0.05, 2.25, GearRatio.HIGH_GEAR), 7.0);
+            // addSequential(new TrajectoryCommand(Ways.RIGHT_FAR_SCALE_Part2, 8, 5, 70, 0.05, 2.25, GearRatio.HIGH_GEAR));
             // addSequential(new TrajectoryCommand(Ways.RIGHT_FAR_SCALE_PART3, 8, 5, 70, 0.05, 2.25));
+            // addSequential(new ShiftBase());
+            // addParallel(new TrajectoryCommand(Ways.RIGHT_NEAR_SWITCH, 8, 5, 70, 0.05, 2.25, GearRatio.LOW_GEAR));
+            addSequential(new PositionLift(LiftPos.MIDDLE, 1));
             // addParallel(new PositionLift(LiftPos.TOP, 4.0));
             // addParallel(new sCycleArm(ArmPos.FLAT, 6.0));
-            // addSequential(new EjectCube());
+            addSequential(new EjectCube());
         } 
         else if (scaleSide == MatchData.OwnedSide.RIGHT)
         {
+            addSequential(new ShiftBase());
             addSequential(new TrajectoryCommand(Ways.RIGHT_NEAR_SCALE_PART_1, 12, 8, 70, 0.05, 2.25, GearRatio.HIGH_GEAR));
-            addSequential(new TrajectoryCommand(Ways.RIGHT_NEAR_SCALE_PART_2, 12, 8, 70, 0.05, 2.25, GearRatio.HIGH_GEAR));
-            addSequential(new TrajectoryCommand(Ways.RIGHT_NEAR_SCALE_PART_3, 8, 5, 70, 0.05, 2.25, GearRatio.HIGH_GEAR));
+            addParallel(new TrajectoryCommand(Ways.RIGHT_NEAR_SCALE_PART_2, 12, 8, 70, 0.05, 2.25, GearRatio.HIGH_GEAR));
+            addParallel(new PositionLift(LiftPos.MIDDLE, 0));
+            // addSequential(new TrajectoryCommand(Ways.RIGHT_NEAR_SCALE_PART_3, 8, 5, 70, 0.05, 2.25, GearRatio.HIGH_GEAR));
             // addParallel(new PositionLift(LiftPos.TOP, 4.0));
             // addParallel(new CycleArm(ArmPos.FLAT, 6.0));
             addSequential(new EjectCube());

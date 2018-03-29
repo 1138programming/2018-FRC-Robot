@@ -1,5 +1,6 @@
 package frc.team1138.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -23,7 +24,7 @@ public class Lift extends /*PID*/Subsystem
 	private DoubleSolenoid speedShiftSolenoid, ratchetSolenoid;//, lockingSolenoid; //TODO verify
 	private Solenoid lockSolenoid;
 	private Servo leftServo, rightServo;
-
+	// private DigitalInput liftLimit;
 	// Making variables for lift things (talons and sensors)
 	public static final int KFrontLiftTalon = 8;
 	public static final int KBackLiftTalon = 9;
@@ -37,7 +38,6 @@ public class Lift extends /*PID*/Subsystem
 	// private static final int KLockingSolenoid2 = 9;
 	// private static final boolean KForward = true;
 	// private static final boolean KReverse = false;
-	private static double lastPoint;
 	
 	public Lift()
 	{
@@ -46,12 +46,13 @@ public class Lift extends /*PID*/Subsystem
 		backLift = new WPI_TalonSRX(KBackLiftTalon);
 		leftServo = new Servo(1);
 		rightServo = new Servo(2);
+		// liftLimit = new DigitalInput(0);
 		// rightLatch = new Victor(KRightLatchVictor);
 		// leftLatch = new Victor(KLeftLatchVictor);
 		
 		// Configuring the talons
 		// Competition Bot needs to be inverted, NOT THE TEST BOT
-		// backLift.setInverted(true); //TODO invert for competition
+		backLift.setInverted(true); //TODO invert for competition
 		frontLift.setInverted(true);
 
 		// rightLatch.setInverted(true);
@@ -62,11 +63,10 @@ public class Lift extends /*PID*/Subsystem
 		// lockingSolenoid = new DoubleSolenoid(KLockingSolenoid1, KLockingSolenoid2);
 		lockSolenoid = new Solenoid(KLockingSolenoid1);
 		backLift.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Encoder
-		// backLift.setSensorPhase(true); //TODO true for competition
+		backLift.setSensorPhase(true); //TODO true for competition
 		resetLiftEncoder();
-		lastPoint = 0;
 		frontLift.setName("Lift", "FrontLift");
-		backLift.set(ControlMode.Follower, frontLift.getDeviceID());
+		frontLift.set(ControlMode.Follower, backLift.getDeviceID()); // changed master to back
 	}
 	
 	public enum LatchPos {
@@ -95,8 +95,23 @@ public class Lift extends /*PID*/Subsystem
 
 	public void setLift(double value) 
 	{
-		frontLift.set(ControlMode.PercentOutput, value);
-		// backLift.set(ControlMode.PercentOutput, value);
+		backLift.set(ControlMode.PercentOutput, value);
+		// frontLift.set(ControlMode.PercentOutput, value);
+		// if (!backLift.getSensorCollection().isFwdLimitSwitchClosed())
+		// {
+		// 	frontLift.set(ControlMode.PercentOutput, value);
+		// } 
+		// else
+		// {
+		// 	if (value<0)
+		// 	{
+		// 		frontLift.set(ControlMode.PercentOutput, value);
+		// 	} 
+		// 	else 
+		// 	{
+		// 		frontLift.set(ControlMode.PercentOutput, 0);
+		// 	}
+		// }
 	}
 
 	// Returns the value of the encoder
@@ -122,8 +137,6 @@ public class Lift extends /*PID*/Subsystem
 	// Moves the lift without PID
 	public void operateLift()//(double liftAxis)
 	{
-		SmartDashboard.putBoolean("Lift Limit Switch Rev", frontLift.getSensorCollection().isRevLimitSwitchClosed());
-		SmartDashboard.putBoolean("Lift Limit Switch Fwd", frontLift.getSensorCollection().isFwdLimitSwitchClosed());
 		SmartDashboard.putNumber("Lift front motor", frontLift.get());
 		SmartDashboard.putNumber("Lift back motor", backLift.get());
 		// SmartDashboard.putNumber("Lift Axis", liftAxis);
@@ -138,40 +151,23 @@ public class Lift extends /*PID*/Subsystem
 
 		if (Robot.oi.btn8.get()) 
 		{
-			// getPIDController().setSetpoint(getPosition() - 100);
-			// lastPoint = getPosition();
-			frontLift.set(ControlMode.PercentOutput, -0.75);
-			// backLift.set(ControlMode.PercentOutput, -0.75);
+			backLift.set(ControlMode.PercentOutput, -0.75);
+			// frontLift.set(ControlMode.PercentOutput, -0.75);
 		}
 		else if (Robot.oi.btn6.get())
 		{
-			// getPIDController().setSetpoint(getPosition() + 100);
-			// lastPoint = getPosition();
-			frontLift.set(ControlMode.PercentOutput, 0.75);
-			// backLift.set(ControlMode.PercentOutput, 0.75);
+			backLift.set(ControlMode.PercentOutput, 0.75);
+			// frontLift.set(ControlMode.PercentOutput, 0.75);
+			// if (!backLift.getSensorCollection().isFwdLimitSwitchClosed())
+			// {
+			// 	frontLift.set(ControlMode.PercentOutput, 0.75);
+			// }
 		}
 		else
 		{
-			// getPIDController().setSetpoint(lastPoint);
-			frontLift.set(ControlMode.PercentOutput, 0);
-			// backLift.set(ControlMode.PercentOutput, 0);
+			// frontLift.set(ControlMode.PercentOutput, 0);
+			backLift.set(ControlMode.PercentOutput, 0);
 		}
-		// if(liftAxis > KDeadZoneLimit) 
-		// {
-		// 	SmartDashboard.putString("moving lift", "UP");  
-		// 	frontLift.set(ControlMode.PercentOutput, liftAxis * 0.6);
-		// }
-		// else if (liftAxis < -KDeadZoneLimit && !frontLift.getSensorCollection().isRevLimitSwitchClosed())
-		// {
-		// 	SmartDashboard.putString("moving lift", "DOWN");
-		// 	frontLift.set(ControlMode.PercentOutput, liftAxis * 0.6);
-		// 	// frontLift.set(ControlMode.PercentOutput, liftAxis);
-		// }
-		// else
-		// {
-		// 	SmartDashboard.putBoolean("moving lift", false);
-		// 	frontLift.set(ControlMode.PercentOutput, 0);
-		// }
 	}
 
 	// Lifts (or lowers) the robot using the joysticks and PID
@@ -297,11 +293,7 @@ public class Lift extends /*PID*/Subsystem
 		SmartDashboard.putString("Shift Lift", speedShiftSolenoid.get().toString());
 		SmartDashboard.putString("Rachet", ratchetSolenoid.get().toString());
 		SmartDashboard.putBoolean("Lock Lift", lockSolenoid.get());
-		SmartDashboard.putBoolean("Shift Lift black fwd", speedShiftSolenoid.isFwdSolenoidBlackListed());
-		SmartDashboard.putBoolean("Rachet black fwd", ratchetSolenoid.isFwdSolenoidBlackListed());
-		SmartDashboard.putBoolean("Shift Lift black rev", speedShiftSolenoid.isRevSolenoidBlackListed());
-		SmartDashboard.putBoolean("Rachet black rev", ratchetSolenoid.isRevSolenoidBlackListed());
-		SmartDashboard.putBoolean("Lock Lift black", lockSolenoid.isBlackListed());
+		SmartDashboard.putBoolean("Lift Limit ", backLift.getSensorCollection().isFwdLimitSwitchClosed());
 		SmartDashboard.putNumber("left servo", leftServo.get());
 		SmartDashboard.putNumber("right servo", rightServo.get());
 		SmartDashboard.putNumber("Lift Encoder", getEncoderValue());
