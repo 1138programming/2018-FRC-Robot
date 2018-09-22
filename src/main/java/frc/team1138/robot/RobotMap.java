@@ -31,11 +31,11 @@ public class RobotMap
 	 	
 	 Solenoids
 	 	Shifter = 1, 2
-	 	Plunger = 3
+	 	Plunger = 3 (Not in use anymore)
 	 	Ratchet = 6, 7
-	 	Locking = 0, 9
+	 	Lift = 0, 9
 	 	
-	 Victors
+	 Victors (Not in use anymore)
 	 	Right Latch = 0
 	 	Left Latch = 1
 	 **/
