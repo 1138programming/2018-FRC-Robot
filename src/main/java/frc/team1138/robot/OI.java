@@ -122,9 +122,21 @@ public class OI
 			return 0;
 		}
 	}
-
+	
+	public double getRightAxisArcade()
+	{ // Right axis arcade is the turn
+		if (logitechController.getTwist() < -KXboxDeadZoneLimit || logitechController.getTwist() > KXboxDeadZoneLimit)
+		{
+			return -logitechController.getTwist();
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
 	public double getLeftAxis()
-	{ // Left controller is left side drive
+	{ // Left controller is left side drive/all wheel drive (in arcade)
 		if (logitechController.getY() < -KXboxDeadZoneLimit || logitechController.getY() > KXboxDeadZoneLimit)
 		{
 			return -logitechController.getY();
@@ -135,6 +147,8 @@ public class OI
 		}
 	}
 
+
+	
 	public double getLeftTrigger()
 	{ // left controller's trigger is currently unused
 		return (-xBoxController.getRawAxis(3));

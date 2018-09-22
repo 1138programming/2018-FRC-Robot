@@ -17,7 +17,7 @@ public class TogglePlunger extends Command
 
 	protected void execute()
 	{
-		Robot.COLLECTOR.togglePlunger();
+//		Robot.COLLECTOR.togglePlunger();
 	}
 
 	@Override

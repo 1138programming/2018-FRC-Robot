@@ -22,7 +22,7 @@ public class EjectCube extends Command
 		if(toggle)
 		{
 			Robot.COLLECTOR.ejectCubeWithRollers();
-			Robot.COLLECTOR.kickCubeWithPlunger();
+//			Robot.COLLECTOR.kickCubeWithPlunger();
 		}
 		else
 		{

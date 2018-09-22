@@ -11,6 +11,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StickyFaults;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import java.lang.Math;
 
 /**
  *
@@ -67,6 +68,7 @@ public class DriveBase extends Subsystem
 		baseRightBack.set(ControlMode.Follower, baseRightFront.getDeviceID());
 //		baseRightTop.set(ControlMode.Follower, baseRightFront.getDeviceID());
 
+		
 		// Configuring the sensors
 		shifterSolenoid = new DoubleSolenoid(KShifterSolenoid1, KShifterSolenoid2);
 		pigeonIMU = new PigeonIMU(baseLeftBack); // TODO find out which talon it's actually on
@@ -201,6 +203,31 @@ public class DriveBase extends Subsystem
 		else
 		{
 			baseRightFront.set(ControlMode.PercentOutput, 0);
+		}
+	}
+	
+	public void arcadeDrive(double left, double rightArcade)
+	{
+		if (Math.abs(left) > KDeadZoneLimit && Math.abs(rightArcade) > KDeadZoneLimit)
+		{
+			getBaseLeftFront().set(ControlMode.PercentOutput, left + rightArcade);
+			getBaseRightFront().set(ControlMode.PercentOutput, left - rightArcade);
+		}
+		else
+		{
+			getBaseLeftFront().set(ControlMode.PercentOutput, 0);
+			getBaseRightFront().set(ControlMode.PercentOutput, 0);
+		}
+
+		if (rightArcade > KDeadZoneLimit || rightArcade < -KDeadZoneLimit)
+		{
+			getBaseLeftFront().set(ControlMode.PercentOutput, left + rightArcade);
+			getBaseRightFront().set(ControlMode.PercentOutput, left + rightArcade);
+		}
+		else
+		{
+			getBaseLeftFront().set(ControlMode.PercentOutput, 0);
+			getBaseRightFront().set(ControlMode.PercentOutput, 0);
 		}
 	}
 
