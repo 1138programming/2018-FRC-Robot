@@ -80,11 +80,11 @@ public class DriveBase extends Subsystem
 
 		
 		//We don't want ramping rn
-//		baseRightFront.configOpenloopRamp(1, 0);
-//		baseRightBack.configOpenloopRamp(1, 0);
+		baseRightFront.configOpenloopRamp(0.5, 0);
+		baseRightBack.configOpenloopRamp(0.5, 0);
 		//baseRightTop.configOpenloopRamp(1, 0);
-//		getBaseLeftFront().configOpenloopRamp(1, 0);
-//		baseLeftBack.configOpenloopRamp(1, 0);
+		baseLeftFront.configOpenloopRamp(0.5, 0);
+		baseLeftBack.configOpenloopRamp(0.5, 0);
 		//baseLeftTop.configOpenloopRamp(1, 0);
 		
 	}
