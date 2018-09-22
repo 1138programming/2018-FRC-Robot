@@ -17,7 +17,7 @@ public class Lift extends /*PID*/Subsystem
 {
 	// Declaring the talons and sensors for the lift branch
 	private TalonSRX frontLift, backLift;
-	private Victor rightLatch, leftLatch;
+//	private Victor rightLatch, leftLatch;
 	private DoubleSolenoid speedShiftSolenoid, ratchetSolenoid;
 	private DoubleSolenoid lockingSolenoid;
 	private DigitalInput hangLimit1, hangLimit2;
@@ -28,8 +28,8 @@ public class Lift extends /*PID*/Subsystem
 	// code
 	public static final int KFrontLiftTalon = 8;
 	public static final int KBackLiftTalon = 9;
-	public static final int KRightLatchVictor = 0;
-	public static final int KLeftLatchVictor = 1;
+//	public static final int KRightLatchVictor = 0;
+//	public static final int KLeftLatchVictor = 1;
 	//public static final int KLeftIME = 6;
 	//public static final int KRightIME = 7; 
 	public static final int KHangLimit = 3;
@@ -71,12 +71,12 @@ public class Lift extends /*PID*/Subsystem
 		frontLift = new TalonSRX(KFrontLiftTalon);
 		backLift = new TalonSRX(KBackLiftTalon);
 		//Latch 
-		rightLatch = new Victor(KRightLatchVictor);
-		leftLatch = new Victor(KLeftLatchVictor);
+//		rightLatch = new Victor(KRightLatchVictor);
+//		leftLatch = new Victor(KLeftLatchVictor);
 		// Configuring the talons
 		backLift.setInverted(true);
 		backLift.set(ControlMode.Follower, frontLift.getDeviceID());
-		rightLatch.setInverted(true);
+//		rightLatch.setInverted(true);
 		
 		// Configuring the solenoid
 		speedShiftSolenoid = new DoubleSolenoid(KSolSpot1, KSolSpot2);

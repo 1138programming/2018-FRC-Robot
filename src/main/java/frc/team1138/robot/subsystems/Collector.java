@@ -16,13 +16,13 @@ public class Collector extends Subsystem
 {
 	// Declaring the talons, limit switch and solenoid
 	private TalonSRX rightCollector, leftCollector;
-	private Solenoid plunger;
+//	private Solenoid plunger;
 	private DigitalInput cubePossessionLimit;
 
 	public static final int KLeftCollectorMotor = 10;
 	public static final int KRightCollectorMotor = 11;
 	public static final int KCubPossLimit = 0;
-	public static final int KPlunger1 = 3;
+//	public static final int KPlunger1 = 3;
 //	public static final int KPlunger2 = 7;
 	public static final double KCollectorSpeed = .7;
 	public static final boolean KForward = true;
@@ -41,7 +41,7 @@ public class Collector extends Subsystem
 		leftCollector.setInverted(true);
 
 		// Solenoid
-		plunger = new Solenoid(KPlunger1);
+//		plunger = new Solenoid(KPlunger1);
 	}
 
 	public void initDefaultCommand()
@@ -121,34 +121,34 @@ public class Collector extends Subsystem
 	}
 	
 	// The two methods cause the plunger to move forward or backward
-	public void plungerForward()
-	{
-		plunger.set(/*DoubleSolenoid.Value.*/KForward);
-	}
-
-	public void plungerBackward()
-	{
-		plunger.set(/*DoubleSolenoid.Value.*/KBackward);
-	}
-
-	// The method causes the plunger to kick
-	public void kickCubeWithPlunger()
-	{
-		plungerForward();
-		Timer.delay(0.3);
-		plungerBackward();
-	}
-	
-	public void togglePlunger()
-	{
-		if(plunger.get() /*== DoubleSolenoid.Value.kForward*/)
-		{
-			plungerBackward();
-		}
-		else 
-		{
-			plungerForward();
-		}
+//	public void plungerForward()
+//	{
+//		plunger.set(/*DoubleSolenoid.Value.*/KForward);
+//	}
+//
+//	public void plungerBackward()
+//	{
+//		plunger.set(/*DoubleSolenoid.Value.*/KBackward);
+//	}
+//
+//	// The method causes the plunger to kick
+//	public void kickCubeWithPlunger()
+//	{
+//		plungerForward();
+//		Timer.delay(0.3);
+//		plungerBackward();
+//	}
+//	
+//	public void togglePlunger()
+//	{
+//		if(plunger.get() /*== DoubleSolenoid.Value.kForward*/)
+//		{
+//			plungerBackward();
+//		}
+//		else 
+//		{
+//			plungerForward();
+//		}
 //		SmartDashboard.putString("Plunger", plunger.get().toString());
 	}
 }

@@ -27,10 +27,10 @@ public class DriveBase extends Subsystem
 	// around
 	public static final int KBaseLeftFrontTalon = 1;
 	public static final int KBaseLeftBackTalon = 2;
-	public static final int KBaseLeftTopTalon = 3;
+//	public static final int KBaseLeftTopTalon = 3;
 	public static final int KBaseRightFrontTalon = 4;
 	public static final int KBaseRightBackTalon = 5;
-	public static final int KBaseRightTopTalon = 6;
+//	public static final int KBaseRightTopTalon = 6;
 	public static final double KDeadZoneLimit = 0.2;
 	// All of the solenoids are doubles, so they need 2 numbers each. If you change
 	// one,

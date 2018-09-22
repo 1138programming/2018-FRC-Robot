@@ -18,15 +18,16 @@ public class RobotMap
 	 Talons
 	 	Left Front Base = 1
 	 	Left Back Base = 2
-	 	Left Top Base = 3
+	 	Left Top Base = 3    (Not in use anymore)
 	 	Right Front Base = 4
 	 	Right Back Base = 5
-	 	Right Top Base = 6
-	 	Arm = 7
+	 	Right Top Base = 6 (Not in use anymore)
 	 	Front Lift = 8
 	 	Back Lift = 9
 	 	Left Collector = 10
 	 	Right Collector = 11
+	 	Arm = 12 (Used to be 7)
+	 	Spare = 13
 	 	
 	 Solenoids
 	 	Shifter = 1, 2
