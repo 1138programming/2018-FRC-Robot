@@ -15,8 +15,27 @@ public class RobotMap
 {
 
 	/**
-	 * This comment box is all of the mapping we are using for ...
-	 * 
-	 * 
+	 Talons
+	 	Left Front Base = 1
+	 	Left Back Base = 2
+	 	Left Top Base = 3
+	 	Right Front Base = 4
+	 	Right Back Base = 5
+	 	Right Top Base = 6
+	 	Arm = 7
+	 	Front Lift = 8
+	 	Back Lift = 9
+	 	Left Collector = 10
+	 	Right Collector = 11
+	 	
+	 Solenoids
+	 	Shifter = 1, 2
+	 	Plunger = 3
+	 	Ratchet = 6, 7
+	 	Locking = 0, 9
+	 	
+	 Victors
+	 	Right Latch = 0
+	 	Left Latch = 1
 	 **/
 }
