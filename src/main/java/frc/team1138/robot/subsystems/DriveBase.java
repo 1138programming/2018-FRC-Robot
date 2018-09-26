@@ -138,6 +138,31 @@ public class DriveBase extends Subsystem
 		}
 	}
 	
+	public void arcadeDrive(double left, double rightArcade)
+	{
+		if (Math.abs(left) > KDeadZoneLimit && Math.abs(rightArcade) > KDeadZoneLimit)
+		{
+			getBaseLeftFront().set(ControlMode.PercentOutput, left + rightArcade);
+			getBaseRightFront().set(ControlMode.PercentOutput, left - rightArcade);
+		}
+		else
+		{
+			getBaseLeftFront().set(ControlMode.PercentOutput, 0);
+			getBaseRightFront().set(ControlMode.PercentOutput, 0);
+		}
+
+		if (rightArcade > KDeadZoneLimit || rightArcade < -KDeadZoneLimit)
+		{
+			getBaseLeftFront().set(ControlMode.PercentOutput, left + rightArcade);
+			getBaseRightFront().set(ControlMode.PercentOutput, left + rightArcade);
+		}
+		else
+		{
+			getBaseLeftFront().set(ControlMode.PercentOutput, 0);
+			getBaseRightFront().set(ControlMode.PercentOutput, 0);
+		}
+	}
+	
 	//This method returns whether or not the talon specified has a sticky fault
 	public boolean getTalonStickyFaults(TalonSRX talon)
 	{

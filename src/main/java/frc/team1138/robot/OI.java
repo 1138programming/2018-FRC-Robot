@@ -10,6 +10,7 @@ import frc.team1138.robot.commands.EjectCube;
 import frc.team1138.robot.commands.LockLift;
 import frc.team1138.robot.commands.TogglePlunger;
 import frc.team1138.robot.commands.MoveArmToExchange;
+import frc.team1138.robot.commands.MoveLift;
 import frc.team1138.robot.commands.ShiftBase;
 import frc.team1138.robot.commands.ShiftLift;
 import frc.team1138.robot.commands.ToggleRatchet;
@@ -46,6 +47,8 @@ public class OI
 	public static final int KLeftBumper = 5;
 	public static final int KRightBumper = 6;
 	public static final int KStartButton = 8;
+	public static final int KLeftTrigger = 9;
+	public static final int KRightTrigger = 10;
 	
 	// For example to map the left and right motors, you could define the
 	// following variables to use with your drivetrain subsystem.
@@ -53,7 +56,7 @@ public class OI
 	// Define joysticks and joystick buttons
 	public Joystick logitechController, xBoxController;
 	public JoystickButton btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8; // Logitech Button
-	public JoystickButton btnA, btnB, btnX, btnY, btnLB, btnRB, btnStrt; // Xbox Buttons
+	public JoystickButton btnA, btnB, btnX, btnY, btnLB, btnRB, btnStrt, btnLT, btnRT; // Xbox Buttons
 
 	public OI()
 	{
@@ -78,6 +81,8 @@ public class OI
 		btnLB = new JoystickButton(xBoxController, KLeftBumper);
 		btnRB = new JoystickButton(xBoxController, KRightBumper);
 		btnStrt = new JoystickButton(xBoxController, KStartButton);
+		btnLT = new JoystickButton(xBoxController, KLeftTrigger);
+		btnRT = new JoystickButton(xBoxController, KRightBumper);
 		
 //		btn1.whenPressed(new TestMotionProfile());
 //		btn2.whenPressed(); //Nothing assigned yet, probably will be when we have the lift mechanism going
@@ -97,14 +102,11 @@ public class OI
 		btn5.whenPressed(new ShiftBase()); // Shifts the base
 		btn7.whenPressed(new ClearStickyFaults()); //Clears sticky faults
 		
-//		btnLB.whenPressed(new CollectCubeLeft()); // Runscollector
-//		btnLB.whenReleased(new CollectCubeLeft()); // Stops collector when the button is released
-//
-//		btnLB.whenPressed(new CollectCubeLeft()); // Runs left collector
-//		btnLB.whenReleased(new CollectCubeLeft()); // Stops the left collector when the button is released
-//		
-//		btnRB.whenPressed(new CollectCubeRight()); // Runs the right collector
-//		btnRB.whenReleased(new CollectCubeRight()); // Stops the right collector
+		btnLB.whenPressed(new CollectCubeLeft()); // Runs collector
+		btnLB.whenReleased(new CollectCubeLeft()); // Stops collector when the button is released
+
+		btnRB.whenPressed(new CollectCubeRight()); // Runs the right collector
+		btnRB.whenReleased(new CollectCubeRight()); // Stops the right collector
 		
 		// btnA.whenPressed(new CycleArm()); // Puts the arm through a full cycle
 		btnB.whenPressed(new MoveArmToExchange()); // Moves the arm to the exchange position
@@ -126,6 +128,18 @@ public class OI
 		}
 	}
 
+	public double getRightAxisArcade()
+	{ // Right axis arcade is the turn
+		if (logitechController.getTwist() < -KXboxDeadZoneLimit || logitechController.getTwist() > KXboxDeadZoneLimit)
+		{
+			return -logitechController.getTwist();
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	
 	public double getLeftAxis()
 	{ // Left controller is left side drive
 		if (logitechController.getY() < -KXboxDeadZoneLimit || logitechController.getY() > KXboxDeadZoneLimit)
@@ -137,7 +151,7 @@ public class OI
 			return 0;
 		}
 	}
-
+	
 	public double getLeftTrigger()
 	{ // left controller's trigger is currently unused
 		return (-(xBoxController.getRawAxis(2)));

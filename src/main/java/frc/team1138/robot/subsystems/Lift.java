@@ -6,7 +6,8 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1138.robot.Robot;
-import frc.team1138.robot.commands.DriveLiftPID;
+//import frc.team1138.robot.commands.DriveLiftPID;
+import frc.team1138.robot.commands.MoveLift;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
@@ -34,6 +35,7 @@ public class Lift extends /*PID*/Subsystem
 	private static final int KRatchet1 = 6;
 	private static final int KRatchet2 = 7;
 	private static final int KLockingSolenoid1 = 0;
+	public static final double KLiftSlowSpeed = .6;
 	// private static final int KLockingSolenoid2 = 9;
 	// private static final boolean KForward = true;
 	// private static final boolean KReverse = false;
@@ -89,7 +91,7 @@ public class Lift extends /*PID*/Subsystem
 	// The default command when nothing else is running
 	public void initDefaultCommand()
 	{
-		setDefaultCommand(new DriveLiftPID());
+		setDefaultCommand(new MoveLift());
 		// setDefaultCommand(new DriveLift());
 	}
 
@@ -99,6 +101,12 @@ public class Lift extends /*PID*/Subsystem
 		// backLift.set(ControlMode.PercentOutput, value);
 	}
 
+	public void changeLift(double liftSpeed)
+	{
+		frontLift.set(ControlMode.PercentOutput, liftSpeed*KLiftSlowSpeed);
+		backLift.set(ControlMode.PercentOutput, liftSpeed*KLiftSlowSpeed);
+	}
+	
 	// Returns the value of the encoder
 	public double getEncoderValue()
 	{
