@@ -1,0 +1,18 @@
+OI
+Logitech Controller
+Button 3 -- Shift Lift
+Button 4 -- Lock Lift
+Button 5 -- Shift Base
+Button 7 -- Clear Sticky Faults
+Joysticks -- Drive Base
+
+XBox
+Left Bumper -- Collect Cube Left
+Right Bumper -- Collect Cube Right
+Button X -- Eject Cube (Not in use)
+Button Y -- Toggle Ratchet
+Button A -- nothing (was cycle arm, not anymore)
+Button B -- Move Arm to Exchange (also not in use anymore)
+Start Button -- Toggle Plunger
+Left Joystick -- Arm
+Right Joystick -- Lift
