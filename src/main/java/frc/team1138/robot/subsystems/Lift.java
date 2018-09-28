@@ -103,7 +103,7 @@ public class Lift extends /*PID*/Subsystem
 
 	public void changeLift(double liftSpeed)
 	{
-		frontLift.set(ControlMode.PercentOutput, liftSpeed*KLiftSlowSpeed);
+		frontLift.set(ControlMode.PercentOutput, -liftSpeed*KLiftSlowSpeed);
 		backLift.set(ControlMode.PercentOutput, liftSpeed*KLiftSlowSpeed);
 	}
 	

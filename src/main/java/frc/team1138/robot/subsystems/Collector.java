@@ -59,7 +59,7 @@ public class Collector extends Subsystem
 
 	public void collectCubeWithRollersRight(double value)
 	{
-		rightCollector.set(ControlMode.PercentOutput, value);
+		rightCollector.set(ControlMode.PercentOutput, -value);
 		SmartDashboard.putNumber("Right Collector", rightCollector.getMotorOutputPercent());
 	}
 	
@@ -81,6 +81,8 @@ public class Collector extends Subsystem
 			rightCollector.set(ControlMode.PercentOutput, 0);
 			leftCollector.set(ControlMode.PercentOutput, 0);
 		}
+		SmartDashboard.putNumber("Left Collector", leftCollector.getMotorOutputPercent());
+		SmartDashboard.putNumber("Right Collector", leftCollector.getMotorOutputPercent());
 	}
 	
 //	public void collectCubeWithRollers()
@@ -111,8 +113,8 @@ public class Collector extends Subsystem
 
 	public void ejectCubeWithRollers()
 	{
-		rightCollector.set(ControlMode.PercentOutput, 1);
-		leftCollector.set(ControlMode.PercentOutput, 1);
+		rightCollector.set(ControlMode.PercentOutput, -1);
+		leftCollector.set(ControlMode.PercentOutput, -1);
 	}
 	
 //	public void stopCollector()

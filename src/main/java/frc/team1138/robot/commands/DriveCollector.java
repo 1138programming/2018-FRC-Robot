@@ -30,7 +30,8 @@ public class DriveCollector extends Command
 	{
 		//Experimental Stuff Goes Here
 		// Robot.COLLECTOR.driveCollector(oi.getRightTrigger()*0.75, oi.getLeftTrigger()*0.75);
-		Robot.COLLECTOR.driveCollector(Robot.oi.getRightTrigger());
+		Robot.COLLECTOR.collectCubeWithRollersLeft(Robot.oi.getRightTrigger());
+		Robot.COLLECTOR.collectCubeWithRollersRight(Robot.oi.getLeftTrigger());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

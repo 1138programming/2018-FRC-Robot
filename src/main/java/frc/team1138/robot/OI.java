@@ -82,7 +82,7 @@ public class OI
 		btnRB = new JoystickButton(xBoxController, KRightBumper);
 		btnStrt = new JoystickButton(xBoxController, KStartButton);
 		btnLT = new JoystickButton(xBoxController, KLeftTrigger);
-		btnRT = new JoystickButton(xBoxController, KRightBumper);
+		btnRT = new JoystickButton(xBoxController, KRightTrigger);
 		
 //		btn1.whenPressed(new TestMotionProfile());
 //		btn2.whenPressed(); //Nothing assigned yet, probably will be when we have the lift mechanism going
@@ -154,13 +154,19 @@ public class OI
 	
 	public double getLeftTrigger()
 	{ // left controller's trigger is currently unused
-		return (-(xBoxController.getRawAxis(2)));
+		return (-(xBoxController.getRawAxis(3)));
 		// Add function here, currently this doesn't do much.
 	}
 
-	public boolean getRightTrigger()
+	public double getRightTrigger()
 	{ // right controller's trigger engages the shift on the base
-		return (xBoxController.getRawAxis(3) > 0.1);
+		return (xBoxController.getRawAxis(2));
+		// Add function here, currently this doesn't do much.
+	}
+	
+	public boolean getRightTrigger2()
+	{ // right controller's trigger engages the shift on the base
+		return (xBoxController.getRawAxis(2) > .1);
 		// Add function here, currently this doesn't do much.
 	}
 

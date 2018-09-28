@@ -3,6 +3,7 @@ package frc.team1138.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.team1138.robot.OI;
 import frc.team1138.robot.Robot;
+import frc.team1138.robot.subsystems.Collector;
 
 public class CollectCubeLeft extends Command
 {
@@ -21,13 +22,13 @@ public class CollectCubeLeft extends Command
 
 	protected void execute()
 	{
-		// Robot.COLLECTOR.collectCubeWithRollersLeft(Robot.oi.getLeftTrigger());
-		// Robot.COLLECTOR.collectCubeWithRollersRight(Robot.oi.getRightTrigger());
+		 Robot.COLLECTOR.collectCubeWithRollersLeft(Robot.oi.getLeftTrigger());
+		 Robot.COLLECTOR.collectCubeWithRollersRight(Robot.oi.getRightTrigger());
 //		if(toggle)
 //			Robot.COLLECTOR.collectCubeWithRollersLeft();
 //		else
 //			Robot.COLLECTOR.stopCollectorLeft();
-		//SmartDashboard.putBoolean("", value);
+//		SmartDashboard.putBoolean("", value);
 	}
 
 	@Override
