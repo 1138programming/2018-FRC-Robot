@@ -103,8 +103,11 @@ public class Lift extends /*PID*/Subsystem
 
 	public void changeLift(double liftSpeed)
 	{
+	if(liftSpeed > KDeadZoneLimit || liftSpeed < -KDeadZoneLimit) 
+	{
 		frontLift.set(ControlMode.PercentOutput, -liftSpeed*KLiftSlowSpeed);
 		backLift.set(ControlMode.PercentOutput, liftSpeed*KLiftSlowSpeed);
+	}
 	}
 	
 	// Returns the value of the encoder
