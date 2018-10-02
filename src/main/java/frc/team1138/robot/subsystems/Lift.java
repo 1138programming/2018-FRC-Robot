@@ -68,7 +68,7 @@ public class Lift extends /*PID*/Subsystem
 		resetLiftEncoder();
 		lastPoint = 0;
 		frontLift.setName("Lift", "FrontLift");
-		backLift.set(ControlMode.Follower, frontLift.getDeviceID());
+//		backLift.set(ControlMode.Follower, frontLift.getDeviceID()); TODO: Unslave these and fix the lift
 	}
 	
 	public enum LatchPos {
@@ -103,8 +103,10 @@ public class Lift extends /*PID*/Subsystem
 
 	public void changeLift(double liftSpeed)
 	{
-	if(liftSpeed > KDeadZoneLimit || liftSpeed < -KDeadZoneLimit) 
+	if(liftSpeed > .12 || liftSpeed < -.12) 
 	{
+		SmartDashboard.putNumber("Lift Front Motor", this.frontLift.getMotorOutputPercent()); 
+		SmartDashboard.putNumber("Lift Back Motor", this.backLift.getMotorOutputPercent()); 
 		frontLift.set(ControlMode.PercentOutput, -liftSpeed*KLiftSlowSpeed);
 		backLift.set(ControlMode.PercentOutput, liftSpeed*KLiftSlowSpeed);
 	}
