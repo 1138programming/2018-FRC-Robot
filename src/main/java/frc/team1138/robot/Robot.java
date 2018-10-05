@@ -19,8 +19,13 @@ import frc.team1138.robot.subsystems.Lift;
 import frc.team1138.robot.subsystems.CoprocessorSubsystem;
 import frc.team1138.robot.subsystems.CoprocessorSubsystem.LEDModes;
 import frc.team1138.robot.subsystems.Lift.LatchPos;
+import edu.wpi.first.wpilibj.hal.PDPJNI;
+import java.lang.String;
 
+import java.awt.print.Printable;
 import java.io.IOException;
+
+import org.omg.CORBA.PUBLIC_MEMBER;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -40,6 +45,8 @@ public class Robot extends IterativeRobot
 	public static OI oi;
 	public static PowerDistributionPanel pdp;
 
+	
+	
 	Command autonomousCommand;
 	SendableChooser chooser;
 
@@ -61,6 +68,42 @@ public class Robot extends IterativeRobot
 
 	}
 
+	public void testInit1() 
+	{
+		
+	}
+	public static final int KPDPArmTalon = 0;
+	public static final int KPDPFrontLiftTalon = 1;
+	public static final int KPDPSpareTalon = 2;
+	public static final int KPDPBackLiftTalon = 3;
+	public static final int KPDPLeftCollectorTalon = 4;
+	public static final int KPDPRightCollectorTalon = 5;
+	public static final int KPDPRightBackBaseTalon = 12;
+	public static final int KPDPRightFrontBaseTalon = 13;
+	public static final int KPDPLeftBackBaseTalon = 14;
+	public static final int KPDPLeftFrontBaseTalon = 15; 
+	
+	public void testPeriodic1()
+	{
+		SmartDashboardPutPDPChannel("Arm Talon", KPDPArmTalon);
+		SmartDashboardPutPDPChannel("Spare Talon", KPDPSpareTalon);
+		SmartDashboardPutPDPChannel("Front Lift Talon", KPDPFrontLiftTalon);
+		SmartDashboardPutPDPChannel("Back Lift Talon", KPDPBackLiftTalon);
+		SmartDashboardPutPDPChannel("Left Collector Talon", KPDPLeftCollectorTalon);
+		SmartDashboardPutPDPChannel("Right Collector Talon", KPDPRightCollectorTalon);
+		SmartDashboardPutPDPChannel("Right Back Base Talon", KPDPRightBackBaseTalon);
+		SmartDashboardPutPDPChannel("Right Front Base Talon", KPDPRightFrontBaseTalon);
+		SmartDashboardPutPDPChannel("Left Back Base Talon", KPDPLeftBackBaseTalon);
+		SmartDashboardPutPDPChannel("Left Front Base Talon", KPDPLeftFrontBaseTalon);
+	}
+	
+	public void SmartDashboardPutPDPChannel(String label, int channel)
+	{
+		String presentationString = "PDP Channel " + channel + ": " + label;
+		SmartDashboard.putNumber(presentationString, pdp.getCurrent(channel));
+	}
+
+	
 	/**
 	 * This function is called once each time the robot enters Disabled mode. You
 	 * can use it to reset any subsystem information you want to clear when the
@@ -119,6 +162,7 @@ public class Robot extends IterativeRobot
 		} catch (IOException e) {
 			System.out.println(e);
 		}
+		
 
 		// Robot.LIFT.moveLatch(LatchPos.AUTON_POS);
 	}
