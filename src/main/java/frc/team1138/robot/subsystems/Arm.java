@@ -190,4 +190,9 @@ public class Arm extends /*PID*/Subsystem
 //		// TODO Auto-generated method stub
 //		return super.onTarget();
 //	}
+	
+	public TalonSRX getArmTalon() 
+	{
+		return this.armMotor;
+	}
 }

@@ -85,6 +85,7 @@ public class Robot extends IterativeRobot
 	
 	public void testPeriodic1()
 	{
+		//Display PWM Channel Values
 		SmartDashboardPutPDPChannel("Arm Talon", KPDPArmTalon);
 		SmartDashboardPutPDPChannel("Spare Talon", KPDPSpareTalon);
 		SmartDashboardPutPDPChannel("Front Lift Talon", KPDPFrontLiftTalon);
@@ -95,6 +96,17 @@ public class Robot extends IterativeRobot
 		SmartDashboardPutPDPChannel("Right Front Base Talon", KPDPRightFrontBaseTalon);
 		SmartDashboardPutPDPChannel("Left Back Base Talon", KPDPLeftBackBaseTalon);
 		SmartDashboardPutPDPChannel("Left Front Base Talon", KPDPLeftFrontBaseTalon);
+		
+		//Display Talon Values
+		SmartDashboard.putNumber("Arm Talon Value", ARM.getArmTalon().getMotorOutputPercent());
+		SmartDashboard.putNumber("Lift Front Talon Value", LIFT.getFrontLiftTalon().getMotorOutputPercent());
+		SmartDashboard.putNumber("Lift Back Talon Value", LIFT.getBackLiftTalon().getMotorOutputPercent());
+		SmartDashboard.putNumber("Left Collector Talon Value", COLLECTOR.getLeftCollectorTalon().getMotorOutputPercent());
+		SmartDashboard.putNumber("Right Collector Talon Value", COLLECTOR.getRightCollectorTalon().getMotorOutputPercent());
+		SmartDashboard.putNumber("Base Left Front Talon Value", DRIVE_BASE.getBaseLeftFront().getMotorOutputPercent());
+		SmartDashboard.putNumber("Base Left Back Talon Value", DRIVE_BASE.getBaseLeftBack().getMotorOutputPercent());
+		SmartDashboard.putNumber("Base Right Front Talon Value", DRIVE_BASE.getBaseRightFront().getMotorOutputPercent());
+		SmartDashboard.putNumber("Base Right Back Talon Value", DRIVE_BASE.getBaseRightBack().getMotorOutputPercent());
 	}
 	
 	public void SmartDashboardPutPDPChannel(String label, int channel)
@@ -102,6 +114,7 @@ public class Robot extends IterativeRobot
 		String presentationString = "PDP Channel " + channel + ": " + label;
 		SmartDashboard.putNumber(presentationString, pdp.getCurrent(channel));
 	}
+
 
 	
 	/**

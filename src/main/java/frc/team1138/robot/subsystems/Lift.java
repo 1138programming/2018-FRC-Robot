@@ -10,6 +10,7 @@ import frc.team1138.robot.Robot;
 import frc.team1138.robot.commands.MoveLift;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 /**
@@ -93,6 +94,16 @@ public class Lift extends /*PID*/Subsystem
 	{
 		setDefaultCommand(new MoveLift());
 		// setDefaultCommand(new DriveLift());
+	}
+	
+	public TalonSRX getFrontLiftTalon()
+	{
+		return this.frontLift;
+	}
+	
+	public TalonSRX getBackLiftTalon()
+	{
+		return this.backLift;
 	}
 
 	public void setLift(double value) 

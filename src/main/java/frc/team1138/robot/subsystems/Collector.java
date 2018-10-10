@@ -50,6 +50,16 @@ public class Collector extends Subsystem
 		// Set the default command for a subsystem here.
 		setDefaultCommand(new DriveCollector());
 	}
+	
+	public TalonSRX getLeftCollectorTalon()
+	{
+		return this.leftCollector;
+	}
+	
+	public TalonSRX getRightCollectorTalon()
+	{
+		return this.rightCollector;
+	}
 
 	// This command causes the rollers to go at the KCollectorSpeed if the motors
 	// aren't
