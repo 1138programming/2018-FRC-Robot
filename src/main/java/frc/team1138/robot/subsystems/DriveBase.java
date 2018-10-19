@@ -7,6 +7,8 @@ import frc.team1138.robot.commands.DriveWithJoysticks;
 
 import com.ctre.phoenix.sensors.PigeonIMU;
 
+import java.util.concurrent.TimeUnit;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StickyFaults;
@@ -135,6 +137,20 @@ public class DriveBase extends Subsystem
 		else
 		{
 			baseRightFront.set(ControlMode.PercentOutput, 0);
+		}
+	}
+	
+	public double t = 0;
+	
+	public void testDrive(double driveAmount)
+	{	
+		
+		if(t < driveAmount)
+		{
+			SmartDashboard.putNumber("t", t);
+			baseLeftFront.set(ControlMode.PercentOutput, 0.5);
+			baseRightFront.set(ControlMode.PercentOutput, 0.5);
+			t++;
 		}
 	}
 	
