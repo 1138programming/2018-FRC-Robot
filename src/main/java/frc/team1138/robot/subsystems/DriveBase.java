@@ -18,7 +18,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 public class DriveBase extends Subsystem
 {
 	// Declaring the talons, sensors, and solenoids
-	private TalonSRX baseLeftFront, baseLeftBack, baseRightFront, baseRightBack;
+	private TalonSRX baseLeftFront, baseLeftBack, baseLeftTop, baseRightFront, baseRightBack, baseRightTop;
 	// private PigeonIMU pigeonIMU;
 	private DoubleSolenoid shifterSolenoid;
 
@@ -26,10 +26,12 @@ public class DriveBase extends Subsystem
 	// around
 	public static final int KBaseLeftFrontTalon = 1;
 	public static final int KBaseLeftBackTalon = 2;
-//	public static final int KBaseLeftTopTalon = 3;
-	public static final int KBaseRightFrontTalon = 4;
-	public static final int KBaseRightBackTalon = 5;
-//	public static final int KBaseRightTopTalon = 6;
+	public static final int KBaseLeftTopTalon = 4;
+	
+	public static final int KBaseRightFrontTalon = 5;
+	public static final int KBaseRightBackTalon = 8;
+	public static final int KBaseRightTopTalon = 9;
+	
 	public static final double KDeadZoneLimit = 0.2; //Limit for driving
 	
 	// All of the solenoids are doubles, so they need 2 numbers each. If you change
@@ -48,8 +50,11 @@ public class DriveBase extends Subsystem
 		// Setting up base talons
 		baseLeftFront = new TalonSRX(KBaseLeftFrontTalon);
 		baseLeftBack = new TalonSRX(KBaseLeftBackTalon);
+		baseLeftTop = new TalonSRX(KBaseLeftTopTalon);
+		
 		baseRightFront = new TalonSRX(KBaseRightFrontTalon);
 		baseRightBack = new TalonSRX(KBaseRightBackTalon);
+		baseRightTop = new TalonSRX(KBaseRightTopTalon);
 
 		// If you need to reverse some motors compared to the joysticks, here's how...
 //		baseLeftFront.setSensorPhase(true);
@@ -58,17 +63,23 @@ public class DriveBase extends Subsystem
 		// Configuring the masters
 		baseLeftFront.setInverted(true);
 		baseLeftBack.setInverted(true);
+		baseLeftTop.setInverted(true);
 
 		// Configuring the slaves
 		baseLeftBack.set(ControlMode.Follower, baseLeftFront.getDeviceID());
+		baseLeftTop.set(ControlMode.Follower,  baseLeftFront.getDeviceID());
+		
 		baseRightBack.set(ControlMode.Follower, baseRightFront.getDeviceID());
+		baseRightTop.set(ControlMode.Follower,  baseRightFront.getDeviceID());
 
 		// Configuring the solenoids and sensors
 		shifterSolenoid = new DoubleSolenoid(KShifterSolenoid1, KShifterSolenoid2); // Solenoid
 		// pigeonIMU = new PigeonIMU(baseLeftBack); // Gyro
 		// pigeonIMU.setYaw(0, 0); // Basically, this resets the gyro
-		baseLeftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Left Encoder
-		baseRightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Right Encoder
+		
+		// Disabled for 2019 robot, no encoders as of right now
+		//baseLeftFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Left Encoder
+		//baseRightFront.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative, 0, 0); // Right Encoder
 		
 		// This code is for ramping the base, but we don't want it right now
 //		baseRightFront.configOpenloopRamp(1, 0);
@@ -96,22 +107,30 @@ public class DriveBase extends Subsystem
 		setDefaultCommand(new DriveWithJoysticks());
 	}
 	
-	// These four methods just return the base talons if we need to access them somewhere else
+	// These six methods just return the base talons if we need to access them somewhere else
 	public TalonSRX getBaseLeftFront()
 	{
 		return this.baseLeftFront;
 	}
-	public TalonSRX getBaseRightFront()
+	public TalonSRX getBaseLeftBack()
+	{
+		return this.baseLeftFront;
+	}
+	public TalonSRX getBaseLeftTop()
+	{
+		return this.baseLeftTop;
+	}
+	
+	public TalonSRX getBaseRightBack()
+	{
+		return this.baseRightBack;
+	}
+	public TalonSRX getBaseRightFront()  
 	{
 		return this.baseRightFront;
 	}
-	public TalonSRX getBaseLeftBack()
-	{
-		return this.baseLeftBack;
-	}
-	public TalonSRX getBaseRightBack()  
-	{
-		return this.baseRightBack;
+	public TalonSRX getBaseRightTop() {
+		return this.baseRightTop;
 	}
 	
 	// Used to drive the base in a "tank drive" format, this is the standard
