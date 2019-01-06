@@ -7,14 +7,14 @@ import frc.team1138.robot.Robot;
 /**
  *
  */
-public class MoveArmWithJoysticks extends Command
+public class DriveCollector extends Command
 {
 	private OI oi;
 
-	public MoveArmWithJoysticks()
+	public DriveCollector()
 	{
 		// Use requires() here to declare subsystem dependencies
-		requires(Robot.ARM);
+		requires(Robot.COLLECTOR);
 		oi = new OI();
 	}
 
@@ -28,14 +28,14 @@ public class MoveArmWithJoysticks extends Command
 	@Override
 	protected void execute()
 	{
-		Robot.ARM.moveArm(oi.getLeftXBoxAxis());
+		//Experimental Stuff Goes Here
+		Robot.COLLECTOR.driveCollector(oi.getRightTrigger(), oi.getLeftTrigger());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished()
 	{
-//		return Robot.ARM.onTarget();
 		return false;
 	}
 
@@ -43,7 +43,6 @@ public class MoveArmWithJoysticks extends Command
 	@Override
 	protected void end()
 	{
-//		Robot.ARM.setGoal(Robot.ARM.getPosition());
 	}
 
 	// Called when another command which requires one or more of the same
@@ -51,6 +50,5 @@ public class MoveArmWithJoysticks extends Command
 	@Override
 	protected void interrupted()
 	{
-		end();
 	}
 }

@@ -1,34 +1,31 @@
 package frc.team1138.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.team1138.robot.Robot;
 
-
-public class EjectCube extends Command
+public class CollectCubeRight extends Command
 {
-	private boolean toggle = true;
 
-	public EjectCube()
+	private boolean toggle = true; 
+	
+	public CollectCubeRight()
 	{
 		requires(Robot.COLLECTOR);
 	}
 
 	protected void initialize()
 	{
+
 	}
 
 	protected void execute()
 	{
 		if(toggle)
-		{
-			Robot.COLLECTOR.ejectCubeWithRollers();
-			Robot.COLLECTOR.kickCubeWithPlunger();
-		}
+			Robot.COLLECTOR.collectCubeWithRollersRight();
 		else
-		{
-			Robot.COLLECTOR.stopCollectorLeft();
 			Robot.COLLECTOR.stopCollectorRight();
-		}
+		//SmartDashboard.putBoolean("", value);
 	}
 
 	@Override

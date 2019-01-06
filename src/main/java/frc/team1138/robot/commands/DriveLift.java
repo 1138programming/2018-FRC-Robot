@@ -30,21 +30,37 @@ public class DriveLift extends Command
 	@Override
 	protected void execute()
 	{
-		Robot.LIFT.moveLift(oi.getRightXBoxAxis());
+		if (oi.triggerLiftDown() && oi.triggerLiftUp())
+		{
+			Robot.LIFT.moveLift(0);
+		}
+		else if (oi.triggerLiftDown()) 
+		{
+			Robot.LIFT.moveLift(-0.8);
+		}
+		else if (oi.triggerLiftUp())
+		{
+			Robot.LIFT.moveLift(0.8);
+		}
+		else 
+		{
+			Robot.LIFT.moveLift(0);
+		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
 	@Override
 	protected boolean isFinished()
 	{
-		return Robot.LIFT.onTarget();
+//		return Robot.LIFT.onTarget();
+		return true;
 	}
 
 	// Called once after isFinished returns true
 	@Override
 	protected void end()
 	{
-		Robot.LIFT.setLift(Robot.LIFT.getPosition());
+//		Robot.LIFT.setLift(Robot.LIFT.getPosition());
 	}
 
 	// Called when another command which requires one or more of the same

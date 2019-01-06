@@ -1,9 +1,7 @@
 package frc.team1138.robot.commands;
 
 import edu.wpi.first.wpilibj.command.Command;
-import frc.team1138.robot.OI;
 import frc.team1138.robot.Robot;
-import frc.team1138.robot.subsystems.Lift;
 
 /**
  *
@@ -35,14 +33,15 @@ public class ShiftLift extends Command
 	@Override
 	protected boolean isFinished()
 	{
-		return Robot.LIFT.onTarget();
+//		return Robot.LIFT.onTarget();
+		return true;
 	}
 
 	// Called once after isFinished returns true
 	@Override
 	protected void end()
 	{
-		Robot.LIFT.setLift(Robot.LIFT.getPosition());
+//		Robot.LIFT.setLift(Robot.LIFT.getPosition());
 	}
 
 	// Called when another command which requires one or more of the same
