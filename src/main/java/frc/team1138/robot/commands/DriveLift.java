@@ -30,22 +30,22 @@ public class DriveLift extends Command
 	@Override
 	protected void execute()
 	{
-		if (oi.triggerLiftDown() && oi.triggerLiftUp())
-		{
-			Robot.LIFT.moveLift(0);
-		}
-		else if (oi.triggerLiftDown()) 
-		{
-			Robot.LIFT.moveLift(-0.8);
-		}
-		else if (oi.triggerLiftUp())
-		{
-			Robot.LIFT.moveLift(0.8);
-		}
-		else 
-		{
-			Robot.LIFT.moveLift(0);
-		}
+//		if (oi.triggerLiftDown() && oi.triggerLiftUp())
+//		{
+//			Robot.LIFT.moveLift(0);
+//		}
+//		else if (oi.triggerLiftDown()) 
+//		{
+//			Robot.LIFT.moveLift(-0.8);
+//		}
+//		else if (oi.triggerLiftUp())
+//		{
+//			Robot.LIFT.moveLift(0.8);
+//		}
+//		else 
+//		{
+//			Robot.LIFT.moveLift(0);
+//		}
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

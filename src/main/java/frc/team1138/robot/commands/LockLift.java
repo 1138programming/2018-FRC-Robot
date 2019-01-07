@@ -25,7 +25,7 @@ public class LockLift extends Command
 	@Override
 	protected void execute()
 	{
-		Robot.LIFT.toggleLocker();
+		Robot.LIFT.ratchetIt();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

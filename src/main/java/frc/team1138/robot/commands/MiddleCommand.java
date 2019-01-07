@@ -10,7 +10,7 @@ public class MiddleCommand extends CommandGroup
 	public MiddleCommand()
 	{
 		requires(Robot.DRIVE_BASE);
-		addSequential(new TestMotionProfile());
+//		addSequential(new TestMotionProfile());
 //		requires(Robot.ARM);
 //		if(gameData!=null && gameData.charAt(0) == 'L')
 //		{

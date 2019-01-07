@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
 import frc.team1138.robot.commands.ClearStickyFaults;
 import frc.team1138.robot.commands.CollectCubeRight;
 import frc.team1138.robot.commands.CycleArm;
-import frc.team1138.robot.commands.EjectCube;
+//import frc.team1138.robot.commands.EjectCube;
 import frc.team1138.robot.commands.TogglePlunger;
 import frc.team1138.robot.commands.MoveArmToExchange;
 import frc.team1138.robot.commands.PositionLift;
@@ -73,7 +73,7 @@ public class OITest
 		btn1.whenPressed(new ClearStickyFaults()); //Clears sticky faults
 		// btn2.whenPressed(); //Nothing assigned yet, probably will be when we have the lift mechanism going
 		btn3.whenPressed(new CollectCubeRight()); // Toggles rollers collecting
-		btn4.whenPressed(new EjectCube()); // Toggles rollers ejecting
+//		btn4.whenPressed(new EjectCube()); // Toggles rollers ejecting
 		btn6.whenPressed(new ShiftBase()); // Shifts the base
 		btnA.whenPressed(new CycleArm()); // Puts the arm through a full cycle
 		btnB.whenPressed(new MoveArmToExchange()); // Moves the arm to the exchange position

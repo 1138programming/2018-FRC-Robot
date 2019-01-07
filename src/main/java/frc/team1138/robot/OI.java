@@ -7,16 +7,16 @@ import frc.team1138.robot.commands.ClearStickyFaults;
 import frc.team1138.robot.commands.CollectCubeLeft;
 import frc.team1138.robot.commands.CollectCubeRight;
 import frc.team1138.robot.commands.CycleArm;
-import frc.team1138.robot.commands.EjectCube;
+//import frc.team1138.robot.commands.EjectCube;
 import frc.team1138.robot.commands.LockLift;
 import frc.team1138.robot.commands.TogglePlunger;
 import frc.team1138.robot.commands.MoveArmToExchange;
 import frc.team1138.robot.commands.PositionLift;
 import frc.team1138.robot.commands.ShiftBase;
 import frc.team1138.robot.commands.ShiftLift;
-import frc.team1138.robot.commands.StopLeftCollector;
-import frc.team1138.robot.commands.StopRightCollector;
-import frc.team1138.robot.commands.TestMotionProfile;
+//import frc.team1138.robot.commands.StopAppendage1;
+//import frc.team1138.robot.commands.StopXYTable;
+//import frc.team1138.robot.commands.TestMotionProfile;
 import frc.team1138.robot.commands.ToggleRatchet;
 
 /**
@@ -88,8 +88,8 @@ public class OI
 //		btn2.whenPressed(); //Nothing assigned yet, probably will be when we have the lift mechanism going
 //		btn4.whenPressed(new EjectCube()); // Toggles rollers ejecting
 		
-//		btnLB.whenReleased(new StopLeftCollector()); // Stops the left collector when the button is released
-//		btnRB.whenReleased(new StopRightCollector()); // Stops the right collector
+//		btnLB.whenReleased(new StopAppendage1()); // Stops the left collector when the button is released
+//		btnRB.whenReleased(new StopXYTable()); // Stops the right collector
 		
 //		btnX.whenPressed(new PositionLift(5)); // High position TODO test these values
 		
@@ -102,15 +102,15 @@ public class OI
 		btn5.whenPressed(new ShiftBase()); // Shifts the base
 		btn7.whenPressed(new ClearStickyFaults()); //Clears sticky faults
 		
-		btnLB.whenPressed(new CollectCubeLeft()); // Runs left collector
-		btnLB.whenReleased(new CollectCubeLeft()); // Stops the left collector when the button is released
+		btnLB.whenPressed(new CollectCubeLeft(false)); // Runs left collector
+		btnLB.whenReleased(new CollectCubeLeft(false)); // Stops the left collector when the button is released
 		
-		btnRB.whenPressed(new CollectCubeRight()); // Runs the right collector
-		btnRB.whenReleased(new CollectCubeRight()); // Stops the right collector
+		btnRB.whenPressed(new CollectCubeRight(false)); // Runs the right collector
+		btnRB.whenReleased(new CollectCubeRight(false)); // Stops the right collector
 		
 		btnA.whenPressed(new CycleArm()); // Puts the arm through a full cycle
 		btnB.whenPressed(new MoveArmToExchange()); // Moves the arm to the exchange position
-		btnX.whenPressed(new EjectCube());
+//		btnX.whenPressed(new EjectCube());
 		btnY.whenPressed(new ToggleRatchet());
 		btnStrt.whenPressed(new TogglePlunger()); // Lets the drivers kick the cube when it may be stuck using the plunger
 	}

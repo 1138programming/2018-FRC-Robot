@@ -8,9 +8,11 @@ public class CollectCubeRight extends Command
 {
 
 	private boolean toggle = true; 
+	private boolean forward = false;
 	
-	public CollectCubeRight()
+	public CollectCubeRight(boolean forward)
 	{
+		this.forward = forward;
 		requires(Robot.COLLECTOR);
 	}
 
@@ -22,7 +24,7 @@ public class CollectCubeRight extends Command
 	protected void execute()
 	{
 		if(toggle)
-			Robot.COLLECTOR.collectCubeWithRollersRight();
+			Robot.COLLECTOR.collectCubeWithRollersRight(forward);
 		else
 			Robot.COLLECTOR.stopCollectorRight();
 		//SmartDashboard.putBoolean("", value);

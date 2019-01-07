@@ -1,7 +1,7 @@
 package frc.team1138.robot.commands;
 
 import frc.team1138.robot.Robot;
-import frc.team1138.robot.subsystems.LEDSubsystem.LEDModes;
+//import frc.team1138.robot.subsystems.LEDSubsystem.LEDModes;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.DigitalInput;
 
@@ -20,10 +20,10 @@ public class UpdateLedStatus extends Command {
 	
 	public UpdateLedStatus() {
 		// TODO Auto0generated constructor stub
-		requires(Robot.ledSubsystem);
-		cubeLimitSwitch = new DigitalInput(0);
-		rungLimitSwitch = new DigitalInput(1);
-		lastUpdateTime = System.currentTimeMillis();
+//		requires(Robot.ledSubsystem);
+//		cubeLimitSwitch = new DigitalInput(0);
+//		rungLimitSwitch = new DigitalInput(1);
+//		lastUpdateTime = System.currentTimeMillis();
 	}
 	
 	@Override
@@ -33,30 +33,30 @@ public class UpdateLedStatus extends Command {
 	@Override
 	protected void execute() {
 		if (System.currentTimeMillis() > lastUpdateTime) {
-			if (!cubeLimitSwitch.get() && cubeLimitSwitch != lastMode) {
-				lastUpdateTime = System.currentTimeMillis() + 650;
-				try {
-					lastMode = cubeLimitSwitch;
-					Robot.ledSubsystem.setMode(LEDModes.Cube);
-				} catch (IOException e) {
-					System.out.println(e);
-				}
-			} else if (!rungLimitSwitch.get() && rungLimitSwitch != lastMode) {
-				lastUpdateTime = System.currentTimeMillis() + 650;
-				try {
-					lastMode = rungLimitSwitch;
-					Robot.ledSubsystem.setMode(LEDModes.Rung);
-				} catch (IOException e) {
-					System.out.println(e);
-				}
-			} else if (lastMode != null && cubeLimitSwitch.get() && rungLimitSwitch.get()) {
-				try {
-					lastMode = null;
-					Robot.ledSubsystem.setMode(LEDModes.Idle);
-				} catch (IOException e) {
-					System.out.println(e);
-				}
-			}
+//			if (!cubeLimitSwitch.get() && cubeLimitSwitch != lastMode) {
+//				lastUpdateTime = System.currentTimeMillis() + 650;
+//				try {
+//					lastMode = cubeLimitSwitch;
+//					Robot.ledSubsystem.setMode(LEDModes.Cube);
+//				} catch (IOException e) {
+//					System.out.println(e);
+//				}
+//			} else if (!rungLimitSwitch.get() && rungLimitSwitch != lastMode) {
+//				lastUpdateTime = System.currentTimeMillis() + 650;
+//				try {
+//					lastMode = rungLimitSwitch;
+//					Robot.ledSubsystem.setMode(LEDModes.Rung);
+//				} catch (IOException e) {
+//					System.out.println(e);
+//				}
+//			} else if (lastMode != null && cubeLimitSwitch.get() && rungLimitSwitch.get()) {
+//				try {
+//					lastMode = null;
+//					Robot.ledSubsystem.setMode(LEDModes.Idle);
+//				} catch (IOException e) {
+//					System.out.println(e);
+//				}
+//			}
 		}
 	}
 	

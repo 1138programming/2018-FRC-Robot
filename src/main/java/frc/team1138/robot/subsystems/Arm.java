@@ -25,7 +25,7 @@ public class Arm extends /*PID*/Subsystem
 	private DigitalInput armLowerLimit, armUpperLimit;
 
 	// Making variables for the arm talon
-	public static final int KArmMotor = 7;
+	public static final int KArmMotor = 10;
 	// making variables for the limits
 	public static final int KArmLowerLimit = 1;
 	public static final int KArmUpperLimit = 2;

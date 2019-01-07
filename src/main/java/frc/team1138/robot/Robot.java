@@ -15,8 +15,8 @@ import frc.team1138.robot.commands.RightCommand;
 import frc.team1138.robot.subsystems.Arm;
 import frc.team1138.robot.subsystems.DriveBase;
 import frc.team1138.robot.subsystems.Lift;
-import frc.team1138.robot.subsystems.LEDSubsystem;
-import frc.team1138.robot.subsystems.LEDSubsystem.LEDModes;
+//import frc.team1138.robot.subsystems.LEDSubsystem;
+//import frc.team1138.robot.subsystems.LEDSubsystem.LEDModes;
 
 import java.io.IOException;
 /**
@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot
 	public static final Arm ARM = new Arm();
 	public static final Lift LIFT = new Lift();
 	public static final Collector COLLECTOR = new Collector();
-	public static LEDSubsystem ledSubsystem = new LEDSubsystem();
+//	public static LEDSubsystem ledSubsystem = new LEDSubsystem();
 	public static OI oi;
 
 	Command autonomousCommand;
@@ -63,11 +63,11 @@ public class Robot extends IterativeRobot
 	@Override
 	public void disabledInit()
 	{
-		try {
-			ledSubsystem.setMode(LEDModes.Off);
-		} catch (IOException e) {
-			System.out.println(e);
-		}
+//		try {
+//			ledSubsystem.setMode(LEDModes.Off);
+//		} catch (IOException e) {
+//			System.out.println(e);
+//		}
 	}
 
 	@Override
@@ -105,11 +105,11 @@ public class Robot extends IterativeRobot
 			autonomousCommand.start();
 		}
 		
-		try {
-			ledSubsystem.setMode(LEDModes.Idle);
-		} catch (IOException e) {
-			System.out.println(e);
-		}
+//		try {
+//			ledSubsystem.setMode(LEDModes.Idle);
+//		} catch (IOException e) {
+//			System.out.println(e);
+//		}
 	}
 
 	/**
@@ -131,15 +131,15 @@ public class Robot extends IterativeRobot
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 		Robot.DRIVE_BASE.resetEncoders();
-<<<<<<< HEAD
-=======
-
->>>>>>> f25d8c58c44387c10b8282830cb421cec396ed68
-		try {
-			ledSubsystem.setMode(LEDModes.Idle);
-		} catch (IOException e) {
-			System.out.println(e);
-		}
+//<<<<<<< HEAD
+//=======
+//
+//>>>>>>> f25d8c58c44387c10b8282830cb421cec396ed68
+//		try {
+//			ledSubsystem.setMode(LEDModes.Idle);
+//		} catch (IOException e) {
+//			System.out.println(e);
+//		}
 	}
 
 	/**
@@ -155,23 +155,23 @@ public class Robot extends IterativeRobot
 		// Robot.DRIVE_BASE.cureCancer();
 	}
 	
-	@Override
-	public void testInit() {
-		try {
-			ledSubsystem.setMode(LEDModes.Idle);
-		} catch (IOException e) {
-			System.out.println(e);
-		}
-	}
+//	@Override
+//	public void testInit() {
+//		try {
+//			ledSubsystem.setMode(LEDModes.Idle);
+//		} catch (IOException e) {
+//			System.out.println(e);
+//		}
+//	}
 	
-	@Override
-	public void testInit() {
-		try {
-			ledSubsystem.setMode(LEDModes.Idle);
-		} catch (IOException e) {
-			System.out.println(e);
-		}
-	}
+//	@Override
+//	public void testInit() {
+//		try {
+//			ledSubsystem.setMode(LEDModes.Idle);
+//		} catch (IOException e) {
+//			System.out.println(e);
+//		}
+//	}
 
 	/**
 	 * This function is called periodically during test mode
